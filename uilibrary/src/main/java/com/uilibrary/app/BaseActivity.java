@@ -166,7 +166,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         mToolbar = ButterKnife.findById(this, R.id.toolbar);
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
-            setHomeButtonEnabled();
+//            setHomeButtonEnabled();
         }
 
     }

@@ -26,9 +26,12 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile "junit:junit:$rootProject.junitVersion"
-
     compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
-
+    
+    compile "com.android.support:design:$rootProject.supportLibraryVersion"
     compile "com.google.guava:guava:$rootProject.guavaVersion"
+
+    compile project(':nouilibrary')
+    compile project(':uilibrary')
 }
 
