@@ -64,10 +64,10 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
-                            case R.id.list_navigation_menu_item:
+                            case R.id.menu_drawer_home:
                                 // Do nothing, we're already on that screen
                                 break;
-                            case R.id.statistics_navigation_menu_item:
+                            case R.id.menu_drawer_hot:
 
                                 break;
                             default:

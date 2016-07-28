@@ -3,4 +3,33 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
+    <string name="care">关注</string>
+    <string name="collect">采集</string>
+    <string name="message">消息</string>
+    <string name="friend">好友</string>
+
+    <!-- drawer menu string -->
+    <string name="drawer_home">首页</string>
+    <string name="drawer_hot">热门</string>
+    <string name="drawer_house">家居/家装</string>
+    <string name="drawer_handiwork">手工/布艺</string>
+    <string name="drawer_photography">摄影</string>
+    <string name="drawer_food">美食</string>
+    <string name="drawer_travel">旅游</string>
+    <string name="drawer_illustration">插画/漫画</string>
+    <string name="drawer_flat">平面</string>
+    <string name="drawer_dress">女装</string>
+    <string name="drawer_model">造型/美妆</string>
+    <string name="drawer_wedding">婚礼</string>
+    <string name="drawer_belle">美女</string>
+    <string name="drawer_pet">宠物</string>
+    <string name="drawer_children">儿童</string>
+    <string name="drawer_architecture">建筑设计</string>
+    <string name="drawer_movie">电影/图书</string>
+    <string name="drawer_life">生活百科</string>
+    <string name="drawer_art">人文艺术</string>
+    <string name="drawer_man">男士/风尚</string>
+
 </resources>
