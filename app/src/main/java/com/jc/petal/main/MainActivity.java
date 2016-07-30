@@ -1,6 +1,7 @@
 package com.jc.petal.main;
 
 import com.jc.petal.R;
+import com.jc.petal.login.LoginActivity;
 import com.uilibrary.app.BaseActivity;
 
 import android.content.res.Configuration;
@@ -10,10 +11,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Bind(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
@@ -36,9 +40,8 @@ public class MainActivity extends BaseActivity {
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
         setupDrawerContent(mNavigationView);
-
-
     }
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -58,17 +61,21 @@ public class MainActivity extends BaseActivity {
         return R.layout.activity_main;
     }
 
+    /**
+     * @param navigationView NavigationView
+     */
     private void setupDrawerContent(NavigationView navigationView) {
+        // menu item 添加事件
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
                             case R.id.menu_drawer_home:
-                                // Do nothing, we're already on that screen
+                                setTitle(R.string.drawer_home);
                                 break;
                             case R.id.menu_drawer_hot:
-
+                                setTitle(R.string.drawer_hot);
                                 break;
                             default:
                                 break;
@@ -79,6 +86,24 @@ public class MainActivity extends BaseActivity {
                         return true;
                     }
                 });
+
+        View headerView = navigationView.getHeaderView(0);
+
+        if (headerView != null) {
+            ImageView pictureIv = ButterKnife.findById(headerView, R.id.iv_picture);
+            pictureIv.setOnClickListener(this);
+        }
     }
 
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_picture:
+                readyGo(LoginActivity.class);
+                break;
+            default:
+                break;
+        }
+    }
 }

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+//apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 23
@@ -23,5 +24,9 @@ dependencies {
     testCompile "junit:junit:$rootProject.junitVersion"
     compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
     compile "com.android.support:design:$rootProject.supportLibraryVersion"
-    compile 'com.jakewharton:butterknife:7.0.1'
+
+    compile "com.jakewharton:butterknife:$rootProject.butterknifeVersion"
+
+//    compile 'com.jakewharton:butterknife:8.2.1'
+//    apt 'com.jakewharton:butterknife-compiler:8.2.1'
 }

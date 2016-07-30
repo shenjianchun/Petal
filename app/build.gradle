@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+//apply plugin: 'android-apt'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -30,6 +31,13 @@ dependencies {
     
     compile "com.android.support:design:$rootProject.supportLibraryVersion"
     compile "com.google.guava:guava:$rootProject.guavaVersion"
+
+    //retrofit网络框架
+    compile "com.squareup.retrofit2:retrofit:2.1.0"
+    compile "com.squareup.retrofit2:converter-gson:2.0.2"
+
+
+//    compile 'com.orhanobut:logger:1.15'
 
     compile project(':nouilibrary')
     compile project(':uilibrary')

@@ -4,6 +4,20 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
 
+    <!-- 控件之间的间隔或者padding 值 -->
+    <dimen name="spacing_nano">2dp</dimen>
+    <dimen name="spacing_micro">4dp</dimen>
+    <dimen name="spacing_normal">8dp</dimen>
+    <dimen name="spacing_double">16dp</dimen>
+    <dimen name="spacing_huge">72dp</dimen>
+
+    <!-- 文字大小 -->
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_normal">16sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_xlarge">20sp</dimen>
+    <dimen name="text_size_xxlarge">22sp</dimen>
+
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="drawer_button_size">48dp</dimen>
