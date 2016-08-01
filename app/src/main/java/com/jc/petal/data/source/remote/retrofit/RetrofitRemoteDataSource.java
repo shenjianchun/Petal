@@ -1,10 +1,15 @@
 package com.jc.petal.data.source.remote.retrofit;
 
 import com.jc.petal.RequestCallback;
+import com.jc.petal.data.module.PinEntity;
+import com.jc.petal.data.module.PinsListBean;
 import com.jc.petal.data.module.TokenBean;
 import com.jc.petal.data.source.PetalDataSource;
+import com.orhanobut.logger.Logger;
 
 import android.util.Log;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,4 +59,31 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
     public void getUserInfo(String authorization) {
 
     }
+
+    @Override
+    public void getPinsListByType(String type, int limit, final RequestCallback<List<PinEntity>>
+            callback) {
+
+        PetalService service = PetalAPI.getPetalService();
+        Call<PinsListBean>  call = service.httpsTypeLimit(" ", type, limit);
+        call.enqueue(new Callback<PinsListBean>() {
+            @Override
+            public void onResponse(Call<PinsListBean> call, Response<PinsListBean> response) {
+                if (response.code() == 200) {
+                    List<PinEntity> pinEntities = response.body().pins;
+                    if (pinEntities != null) {
+//                        Logger.d(pinEntities);
+                        callback.onSuccess(pinEntities);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PinsListBean> call, Throwable t) {
+
+            }
+        });
+    }
+
+
 }

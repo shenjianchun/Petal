@@ -1,7 +1,9 @@
 package com.jc.petal.main;
 
 import com.jc.petal.R;
+import com.jc.petal.data.source.PetalRepository;
 import com.jc.petal.login.LoginActivity;
+import com.jc.petal.utils.ActivityUtils;
 import com.uilibrary.app.BaseActivity;
 
 import android.content.res.Configuration;
@@ -27,6 +29,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     ActionBarDrawerToggle mDrawerToggle;
 
+    private PetalRepository mRepository;
+
     @Override
     protected void initViewsAndEvents() {
 
@@ -40,6 +44,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
         setupDrawerContent(mNavigationView);
+
+        // 初始化第一个Fragment
+        PinsListFragment fragment = (PinsListFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.contentFrame);
+
+        if (fragment == null) {
+            fragment = PinsListFragment.newInstance(2);
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
+                    fragment, R.id.contentFrame);
+        }
+
+        // 获取DataSource
+        mRepository = PetalRepository.getInstance();
+
+        // 初始化 Presenter
+        new MainPresenter(fragment, mRepository);
+
     }
 
     @Override
@@ -62,6 +83,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
+     * 初始化侧滑栏
+     *
      * @param navigationView NavigationView
      */
     private void setupDrawerContent(NavigationView navigationView) {
@@ -73,6 +96,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         switch (menuItem.getItemId()) {
                             case R.id.menu_drawer_home:
                                 setTitle(R.string.drawer_home);
+
+
                                 break;
                             case R.id.menu_drawer_hot:
                                 setTitle(R.string.drawer_hot);

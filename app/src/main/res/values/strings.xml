@@ -41,4 +41,8 @@
     <string name="drawer_art">人文艺术</string>
     <string name="drawer_man">男士/风尚</string>
 
+    <!-- 图片格式化地址-->
+    <string name="url_image_general">http://img.hb.aicdn.com/%s_fw320sf</string>
+    <string name="url_image_big">http://img.hb.aicdn.com/%s_fw658</string>
+    <string name="url_image_small">http://img.hb.aicdn.com/%s_sq75sf</string>
 </resources>

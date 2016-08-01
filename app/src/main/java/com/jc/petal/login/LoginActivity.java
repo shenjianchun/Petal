@@ -2,7 +2,6 @@ package com.jc.petal.login;
 
 import com.jc.petal.R;
 import com.jc.petal.data.source.PetalRepository;
-import com.jc.petal.data.source.remote.retrofit.RetrofitRemoteDataSource;
 import com.uilibrary.app.BaseActivity;
 
 import android.support.annotation.NonNull;
@@ -31,8 +30,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
         setHomeButtonEnabled();
 
-        new LoginPresenter(this, PetalRepository.getInstance(null,
-                new RetrofitRemoteDataSource()));
+        new LoginPresenter(this, PetalRepository.getInstance());
 
     }
 

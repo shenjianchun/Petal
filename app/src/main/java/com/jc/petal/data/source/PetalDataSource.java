@@ -1,6 +1,9 @@
 package com.jc.petal.data.source;
 
 import com.jc.petal.RequestCallback;
+import com.jc.petal.data.module.PinEntity;
+
+import java.util.List;
 
 /**
  * Main entry point for accessing data.
@@ -23,5 +26,14 @@ public interface PetalDataSource {
      * @param authorization 登录凭证
      */
     void getUserInfo(String authorization);
+
+    /**
+     * 根据传入类型获取图片列表
+     * @param type 类型
+     * @param limit 每页多少个
+     */
+    void getPinsListByType(String type, int limit, RequestCallback<List<PinEntity>> callback);
+
+//    void getMaxPinsListByType(String authorization, String type, int limit);
 
 }

@@ -1,6 +1,10 @@
 package com.jc.petal.data.source;
 
 import com.jc.petal.RequestCallback;
+import com.jc.petal.data.module.PinEntity;
+import com.jc.petal.data.source.remote.retrofit.RetrofitRemoteDataSource;
+
+import java.util.List;
 
 /**
  * Concrete implementation to load data from the data sources into a cache.
@@ -31,8 +35,33 @@ public class PetalRepository implements PetalDataSource {
         return sInstance;
     }
 
+    public static PetalRepository getInstance() {
+
+        if (sInstance == null) {
+            synchronized (PetalRepository.class) {
+                if (sInstance == null) {
+                    sInstance = new PetalRepository(null, new RetrofitRemoteDataSource());
+                }
+            }
+        }
+        return sInstance;
+    }
+
+
     @Override
     public void login(String name, String password, RequestCallback<String> callback) {
         mRemoteDataSource.login(name, password, callback);
     }
+
+    @Override
+    public void getUserInfo(String authorization) {
+
+    }
+
+    @Override
+    public void getPinsListByType(String type, int limit, RequestCallback<List<PinEntity>>
+            callback) {
+        mRemoteDataSource.getPinsListByType(type, limit, callback);
+    }
+
 }
