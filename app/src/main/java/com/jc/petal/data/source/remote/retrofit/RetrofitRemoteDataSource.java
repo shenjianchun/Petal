@@ -5,7 +5,6 @@ import com.jc.petal.data.module.PinEntity;
 import com.jc.petal.data.module.PinsListBean;
 import com.jc.petal.data.module.TokenBean;
 import com.jc.petal.data.source.PetalDataSource;
-import com.orhanobut.logger.Logger;
 
 import android.util.Log;
 
@@ -23,7 +22,8 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
 
     /**
      * 用户登录
-     * @param name username
+     *
+     * @param name     username
      * @param password password
      * @param callback 成功或失败后的回调函数
      */
@@ -32,9 +32,10 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
 
         PetalService service = PetalAPI.getPetalService();
         //联网的授权字段
-         String authorization = "Basic MWQ5MTJjYWU0NzE0NGZhMDlkODg6Zjk0ZmNjMDliNTliNDM0OWExNDhhMjAzYWIyZjIwYzc=";
+        String authorization = "Basic " +
+                "MWQ5MTJjYWU0NzE0NGZhMDlkODg6Zjk0ZmNjMDliNTliNDM0OWExNDhhMjAzYWIyZjIwYzc=";
 
-        Call<TokenBean> call = service.httpsToken(authorization,"password", name, password);
+        Call<TokenBean> call = service.httpsToken(authorization, "password", name, password);
         call.enqueue(new Callback<TokenBean>() {
             @Override
             public void onResponse(Call<TokenBean> call, Response<TokenBean> response) {
@@ -65,14 +66,13 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
             callback) {
 
         PetalService service = PetalAPI.getPetalService();
-        Call<PinsListBean>  call = service.httpsTypeLimit(" ", type, limit);
+        Call<PinsListBean> call = service.httpsTypeLimit(" ", type, limit);
         call.enqueue(new Callback<PinsListBean>() {
             @Override
             public void onResponse(Call<PinsListBean> call, Response<PinsListBean> response) {
                 if (response.code() == 200) {
                     List<PinEntity> pinEntities = response.body().pins;
                     if (pinEntities != null) {
-//                        Logger.d(pinEntities);
                         callback.onSuccess(pinEntities);
                     }
                 }
@@ -80,7 +80,30 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
 
             @Override
             public void onFailure(Call<PinsListBean> call, Throwable t) {
+                callback.onError(t.toString());
+            }
+        });
+    }
 
+    @Override
+    public void getMaxPinsListByType(String type, int max, int limit,
+                                    final RequestCallback<List<PinEntity>> callback) {
+            PetalService service = PetalAPI.getPetalService();
+        Call<PinsListBean> call = service.httpsTypeMaxLimitRx(" ", type, max, limit);
+        call.enqueue(new Callback<PinsListBean>() {
+            @Override
+            public void onResponse(Call<PinsListBean> call, Response<PinsListBean> response) {
+                if (response.code() == 200) {
+                    List<PinEntity> pinEntities = response.body().pins;
+                    if (pinEntities != null) {
+                        callback.onSuccess(pinEntities);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PinsListBean> call, Throwable t) {
+                callback.onError(t.toString());
             }
         });
     }

@@ -16,98 +16,99 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
-        <item
-                android:id="@+id/menu_drawer_home"
-                android:icon="@drawable/ic_loyalty_black_36dp"
-                android:title="@string/drawer_home"/>
-        <item
-                android:id="@+id/menu_drawer_hot"
-                android:icon="@drawable/ic_loyalty_black_36dp"
-                android:title="@string/drawer_hot"/>
-        <item
-                android:id="@+id/menu_drawer_house"
-                android:icon="@drawable/ic_loyalty_black_36dp"
-                android:title="@string/drawer_house"/>
+    <group android:id="@+id/group_type_title" android:checkableBehavior="single"
+            android:menuCategory="container">
+        <!--<item-->
+                <!--android:id="@+id/menu_drawer_home"-->
+                <!--android:icon="@drawable/ic_loyalty_black_36dp"-->
+                <!--android:title="@string/drawer_home"/>-->
+        <!--<item-->
+                <!--android:id="@+id/menu_drawer_hot"-->
+                <!--android:icon="@drawable/ic_loyalty_black_36dp"-->
+                <!--android:title="@string/drawer_hot"/>-->
+        <!--<item-->
+                <!--android:id="@+id/menu_drawer_house"-->
+                <!--android:icon="@drawable/ic_loyalty_black_36dp"-->
+                <!--android:title="@string/drawer_house"/>-->
 
-        <item
-                android:id="@+id/menu_drawer_handiwork"
-                android:icon="@drawable/ic_loyalty_black_36dp"
-                android:title="@string/drawer_handiwork"/>
+        <!--<item-->
+                <!--android:id="@+id/menu_drawer_handiwork"-->
+                <!--android:icon="@drawable/ic_loyalty_black_36dp"-->
+                <!--android:title="@string/drawer_handiwork"/>-->
 
-        <item
-                android:id="@+id/menu_drawer_food"
-                android:icon="@drawable/ic_loyalty_black_36dp"
-                android:title="@string/drawer_food"/>
+        <!--<item-->
+                <!--android:id="@+id/menu_drawer_food"-->
+                <!--android:icon="@drawable/ic_loyalty_black_36dp"-->
+                <!--android:title="@string/drawer_food"/>-->
 
-        <item
-                android:id="@+id/menu_drawer_travel"
-                android:icon="@drawable/ic_loyalty_black_36dp"
-                android:title="@string/drawer_travel"/>
+        <!--<item-->
+                <!--android:id="@+id/menu_drawer_travel"-->
+                <!--android:icon="@drawable/ic_loyalty_black_36dp"-->
+                <!--android:title="@string/drawer_travel"/>-->
 
-        <item
-                android:id="@+id/menu_drawer_illustration"
-                android:icon="@drawable/ic_loyalty_black_36dp"
-                android:title="@string/drawer_illustration"/>
+        <!--<item-->
+                <!--android:id="@+id/menu_drawer_illustration"-->
+                <!--android:icon="@drawable/ic_loyalty_black_36dp"-->
+                <!--android:title="@string/drawer_illustration"/>-->
 
-        <item
-                android:id="@+id/menu_drawer_flat"
-                android:icon="@drawable/ic_loyalty_black_36dp"
-                android:title="@string/drawer_flat"/>
+        <!--<item-->
+                <!--android:id="@+id/menu_drawer_flat"-->
+                <!--android:icon="@drawable/ic_loyalty_black_36dp"-->
+                <!--android:title="@string/drawer_flat"/>-->
 
-        <item
-                android:id="@+id/menu_drawer_dress"
-                android:icon="@drawable/ic_loyalty_black_36dp"
-                android:title="@string/drawer_dress"/>
+        <!--<item-->
+                <!--android:id="@+id/menu_drawer_dress"-->
+                <!--android:icon="@drawable/ic_loyalty_black_36dp"-->
+                <!--android:title="@string/drawer_dress"/>-->
 
-        <item
-                android:id="@+id/menu_drawer_model"
-                android:icon="@drawable/ic_loyalty_black_36dp"
-                android:title="@string/drawer_model"/>
+        <!--<item-->
+                <!--android:id="@+id/menu_drawer_model"-->
+                <!--android:icon="@drawable/ic_loyalty_black_36dp"-->
+                <!--android:title="@string/drawer_model"/>-->
 
-        <item
-                android:id="@+id/menu_drawer_wedding"
-                android:icon="@drawable/ic_loyalty_black_36dp"
-                android:title="@string/drawer_wedding"/>
+        <!--<item-->
+                <!--android:id="@+id/menu_drawer_wedding"-->
+                <!--android:icon="@drawable/ic_loyalty_black_36dp"-->
+                <!--android:title="@string/drawer_wedding"/>-->
 
-        <item
-                android:id="@+id/menu_drawer_belle"
-                android:icon="@drawable/ic_loyalty_black_36dp"
-                android:title="@string/drawer_belle"/>
+        <!--<item-->
+                <!--android:id="@+id/menu_drawer_belle"-->
+                <!--android:icon="@drawable/ic_loyalty_black_36dp"-->
+                <!--android:title="@string/drawer_belle"/>-->
 
-        <item
-                android:id="@+id/menu_drawer_pet"
-                android:icon="@drawable/ic_loyalty_black_36dp"
-                android:title="@string/drawer_pet"/>
+        <!--<item-->
+                <!--android:id="@+id/menu_drawer_pet"-->
+                <!--android:icon="@drawable/ic_loyalty_black_36dp"-->
+                <!--android:title="@string/drawer_pet"/>-->
 
-        <item
-                android:id="@+id/menu_drawer_children"
-                android:icon="@drawable/ic_loyalty_black_36dp"
-                android:title="@string/drawer_children"/>
+        <!--<item-->
+                <!--android:id="@+id/menu_drawer_children"-->
+                <!--android:icon="@drawable/ic_loyalty_black_36dp"-->
+                <!--android:title="@string/drawer_children"/>-->
 
-        <item
-                android:id="@+id/menu_drawer_architecture"
-                android:icon="@drawable/ic_loyalty_black_36dp"
-                android:title="@string/drawer_architecture"/>
+        <!--<item-->
+                <!--android:id="@+id/menu_drawer_architecture"-->
+                <!--android:icon="@drawable/ic_loyalty_black_36dp"-->
+                <!--android:title="@string/drawer_architecture"/>-->
 
-        <item
-                android:id="@+id/menu_drawer_movie"
-                android:icon="@drawable/ic_loyalty_black_36dp"
-                android:title="@string/drawer_movie"/>
+        <!--<item-->
+                <!--android:id="@+id/menu_drawer_movie"-->
+                <!--android:icon="@drawable/ic_loyalty_black_36dp"-->
+                <!--android:title="@string/drawer_movie"/>-->
 
-        <item
-                android:id="@+id/menu_drawer_life"
-                android:icon="@drawable/ic_loyalty_black_36dp"
-                android:title="@string/drawer_life"/>
-        <item
-                android:id="@+id/menu_drawer_art"
-                android:icon="@drawable/ic_loyalty_black_36dp"
-                android:title="@string/drawer_art"/>
+        <!--<item-->
+                <!--android:id="@+id/menu_drawer_life"-->
+                <!--android:icon="@drawable/ic_loyalty_black_36dp"-->
+                <!--android:title="@string/drawer_life"/>-->
+        <!--<item-->
+                <!--android:id="@+id/menu_drawer_art"-->
+                <!--android:icon="@drawable/ic_loyalty_black_36dp"-->
+                <!--android:title="@string/drawer_art"/>-->
 
-        <item
-                android:id="@+id/menu_drawer_man"
-                android:icon="@drawable/ic_loyalty_black_36dp"
-                android:title="@string/drawer_man"/>
+        <!--<item-->
+                <!--android:id="@+id/menu_drawer_man"-->
+                <!--android:icon="@drawable/ic_loyalty_black_36dp"-->
+                <!--android:title="@string/drawer_man"/>-->
     </group>
 
     <item

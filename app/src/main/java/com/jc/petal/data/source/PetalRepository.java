@@ -64,4 +64,9 @@ public class PetalRepository implements PetalDataSource {
         mRemoteDataSource.getPinsListByType(type, limit, callback);
     }
 
+    @Override
+    public void getMaxPinsListByType(String type, int max, int limit, RequestCallback<List<PinEntity>> callback) {
+        mRemoteDataSource.getMaxPinsListByType(type, max, limit, callback);
+    }
+
 }

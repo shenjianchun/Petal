@@ -12,6 +12,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,6 +22,9 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
+
+    public static final String DEFAULT_TYPE = "all";
+
     @Bind(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
 
@@ -29,7 +33,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     ActionBarDrawerToggle mDrawerToggle;
 
+    // 初始化第一个Fragment
+    PinsListFragment mFragment;
+    MainContract.Presenter mPresenter;
     private PetalRepository mRepository;
+
+    private String[] mTypeTitles;
+    private String[] mTypeValues;
 
     @Override
     protected void initViewsAndEvents() {
@@ -45,21 +55,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         setupDrawerContent(mNavigationView);
 
-        // 初始化第一个Fragment
-        PinsListFragment fragment = (PinsListFragment) getSupportFragmentManager()
+        mFragment = (PinsListFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
 
-        if (fragment == null) {
-            fragment = PinsListFragment.newInstance(2);
+        if (mFragment == null) {
+            mFragment = PinsListFragment.newInstance(DEFAULT_TYPE);
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
-                    fragment, R.id.contentFrame);
+                    mFragment, R.id.contentFrame);
         }
 
         // 获取DataSource
         mRepository = PetalRepository.getInstance();
 
         // 初始化 Presenter
-        new MainPresenter(fragment, mRepository);
+        mPresenter = new MainPresenter(mFragment, mRepository);
 
     }
 
@@ -88,30 +97,51 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      * @param navigationView NavigationView
      */
     private void setupDrawerContent(NavigationView navigationView) {
+
+        final Menu menu = navigationView.getMenu();
+        mTypeTitles = getResources().getStringArray(R.array.array_type_title);
+        mTypeValues = getResources().getStringArray(R.array.array_type_value);
+        int order = 0;
+        for (String title : mTypeTitles) {
+            menu.add(R.id.group_type_title, Menu.NONE, order++, title).setIcon(R.drawable
+                    .ic_loyalty_black_36dp).setCheckable(true);
+        }
+        menu.getItem(0).setChecked(true);
+
         // menu item 添加事件
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        switch (menuItem.getItemId()) {
-                            case R.id.menu_drawer_home:
-                                setTitle(R.string.drawer_home);
 
+                        if (menuItem.getGroupId() == R.id.group_type_title) {
+                            setTitle(menuItem.getTitle());
 
-                                break;
-                            case R.id.menu_drawer_hot:
-                                setTitle(R.string.drawer_hot);
-                                break;
-                            default:
-                                break;
+                            int order = menuItem.getOrder();
+                            setCurrentFragment(mTypeValues[order]);
+                        } else {
+                            // TODO: 2016-08-02  添加设置、关于的处理
+
+                            switch (menuItem.getItemId()) {
+
+                                case R.id.nav_about:
+
+                                    break;
+                                case R.id.nav_set:
+                                    break;
+                                case R.id.nav_exit:
+                                    finish();
+                                    break;
+                            }
                         }
+
                         // Close the navigation drawer when an item is selected.
-                        menuItem.setChecked(true);
                         mDrawerLayout.closeDrawers();
                         return true;
                     }
                 });
 
+        // 用户信息栏
         View headerView = navigationView.getHeaderView(0);
 
         if (headerView != null) {
@@ -120,6 +150,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    /**
+     * 根据不同的type类型切换对应的Fragment
+     * @param type 图片类型
+     */
+    private void setCurrentFragment(String type) {
+        PinsListFragment fragment = PinsListFragment.newInstance(type);
+        new MainPresenter(fragment, mRepository);
+        ActivityUtils.ReplaceFragmentToActivity(getSupportFragmentManager(), fragment, R.id
+                .contentFrame);
+    }
 
     @Override
     public void onClick(View v) {

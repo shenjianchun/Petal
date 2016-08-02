@@ -17,7 +17,8 @@ public interface MainContract {
     }
 
     interface Presenter extends BasePresenter {
-
+        void fetchPinsByType(String type, int limit);
+        void fetchMaxPinsByType(String type, int max, int limit);
     }
 
 }

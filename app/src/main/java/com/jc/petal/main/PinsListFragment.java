@@ -2,6 +2,8 @@ package com.jc.petal.main;
 
 import com.jc.petal.R;
 import com.jc.petal.data.module.PinEntity;
+import com.jc.petal.widget.EndlessRecyclerViewScrollListener;
+import com.jc.petal.widget.SpacesItemDecoration;
 import com.uilibrary.app.BaseFragment;
 
 import android.content.Context;
@@ -21,13 +23,13 @@ import butterknife.Bind;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class PinsListFragment extends BaseFragment implements MainContract.View{
+public class PinsListFragment extends BaseFragment implements MainContract.View {
 
     private static final String ARG_TYPE = "type";
 
     private MainContract.Presenter mPresenter;
 
-    private int mType = 1;
+    private String mType;
     private OnListFragmentInteractionListener mListener;
 
     private List<PinEntity> mPins;
@@ -37,6 +39,7 @@ public class PinsListFragment extends BaseFragment implements MainContract.View{
     @Bind(R.id.list)
     RecyclerView mRecyclerView;
     PinsListAdapter mAdapter;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -44,10 +47,10 @@ public class PinsListFragment extends BaseFragment implements MainContract.View{
     public PinsListFragment() {
     }
 
-    public static PinsListFragment newInstance(int columnCount) {
+    public static PinsListFragment newInstance(String type) {
         PinsListFragment fragment = new PinsListFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_TYPE, columnCount);
+        args.putString(ARG_TYPE, type);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,10 +60,9 @@ public class PinsListFragment extends BaseFragment implements MainContract.View{
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mType = getArguments().getInt(ARG_TYPE);
+            mType = getArguments().getString(ARG_TYPE);
         }
     }
-
 
     @Override
     public int getLayoutResource() {
@@ -75,24 +77,33 @@ public class PinsListFragment extends BaseFragment implements MainContract.View{
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mPresenter.start();
+                mPresenter.fetchPinsByType(mType, 20);
             }
         });
 
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,
-                StaggeredGridLayoutManager.VERTICAL));
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,
+                StaggeredGridLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
+        // 添加间隔
         mRecyclerView.addItemDecoration(new SpacesItemDecoration(6));
         // Set the adapter
         mAdapter = new PinsListAdapter(this, mPins, mListener);
         mRecyclerView.setAdapter(mAdapter);
+
+        // 添加加载更多接口
+        mRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                mPresenter.fetchMaxPinsByType(mType, mPins.get(mPins.size() - 1).pin_id, 20);
+            }
+        });
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
-
+        mPresenter.fetchPinsByType(mType, 20);
 
         mRefreshLayout.postDelayed(new Runnable() {
             @Override
@@ -123,7 +134,6 @@ public class PinsListFragment extends BaseFragment implements MainContract.View{
     }
 
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -139,6 +149,10 @@ public class PinsListFragment extends BaseFragment implements MainContract.View{
     public void onDetach() {
         super.onDetach();
         mListener = null;
+
+        if (mRefreshLayout.isRefreshing()) {
+            mRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override

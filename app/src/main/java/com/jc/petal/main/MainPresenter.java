@@ -3,7 +3,6 @@ package com.jc.petal.main;
 import com.jc.petal.RequestCallback;
 import com.jc.petal.data.module.PinEntity;
 import com.jc.petal.data.source.PetalRepository;
-import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void start() {
-        fetchPins("all", 20);
+        fetchPinsByType("all", 20);
     }
 
     @Override
@@ -38,21 +37,38 @@ public class MainPresenter implements MainContract.Presenter {
 
     }
 
-    private void fetchPins(String type, int limit) {
+    @Override
+    public void fetchPinsByType(String type, int limit) {
         mRepository.getPinsListByType(type, limit, new RequestCallback<List<PinEntity>>() {
             @Override
             public void onSuccess(List<PinEntity> data) {
 
-                Logger.d(data);
                 mView.showPins(data);
                 mView.hideLoading();
             }
 
             @Override
             public void onError(String msg) {
-
+                mView.showError(msg);
             }
         });
     }
 
+    @Override
+    public void fetchMaxPinsByType(String type, int max, int limit) {
+        mRepository.getPinsListByType(type, limit, new RequestCallback<List<PinEntity>>() {
+            @Override
+            public void onSuccess(List<PinEntity> data) {
+
+//                Logger.d(data);
+                mView.showPins(data);
+                mView.hideLoading();
+            }
+
+            @Override
+            public void onError(String msg) {
+                mView.showError(msg);
+            }
+        });
+    }
 }

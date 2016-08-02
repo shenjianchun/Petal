@@ -32,8 +32,8 @@ public interface PetalDataSource {
      * @param type 类型
      * @param limit 每页多少个
      */
-    void getPinsListByType(String type, int limit, RequestCallback<List<PinEntity>> callback);
+    void getPinsListByType(String type, int limit, final RequestCallback<List<PinEntity>> callback);
 
-//    void getMaxPinsListByType(String authorization, String type, int limit);
+    void getMaxPinsListByType(String type, int max, int limit, final RequestCallback<List<PinEntity>> callback);
 
 }

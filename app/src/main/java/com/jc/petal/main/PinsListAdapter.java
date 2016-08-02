@@ -4,7 +4,6 @@ import com.bumptech.glide.Glide;
 import com.jc.petal.R;
 import com.jc.petal.data.module.PinEntity;
 import com.jc.petal.main.PinsListFragment.OnListFragmentInteractionListener;
-import com.jc.petal.main.dummy.DummyContent.DummyItem;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +18,7 @@ import java.util.List;
 import butterknife.ButterKnife;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link PinEntity} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
