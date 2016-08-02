@@ -20,7 +20,6 @@ import butterknife.ButterKnife;
 /**
  * {@link RecyclerView.Adapter} that can display a {@link PinEntity} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
  */
 public class PinsListAdapter extends RecyclerView.Adapter<PinsListAdapter
         .ViewHolder> {
@@ -30,7 +29,7 @@ public class PinsListAdapter extends RecyclerView.Adapter<PinsListAdapter
 
     public PinsListAdapter(Fragment fragment, List<PinEntity> pins,
                            OnListFragmentInteractionListener
-            listener) {
+                                   listener) {
         mFragment = fragment;
         mPins = pins;
         mListener = listener;
