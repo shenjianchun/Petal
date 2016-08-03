@@ -3,7 +3,7 @@ package com.jc.petal.data.source.remote.retrofit;
 import com.jc.petal.RequestCallback;
 import com.jc.petal.data.module.PinEntity;
 import com.jc.petal.data.module.PinsListBean;
-import com.jc.petal.data.module.TokenBean;
+import com.jc.petal.data.module.AuthTokenBean;
 import com.jc.petal.data.source.PetalDataSource;
 
 import android.util.Log;
@@ -13,6 +13,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * Implementation of the data source that adds a latency network.
@@ -30,15 +31,17 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
     @Override
     public void login(String name, String password, final RequestCallback<String> callback) {
 
-        PetalService service = PetalAPI.getPetalService();
+        Retrofit client = RetrofitClient.getRetrofit();
+
+        OAuthAPI service = client.create(OAuthAPI.class);
         //联网的授权字段
         String authorization = "Basic " +
                 "MWQ5MTJjYWU0NzE0NGZhMDlkODg6Zjk0ZmNjMDliNTliNDM0OWExNDhhMjAzYWIyZjIwYzc=";
 
-        Call<TokenBean> call = service.httpsToken(authorization, "password", name, password);
-        call.enqueue(new Callback<TokenBean>() {
+        Call<AuthTokenBean> call = service.httpsToken(authorization, "password", name, password);
+        call.enqueue(new Callback<AuthTokenBean>() {
             @Override
-            public void onResponse(Call<TokenBean> call, Response<TokenBean> response) {
+            public void onResponse(Call<AuthTokenBean> call, Response<AuthTokenBean> response) {
 
                 if (response.code() == 200 && response.body() != null) {
                     Log.d("login", response.body().toString());
@@ -50,7 +53,7 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
             }
 
             @Override
-            public void onFailure(Call<TokenBean> call, Throwable t) {
+            public void onFailure(Call<AuthTokenBean> call, Throwable t) {
                 callback.onError("网络或者服务器有问题！");
             }
         });
@@ -65,7 +68,8 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
     public void getPinsListByType(String type, int limit, final RequestCallback<List<PinEntity>>
             callback) {
 
-        PetalService service = PetalAPI.getPetalService();
+        Retrofit client = RetrofitClient.getRetrofit();
+        CategoryAPI service = client.create(CategoryAPI.class);
         Call<PinsListBean> call = service.httpsTypeLimit(" ", type, limit);
         call.enqueue(new Callback<PinsListBean>() {
             @Override
@@ -88,7 +92,9 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
     @Override
     public void getMaxPinsListByType(String type, int max, int limit,
                                     final RequestCallback<List<PinEntity>> callback) {
-            PetalService service = PetalAPI.getPetalService();
+        Retrofit client = RetrofitClient.getRetrofit();
+        CategoryAPI service = client.create(CategoryAPI.class);
+
         Call<PinsListBean> call = service.httpsTypeMaxLimitRx(" ", type, max, limit);
         call.enqueue(new Callback<PinsListBean>() {
             @Override

@@ -4,7 +4,7 @@ package com.jc.petal.data.module;
  *
  * Created by JC on 2016-07-30.
  */
-public class TokenBean {
+public class AuthTokenBean {
 
     /**
      * access_token : da0e9e1b-1a7a-4b3c-ade7-531910b6e847
