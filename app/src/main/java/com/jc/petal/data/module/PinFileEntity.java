@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by LiCola on  2016/05/05  21:27
  */
 
-public class PinsFileEntity implements Parcelable {
+public class PinFileEntity implements Parcelable {
     public String farm;
     public String bucket;
     public String key;
@@ -33,10 +33,10 @@ public class PinsFileEntity implements Parcelable {
         dest.writeInt(this.frames);
     }
 
-    public PinsFileEntity() {
+    public PinFileEntity() {
     }
 
-    protected PinsFileEntity(Parcel in) {
+    protected PinFileEntity(Parcel in) {
         this.farm = in.readString();
         this.bucket = in.readString();
         this.key = in.readString();
@@ -46,15 +46,15 @@ public class PinsFileEntity implements Parcelable {
         this.frames = in.readInt();
     }
 
-    public static final Creator<PinsFileEntity> CREATOR = new Creator<PinsFileEntity>() {
+    public static final Creator<PinFileEntity> CREATOR = new Creator<PinFileEntity>() {
         @Override
-        public PinsFileEntity createFromParcel(Parcel source) {
-            return new PinsFileEntity(source);
+        public PinFileEntity createFromParcel(Parcel source) {
+            return new PinFileEntity(source);
         }
 
         @Override
-        public PinsFileEntity[] newArray(int size) {
-            return new PinsFileEntity[size];
+        public PinFileEntity[] newArray(int size) {
+            return new PinFileEntity[size];
         }
     };
 }

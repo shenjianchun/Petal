@@ -85,9 +85,10 @@ public class PinsListFragment extends BaseFragment implements MainContract.View 
                 StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         // 添加间隔
-        mRecyclerView.addItemDecoration(new SpacesItemDecoration(6));
+        mRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources()
+                .getDimensionPixelSize(R.dimen.space_item_decoration)));
         // Set the adapter
-        mAdapter = new PinsListAdapter(this, mPins, mListener);
+        mAdapter = new PinsListAdapter(getContext(), mPins, mListener);
         mRecyclerView.setAdapter(mAdapter);
 
         // 添加加载更多接口
@@ -97,7 +98,6 @@ public class PinsListFragment extends BaseFragment implements MainContract.View 
                 mPresenter.fetchMaxPinsByType(mType, mPins.get(mPins.size() - 1).pin_id, 20);
             }
         });
-
     }
 
     @Override

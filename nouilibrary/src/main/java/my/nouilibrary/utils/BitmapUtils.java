@@ -7,7 +7,7 @@ import android.graphics.BitmapFactory;
 
 /**
  * Bitmap utils
- * Created by 14110105 on 2016-05-24.
+ * Created by JC on 2016-05-24.
  */
 public class BitmapUtils {
 

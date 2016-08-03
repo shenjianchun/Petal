@@ -6,7 +6,7 @@ import android.widget.Toast;
 /**
  * Toast统一管理类
  *
- * @author 14110105
+ * @author JC
  * Jan 4, 2015 4:58:08 PM
  */
 public class T {

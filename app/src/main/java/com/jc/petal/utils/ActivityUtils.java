@@ -9,7 +9,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Activity相关的工具类
- * Created by 14110105 on 2016-07-31.
+ * Created by JC on 2016-07-31.
  */
 public class ActivityUtils {
 

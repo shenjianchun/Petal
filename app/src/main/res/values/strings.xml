@@ -45,4 +45,7 @@
     <string name="url_image_general">http://img.hb.aicdn.com/%s_fw320sf</string>
     <string name="url_image_big">http://img.hb.aicdn.com/%s_fw658</string>
     <string name="url_image_small">http://img.hb.aicdn.com/%s_sq75sf</string>
+
+    <!--<string name="collection_info">由&lt;b>%1$s&lt;/b>采集到&lt;b>%2$s&lt;/b></string>-->
+    <string name="collection_info">由%1$s采集到%2$s</string>
 </resources>

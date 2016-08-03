@@ -16,7 +16,7 @@ import retrofit2.Response;
 
 /**
  * Implementation of the data source that adds a latency network.
- * Created by 14110105 on 2016-07-29.
+ * Created by JC on 2016-07-29.
  */
 public class RetrofitRemoteDataSource implements PetalDataSource {
 

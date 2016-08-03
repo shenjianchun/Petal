@@ -23,4 +23,7 @@
     <dimen name="drawer_button_size">48dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
+    <!-- 图片列表之间的间隔 -->
+    <dimen name="space_item_decoration">3dp</dimen>
+
 </resources>

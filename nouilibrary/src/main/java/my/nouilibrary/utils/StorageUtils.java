@@ -11,7 +11,7 @@ import java.io.File;
 
 /**
  * Android Storage Utils
- * Created by 14110105 on 2016-04-13.
+ * Created by JC on 2016-04-13.
  */
 public class StorageUtils {
 

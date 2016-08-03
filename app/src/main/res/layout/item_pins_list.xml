@@ -33,5 +33,24 @@
                 android:maxLines="4"
                 android:ellipsize="end"
                 android:textAppearance="?attr/textAppearanceListItem"/>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_normal">
+
+            <ImageView
+                    android:id="@+id/iv_avatar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/account_circle_grey_36x36"/>
+
+            <TextView
+                    android:id="@+id/tv_collection_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/iv_avatar"/>
+
+        </RelativeLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

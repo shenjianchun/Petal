@@ -1,7 +1,7 @@
 package com.jc.petal.data.module;
 
 /**
- * Created by 14110105 on 2016-08-01.
+ * Created by JC on 2016-08-01.
  */
 public class PinEntity {
 
@@ -20,7 +20,7 @@ public class PinEntity {
      * frames : 1
      */
 
-    public PinsFileEntity file;
+    public PinFileEntity file;
 
 
     public int media_type;
@@ -38,4 +38,7 @@ public class PinEntity {
     public int is_public;
     public String orig_source;
     public boolean liked;
+
+    public PinUserEntity user;
+    public PinBoardEntity board;
 }

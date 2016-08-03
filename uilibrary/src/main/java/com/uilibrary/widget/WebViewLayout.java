@@ -19,7 +19,7 @@ import android.widget.ProgressBar;
 import my.uilibrary.R;
 
 /**
- * Created by 14110105 on 2016-05-17.
+ * Created by JC on 2016-05-17.
  */
 public class WebViewLayout extends LinearLayout {
 

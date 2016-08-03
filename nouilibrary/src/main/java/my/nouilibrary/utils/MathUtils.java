@@ -10,18 +10,18 @@ import java.text.NumberFormat;
 
 /**
  * 数字计算类
- * Created by 14110105 on 2015/3/27.
+ * Created by JC on 2015/3/27.
  */
 public class MathUtils {
 
     /**
      * 数字位数
      */
-    private static final int MAX_DIGITS = 12;  // Added by 14110105
+    private static final int MAX_DIGITS = 12;  // Added by JC
     /**
      * 小数点后面保留位数
      */
-    private static final int ROUNDING_DIGITS = 3;   // Added by 14110105
+    private static final int ROUNDING_DIGITS = 3;   // Added by JC
 
     /**
      * 计算器

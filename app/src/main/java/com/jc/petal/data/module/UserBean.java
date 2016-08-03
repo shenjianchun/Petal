@@ -2,7 +2,7 @@ package com.jc.petal.data.module;
 
 /**
  * 用户信息 Json格式
- * Created by 14110105 on 2016-07-30.
+ * Created by JC on 2016-07-30.
  */
 public class UserBean {
 
@@ -62,7 +62,7 @@ public class UserBean {
      * frames : 1
      */
 
-    private AvatarBean avatar;
+    private AvatarEntity avatar;
     private String email;
     private int created_at;
     private int board_count;
@@ -108,11 +108,11 @@ public class UserBean {
         this.urlname = urlname;
     }
 
-    public AvatarBean getAvatar() {
+    public AvatarEntity getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(AvatarBean avatar) {
+    public void setAvatar(AvatarEntity avatar) {
         this.avatar = avatar;
     }
 
@@ -210,81 +210,6 @@ public class UserBean {
 
     public void setBindings(BindingsBean bindings) {
         this.bindings = bindings;
-    }
-
-    public static class AvatarBean {
-        private int id;
-        private String farm;
-        private String bucket;
-        private String key;
-        private String type;
-        private int width;
-        private int height;
-        private int frames;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getFarm() {
-            return farm;
-        }
-
-        public void setFarm(String farm) {
-            this.farm = farm;
-        }
-
-        public String getBucket() {
-            return bucket;
-        }
-
-        public void setBucket(String bucket) {
-            this.bucket = bucket;
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public void setKey(String key) {
-            this.key = key;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public int getWidth() {
-            return width;
-        }
-
-        public void setWidth(int width) {
-            this.width = width;
-        }
-
-        public int getHeight() {
-            return height;
-        }
-
-        public void setHeight(int height) {
-            this.height = height;
-        }
-
-        public int getFrames() {
-            return frames;
-        }
-
-        public void setFrames(int frames) {
-            this.frames = frames;
-        }
     }
 
     public static class BindingsBean {

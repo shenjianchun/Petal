@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
 
 /**
  * Fragment基类
- * Created by 14110105 on 2015/9/29.
+ * Created by JC on 2015/9/29.
  */
 public abstract class BaseFragment extends Fragment {
 

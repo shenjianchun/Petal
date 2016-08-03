@@ -15,7 +15,7 @@ import my.uilibrary.R;
 
 /**
  * Activity基类
- * Created by 14110105 on 2015/9/25.
+ * Created by JC on 2015/9/25.
  */
 public abstract class BaseActivity extends AppCompatActivity {
 

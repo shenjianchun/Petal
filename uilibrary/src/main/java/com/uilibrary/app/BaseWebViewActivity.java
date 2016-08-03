@@ -8,13 +8,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import my.uilibrary.R;
 
 /**
- * Created by 14110105 on 2016-05-17.
+ * Created by JC on 2016-05-17.
  */
 public class BaseWebViewActivity extends BaseActivity implements WebViewLayout.WebViewCallback {
 

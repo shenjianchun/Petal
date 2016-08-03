@@ -9,7 +9,7 @@ import android.view.View;
 
 /**
  * FAB Behavior
- * Created by 14110105 on 2016-08-02.
+ * Created by JC on 2016-08-02.
  */
 public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
     public ScrollAwareFABBehavior(Context context, AttributeSet attrs) {

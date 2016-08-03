@@ -10,7 +10,7 @@ import java.util.Locale;
 
 /**
  * 日期时间工具类DensityUtils
- * Created by 14110105 on 2015/4/14.
+ * Created by JC on 2015/4/14.
  */
 public class DateTimeUtils {
 

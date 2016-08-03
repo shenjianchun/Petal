@@ -16,7 +16,7 @@ import retrofit2.http.Query;
 
 /**
  * 花瓣网对应的API接口
- * Created by 14110105 on 2016-07-29.
+ * Created by JC on 2016-07-29.
  */
 public interface PetalService {
 

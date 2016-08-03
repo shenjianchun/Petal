@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * Android Package Utils
- * Created by 14110105 on 2016-06-06.
+ * Created by JC on 2016-06-06.
  */
 public class PackageUtils {
 
