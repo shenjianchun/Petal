@@ -9,6 +9,7 @@ import com.jc.petal.utils.SpannableTextUtils;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -28,8 +29,10 @@ import my.nouilibrary.utils.SizeUtils;
  * {@link RecyclerView.Adapter} that can display a {@link PinEntity} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  */
-public class PinsListAdapter extends RecyclerView.Adapter<PinsListAdapter
-        .ViewHolder> {
+public class PinsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private static final int BASE_ITEM_TYPE_HEADER = 100000;
+
     private Context mContext;
     private final List<PinEntity> mPins;
     private final OnListFragmentInteractionListener mListener;
@@ -43,14 +46,29 @@ public class PinsListAdapter extends RecyclerView.Adapter<PinsListAdapter
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_pins_list, parent, false);
-        return new ViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        if (viewType == BASE_ITEM_TYPE_HEADER) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_banner,
+                    parent, false);
+            return new HeaderViewHolder(view);
+        } else {
+
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_pins_list, parent, false);
+            return new ViewHolder(view);
+        }
+
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder recyclerHolder, int position) {
+
+        if (getItemViewType(position) == BASE_ITEM_TYPE_HEADER) {
+            return;
+        }
+
+        final ViewHolder holder = (ViewHolder) recyclerHolder;
 
         PinEntity pin = mPins.get(position);
 
@@ -66,7 +84,6 @@ public class PinsListAdapter extends RecyclerView.Adapter<PinsListAdapter
         int imgHeight = (int) (imgWidth / scale);
         holder.mImageIv.setLayoutParams(new LinearLayout.LayoutParams(imgWidth, imgHeight));
 
-
         // image url
         String imageUrl = mContext.getString(R.string.url_image_general, pin.file.key);
         Glide.with(mContext).load(imageUrl).fitCenter().into(holder.mImageIv);
@@ -79,7 +96,8 @@ public class PinsListAdapter extends RecyclerView.Adapter<PinsListAdapter
         }
 
         // 采集信息
-        String info = mContext.getString(R.string.collection_info, SpannableTextUtils.color(Color.BLACK, pin.user.urlname), SpannableTextUtils.color(Color.BLACK, pin.board.title));
+        String info = mContext.getString(R.string.collection_info, SpannableTextUtils.color(Color
+                .BLACK, pin.user.urlname), SpannableTextUtils.color(Color.BLACK, pin.board.title));
         holder.mCollectionInfoTv.setText(Html.fromHtml(info));
 
 //        holder.mCollectionInfoTv.setText(SpannableTextUtils.color(Color.BLACK, pin.user.urlname));
@@ -107,6 +125,30 @@ public class PinsListAdapter extends RecyclerView.Adapter<PinsListAdapter
         return mPins.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+
+        if (position == 0) {
+            return BASE_ITEM_TYPE_HEADER;
+        }
+
+        return super.getItemViewType(position);
+    }
+
+    @Override
+    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        // Header Item 横跨一行
+        ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
+        if (layoutParams != null && layoutParams instanceof StaggeredGridLayoutManager
+                .LayoutParams) {
+            StaggeredGridLayoutManager.LayoutParams lp = (StaggeredGridLayoutManager.LayoutParams) layoutParams;
+            lp.setFullSpan(holder.getLayoutPosition() == 0);
+        }
+
+
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mItemView;
         public final ImageView mImageIv;
@@ -129,4 +171,14 @@ public class PinsListAdapter extends RecyclerView.Adapter<PinsListAdapter
             return super.toString() + " '" + mContentTv.getText() + "'";
         }
     }
+
+    public class HeaderViewHolder extends RecyclerView.ViewHolder {
+        public HeaderViewHolder(View itemView) {
+            super(itemView);
+        }
+
+
+    }
+
+
 }
