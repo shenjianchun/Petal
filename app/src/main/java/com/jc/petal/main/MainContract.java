@@ -2,7 +2,7 @@ package com.jc.petal.main;
 
 import com.jc.petal.BasePresenter;
 import com.jc.petal.BaseView;
-import com.jc.petal.data.module.PinEntity;
+import com.jc.petal.data.model.PinEntity;
 
 import java.util.List;
 

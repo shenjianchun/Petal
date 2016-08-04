@@ -1,7 +1,7 @@
 package com.jc.petal.data.source.remote.retrofit;
 
 import com.jc.petal.Constant;
-import com.jc.petal.data.module.PinsListBean;
+import com.jc.petal.data.model.PinsListBean;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -10,7 +10,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
- * 分类查询相关API
+ * 分类查询图片相关API
  * Created by JC on 2016-08-03.
  */
 public interface CategoryAPI {

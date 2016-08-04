@@ -1,11 +1,14 @@
 package com.jc.petal.main;
 
+import com.bumptech.glide.Glide;
 import com.jc.petal.R;
+import com.jc.petal.data.model.User;
 import com.jc.petal.data.source.PetalRepository;
 import com.jc.petal.login.LoginActivity;
 import com.jc.petal.utils.ActivityUtils;
 import com.uilibrary.app.BaseActivity;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -16,12 +19,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
+    public static final int REQUEST_CODE_LOGIN = 1;
 
     public static final String DEFAULT_TYPE = "all";
 
@@ -161,11 +166,39 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .contentFrame);
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_LOGIN && resultCode == RESULT_OK) {
+            User user = data.getParcelableExtra("user");
+            updateUserInfo(user);
+        }
+    }
+
+    private void updateUserInfo(User user) {
+
+        // 用户信息栏
+        View headerView = mNavigationView.getHeaderView(0);
+
+        if (headerView != null) {
+            TextView nameTv = ButterKnife.findById(headerView, R.id.tv_name);
+            ImageView imageView = ButterKnife.findById(headerView, R.id.iv_picture);
+
+            nameTv.setText(user.username);
+
+            String url = getString(R.string.url_image_small, user.avatar.key);
+            Glide.with(this).load(url).into(imageView);
+
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_picture:
-                readyGo(LoginActivity.class);
+                readyGoForResult(LoginActivity.class, REQUEST_CODE_LOGIN);
                 break;
             default:
                 break;

@@ -1,7 +1,7 @@
 package com.jc.petal.main;
 
 import com.jc.petal.RequestCallback;
-import com.jc.petal.data.module.PinEntity;
+import com.jc.petal.data.model.PinEntity;
 import com.jc.petal.data.source.PetalRepository;
 
 import java.util.List;

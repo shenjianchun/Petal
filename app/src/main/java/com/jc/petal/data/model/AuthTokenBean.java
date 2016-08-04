@@ -1,4 +1,4 @@
-package com.jc.petal.data.module;
+package com.jc.petal.data.model;
 
 /**
  *
@@ -18,4 +18,13 @@ public class AuthTokenBean {
     public int expires_in;
     public String refresh_token;
 
+    @Override
+    public String toString() {
+        return "AuthTokenBean{" +
+                "access_token='" + access_token + '\'' +
+                ", token_type='" + token_type + '\'' +
+                ", expires_in=" + expires_in +
+                ", refresh_token='" + refresh_token + '\'' +
+                '}';
+    }
 }

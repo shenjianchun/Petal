@@ -1,4 +1,4 @@
-package com.jc.petal.data.module;
+package com.jc.petal.data.model;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.jc.petal.data.module;
+package com.jc.petal.data.model;
 
 /**
  * Created by JC on 2016-08-01.

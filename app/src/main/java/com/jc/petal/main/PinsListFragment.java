@@ -1,7 +1,7 @@
 package com.jc.petal.main;
 
 import com.jc.petal.R;
-import com.jc.petal.data.module.PinEntity;
+import com.jc.petal.data.model.PinEntity;
 import com.jc.petal.widget.EndlessRecyclerViewScrollListener;
 import com.jc.petal.widget.SpacesItemDecoration;
 import com.uilibrary.app.BaseFragment;

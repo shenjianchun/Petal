@@ -1,7 +1,8 @@
 package com.jc.petal.data.source;
 
 import com.jc.petal.RequestCallback;
-import com.jc.petal.data.module.PinEntity;
+import com.jc.petal.data.model.PinEntity;
+import com.jc.petal.data.model.User;
 import com.jc.petal.data.source.remote.retrofit.RetrofitRemoteDataSource;
 
 import java.util.List;
@@ -49,8 +50,14 @@ public class PetalRepository implements PetalDataSource {
 
 
     @Override
-    public void login(String name, String password, RequestCallback<String> callback) {
+    public void login(String name, String password,final RequestCallback<User> callback) {
         mRemoteDataSource.login(name, password, callback);
+    }
+
+    @Override
+    public void getSelf(final RequestCallback<User> callback) {
+
+        mRemoteDataSource.getSelf(callback);
     }
 
     @Override

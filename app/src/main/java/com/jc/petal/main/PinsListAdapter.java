@@ -2,7 +2,7 @@ package com.jc.petal.main;
 
 import com.bumptech.glide.Glide;
 import com.jc.petal.R;
-import com.jc.petal.data.module.PinEntity;
+import com.jc.petal.data.model.PinEntity;
 import com.jc.petal.main.PinsListFragment.OnListFragmentInteractionListener;
 import com.jc.petal.utils.SpannableTextUtils;
 

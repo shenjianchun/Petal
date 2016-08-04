@@ -1,9 +1,11 @@
 package com.jc.petal.login;
 
 import com.jc.petal.R;
+import com.jc.petal.data.model.User;
 import com.jc.petal.data.source.PetalRepository;
 import com.uilibrary.app.BaseActivity;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.EditText;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import my.nouilibrary.utils.T;
 
 /**
  * Login Activity
@@ -76,7 +79,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         }
 
 
-
         if (cancel) {
             focusView.requestFocus();
 
@@ -89,18 +91,28 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @Override
     public void showLoading() {
-
+        showLoadingDialog("正在登录...");
     }
 
     @Override
     public void hideLoading() {
-
+        hideLoadingDialog();
     }
 
     @Override
     public void showError(String msg) {
-
+        T.showShort(this, msg);
     }
 
 
+    @Override
+    public void loginSuccess(User user) {
+        T.showShort(this, "登录成功！");
+
+        Intent intent = new Intent();
+        intent.putExtra("user", user);
+        setResult(RESULT_OK, intent);
+
+        finish();
+    }
 }

@@ -1,7 +1,8 @@
 package com.jc.petal.data.source;
 
 import com.jc.petal.RequestCallback;
-import com.jc.petal.data.module.PinEntity;
+import com.jc.petal.data.model.PinEntity;
+import com.jc.petal.data.model.User;
 
 import java.util.List;
 
@@ -18,14 +19,17 @@ public interface PetalDataSource {
      * @param password password
      * @param callback 成功或失败后的回调函数
      */
-    void login(String name, String password, RequestCallback<String> callback);
+    void login(String name, String password,final RequestCallback<User> callback);
+
+
+    void getSelf(final RequestCallback<User> callback);
 
     /**
      * 获取用户信息
      *
      * @param authorization 登录凭证
      */
-    void getUserInfo(String authorization);
+    void getUserInfo(final String authorization);
 
     /**
      * 根据传入类型获取图片列表

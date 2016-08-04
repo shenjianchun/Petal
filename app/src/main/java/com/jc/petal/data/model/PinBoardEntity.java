@@ -1,4 +1,4 @@
-package com.jc.petal.data.module;
+package com.jc.petal.data.model;
 
 /**
  * Pin实体中的Board实体

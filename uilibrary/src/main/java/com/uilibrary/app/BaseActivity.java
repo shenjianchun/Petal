@@ -1,5 +1,6 @@
 package com.uilibrary.app;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -37,6 +38,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     public enum TransitionMode {
         LEFT, RIGHT, TOP, BOTTOM, SCALE, FADE
     }
+
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -202,8 +205,23 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract int getLayoutResource();
 
 
+    public void showLoadingDialog(String message) {
 
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setProgress(ProgressDialog.STYLE_SPINNER);
+            mProgressDialog.setCanceledOnTouchOutside(false);
+        }
+        mProgressDialog.setMessage(message);
+        mProgressDialog.show();
+    }
 
+    public void hideLoadingDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+//            mProgressDialog.hide();
+            mProgressDialog.dismiss();
+        }
+    }
 
     /**************************************分割线*********************************************/
 
