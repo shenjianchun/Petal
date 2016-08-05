@@ -5,6 +5,8 @@ import com.jc.petal.data.model.AuthTokenBean;
 import com.jc.petal.data.model.PinEntity;
 import com.jc.petal.data.model.PinsListBean;
 import com.jc.petal.data.model.User;
+import com.jc.petal.data.model.Weeklies;
+import com.jc.petal.data.model.Weekly;
 import com.jc.petal.data.source.PetalDataSource;
 import com.jc.petal.data.source.remote.PetalAPI;
 import com.orhanobut.logger.Logger;
@@ -89,6 +91,7 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
                     callback.onSuccess(user);
                 } else {
                     Logger.d(response.errorBody());
+                    callback.onError(String.valueOf(response.code()));
                 }
 
             }
@@ -114,7 +117,7 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
 
         Retrofit client = RetrofitClient.getRetrofit();
         CategoryAPI service = client.create(CategoryAPI.class);
-        Call<PinsListBean> call = service.httpsTypeLimit(" ", type, limit);
+        Call<PinsListBean> call = service.httpsTypeLimit(mAccessOauth, type, limit);
         call.enqueue(new Callback<PinsListBean>() {
             @Override
             public void onResponse(Call<PinsListBean> call, Response<PinsListBean> response) {
@@ -123,6 +126,9 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
                     if (pinEntities != null) {
                         callback.onSuccess(pinEntities);
                     }
+                } else {
+                    Logger.d(response.errorBody());
+                    callback.onError(String.valueOf(response.code()));
                 }
             }
 
@@ -135,11 +141,11 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
 
     @Override
     public void getMaxPinsListByType(String type, int max, int limit,
-                                    final RequestCallback<List<PinEntity>> callback) {
+                                     final RequestCallback<List<PinEntity>> callback) {
         Retrofit client = RetrofitClient.getRetrofit();
         CategoryAPI service = client.create(CategoryAPI.class);
 
-        Call<PinsListBean> call = service.httpsTypeMaxLimitRx(" ", type, max, limit);
+        Call<PinsListBean> call = service.httpsTypeMaxLimitRx(mAccessOauth, type, max, limit);
         call.enqueue(new Callback<PinsListBean>() {
             @Override
             public void onResponse(Call<PinsListBean> call, Response<PinsListBean> response) {
@@ -148,6 +154,10 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
                     if (pinEntities != null) {
                         callback.onSuccess(pinEntities);
                     }
+                } else {
+                    Logger.d(response.errorBody());
+
+                    callback.onError(String.valueOf(response.code()));
                 }
             }
 
@@ -156,6 +166,36 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
                 callback.onError(t.toString());
             }
         });
+    }
+
+    @Override
+    public void getWeeklies(String max, final RequestCallback<List<Weekly>> callback) {
+        Retrofit retrofit = RetrofitClient.getRetrofit();
+
+        WeeklyAPI service = retrofit.create(WeeklyAPI.class);
+
+        Call<Weeklies> call = service.getWeekies(mAccessOauth, max);
+        call.enqueue(new Callback<Weeklies>() {
+            @Override
+            public void onResponse(Call<Weeklies> call, Response<Weeklies> response) {
+                if (response.code() == 200 && response.body() != null) {
+
+                    Logger.d(response.body().weeklies);
+
+                    callback.onSuccess(response.body().weeklies);
+
+                } else {
+                    Logger.d(response.errorBody());
+                    callback.onError(String.valueOf(response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Weeklies> call, Throwable t) {
+                callback.onError(t.toString());
+            }
+        });
+
     }
 
 

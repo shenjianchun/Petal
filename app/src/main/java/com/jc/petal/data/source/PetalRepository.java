@@ -3,6 +3,7 @@ package com.jc.petal.data.source;
 import com.jc.petal.RequestCallback;
 import com.jc.petal.data.model.PinEntity;
 import com.jc.petal.data.model.User;
+import com.jc.petal.data.model.Weekly;
 import com.jc.petal.data.source.remote.retrofit.RetrofitRemoteDataSource;
 
 import java.util.List;
@@ -74,6 +75,11 @@ public class PetalRepository implements PetalDataSource {
     @Override
     public void getMaxPinsListByType(String type, int max, int limit, RequestCallback<List<PinEntity>> callback) {
         mRemoteDataSource.getMaxPinsListByType(type, max, limit, callback);
+    }
+
+    @Override
+    public void getWeeklies(String max, RequestCallback<List<Weekly>> callback) {
+        mRemoteDataSource.getWeeklies(max, callback);
     }
 
 }

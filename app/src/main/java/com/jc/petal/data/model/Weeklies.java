@@ -13,4 +13,13 @@ public class Weeklies {
     public String newImg;
 
     public List<Weekly> weeklies;
+
+    @Override
+    public String toString() {
+        return "Weeklies{" +
+                "imgHost='" + imgHost + '\'' +
+                ", newImg='" + newImg + '\'' +
+                ", weeklies=" + weeklies +
+                '}';
+    }
 }

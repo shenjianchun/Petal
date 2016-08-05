@@ -13,6 +13,6 @@
         android:name="com.jc.petal.main.ItemFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".main.PinsListFragment"
+        tools:context=".category.PinsListFragment"
         tools:listitem="@layout/item_pins_list"/>
 </android.support.v4.widget.SwipeRefreshLayout>

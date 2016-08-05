@@ -3,6 +3,7 @@ package com.jc.petal.data.source;
 import com.jc.petal.RequestCallback;
 import com.jc.petal.data.model.PinEntity;
 import com.jc.petal.data.model.User;
+import com.jc.petal.data.model.Weekly;
 
 import java.util.List;
 
@@ -39,5 +40,8 @@ public interface PetalDataSource {
     void getPinsListByType(String type, int limit, final RequestCallback<List<PinEntity>> callback);
 
     void getMaxPinsListByType(String type, int max, int limit, final RequestCallback<List<PinEntity>> callback);
+
+    void getWeeklies(String max , final RequestCallback<List<Weekly>> callback);
+
 
 }

@@ -33,4 +33,20 @@ public class Weekly {
     public Object ad_content_small;
     public Object ad_link;
 
+
+    @Override
+    public String toString() {
+        return "Weekly{" +
+                "weekly_id=" + weekly_id +
+                ", is_final=" + is_final +
+                ", release_date='" + release_date + '\'' +
+                ", release_no='" + release_no + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", cover='" + cover + '\'' +
+                ", ad_content=" + ad_content +
+                ", ad_content_small=" + ad_content_small +
+                ", ad_link=" + ad_link +
+                '}';
+    }
 }

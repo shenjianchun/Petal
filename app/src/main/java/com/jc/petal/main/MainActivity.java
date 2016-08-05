@@ -2,6 +2,9 @@ package com.jc.petal.main;
 
 import com.bumptech.glide.Glide;
 import com.jc.petal.R;
+import com.jc.petal.category.CategoryContract;
+import com.jc.petal.category.CategoryPresenter;
+import com.jc.petal.category.PinsListFragment;
 import com.jc.petal.data.model.User;
 import com.jc.petal.data.source.PetalRepository;
 import com.jc.petal.login.LoginActivity;
@@ -40,7 +43,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     // 初始化第一个Fragment
     PinsListFragment mFragment;
-    MainContract.Presenter mPresenter;
+    CategoryContract.Presenter mPresenter;
     private PetalRepository mRepository;
 
     private String[] mTypeTitles;
@@ -73,7 +76,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mRepository = PetalRepository.getInstance();
 
         // 初始化 Presenter
-        mPresenter = new MainPresenter(mFragment, mRepository);
+        mPresenter = new CategoryPresenter(mFragment, mRepository);
 
     }
 
@@ -161,7 +164,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      */
     private void setCurrentFragment(String type) {
         PinsListFragment fragment = PinsListFragment.newInstance(type);
-        new MainPresenter(fragment, mRepository);
+        new CategoryPresenter(fragment, mRepository);
         ActivityUtils.ReplaceFragmentToActivity(getSupportFragmentManager(), fragment, R.id
                 .contentFrame);
     }

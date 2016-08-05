@@ -1,7 +1,8 @@
-package com.jc.petal.main;
+package com.jc.petal.category;
 
 import com.jc.petal.RequestCallback;
 import com.jc.petal.data.model.PinEntity;
+import com.jc.petal.data.model.Weekly;
 import com.jc.petal.data.source.PetalRepository;
 
 import java.util.List;
@@ -10,13 +11,13 @@ import java.util.List;
  * Main Presenter
  * Created by JC on 2016-08-01.
  */
-public class MainPresenter implements MainContract.Presenter {
+public class CategoryPresenter implements CategoryContract.Presenter {
 
 
-    private final MainContract.View mView;
+    private final CategoryContract.View mView;
     private final PetalRepository mRepository;
 
-    public MainPresenter(MainContract.View view, PetalRepository repository) {
+    public CategoryPresenter(CategoryContract.View view, PetalRepository repository) {
         mView = view;
         mRepository = repository;
         view.setPresenter(this);
@@ -71,4 +72,26 @@ public class MainPresenter implements MainContract.Presenter {
             }
         });
     }
+
+    @Override
+    public void fetchWeeklies(String max) {
+        mRepository.getWeeklies(max, new RequestCallback<List<Weekly>>() {
+            @Override
+            public void onSuccess(List<Weekly> data) {
+
+                if (data.size() > 4) {
+                    data = data.subList(0, 3);
+                }
+
+                mView.showBanners(data);
+            }
+
+            @Override
+            public void onError(String msg) {
+
+            }
+        });
+    }
+
+
 }

@@ -1,7 +1,9 @@
-package com.jc.petal.main;
+package com.jc.petal.category;
 
 import com.jc.petal.R;
 import com.jc.petal.data.model.PinEntity;
+import com.jc.petal.data.model.Weekly;
+import com.jc.petal.widget.BannerView;
 import com.jc.petal.widget.EndlessRecyclerViewScrollListener;
 import com.jc.petal.widget.SpacesItemDecoration;
 import com.uilibrary.app.BaseFragment;
@@ -23,11 +25,11 @@ import butterknife.Bind;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class PinsListFragment extends BaseFragment implements MainContract.View {
+public class PinsListFragment extends BaseFragment implements CategoryContract.View {
 
     private static final String ARG_TYPE = "type";
 
-    private MainContract.Presenter mPresenter;
+    private CategoryContract.Presenter mPresenter;
 
     private String mType;
     private OnListFragmentInteractionListener mListener;
@@ -40,6 +42,7 @@ public class PinsListFragment extends BaseFragment implements MainContract.View 
     RecyclerView mRecyclerView;
     PinsListAdapter mAdapter;
 
+    private BannerView mBannerView;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -89,6 +92,17 @@ public class PinsListFragment extends BaseFragment implements MainContract.View 
                 .getDimensionPixelSize(R.dimen.space_item_decoration)));
         // Set the adapter
         mAdapter = new PinsListAdapter(getContext(), mPins, mListener);
+
+        // 首页加上一个Banner
+        if (mType.equals("all")) {
+
+            mPresenter.fetchWeeklies("");
+
+            // 设置BannerView
+            mBannerView = new BannerView(getContext());
+            mAdapter.setHeaderView(mBannerView);
+        }
+
         mRecyclerView.setAdapter(mAdapter);
 
         // 添加加载更多接口
@@ -114,7 +128,7 @@ public class PinsListFragment extends BaseFragment implements MainContract.View 
     }
 
     @Override
-    public void setPresenter(MainContract.Presenter presenter) {
+    public void setPresenter(CategoryContract.Presenter presenter) {
         mPresenter = presenter;
     }
 
@@ -160,6 +174,11 @@ public class PinsListFragment extends BaseFragment implements MainContract.View 
         int curSize = mPins.size();
         mPins.addAll(pins);
         mAdapter.notifyItemRangeChanged(curSize, pins.size());
+    }
+
+    @Override
+    public void showBanners(List<Weekly> weeklies) {
+        mBannerView.setWeeklies(weeklies);
     }
 
 
