@@ -73,7 +73,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
 
         // 获取DataSource
-        mRepository = PetalRepository.getInstance();
+        mRepository = PetalRepository.getInstance(getApplicationContext());
 
         // 初始化 Presenter
         mPresenter = new CategoryPresenter(mFragment, mRepository);

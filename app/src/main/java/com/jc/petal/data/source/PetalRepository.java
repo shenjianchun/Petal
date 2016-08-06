@@ -4,7 +4,10 @@ import com.jc.petal.RequestCallback;
 import com.jc.petal.data.model.PinEntity;
 import com.jc.petal.data.model.User;
 import com.jc.petal.data.model.Weekly;
+import com.jc.petal.data.source.local.LocalDataSource;
 import com.jc.petal.data.source.remote.retrofit.RetrofitRemoteDataSource;
+
+import android.content.Context;
 
 import java.util.List;
 
@@ -37,12 +40,13 @@ public class PetalRepository implements PetalDataSource {
         return sInstance;
     }
 
-    public static PetalRepository getInstance() {
+    public static PetalRepository getInstance(Context context) {
 
         if (sInstance == null) {
             synchronized (PetalRepository.class) {
                 if (sInstance == null) {
-                    sInstance = new PetalRepository(null, new RetrofitRemoteDataSource());
+                    sInstance = new PetalRepository(LocalDataSource.getInstance(context),
+                            new RetrofitRemoteDataSource());
                 }
             }
         }
@@ -50,8 +54,12 @@ public class PetalRepository implements PetalDataSource {
     }
 
 
+    public void destroyInstance() {
+        sInstance = null;
+    }
+
     @Override
-    public void login(String name, String password,final RequestCallback<User> callback) {
+    public void login(String name, String password, final RequestCallback<User> callback) {
         mRemoteDataSource.login(name, password, callback);
     }
 
@@ -67,13 +75,28 @@ public class PetalRepository implements PetalDataSource {
     }
 
     @Override
-    public void getPinsListByType(String type, int limit, RequestCallback<List<PinEntity>>
+    public void getPinsListByType(String type, int limit, final RequestCallback<List<PinEntity>>
             callback) {
-        mRemoteDataSource.getPinsListByType(type, limit, callback);
+
+        mRemoteDataSource.getPinsListByType(type, limit, new RequestCallback<List<PinEntity>>() {
+            @Override
+            public void onSuccess(List<PinEntity> data) {
+
+
+
+                callback.onSuccess(data);
+            }
+
+            @Override
+            public void onError(String msg) {
+
+            }
+        });
     }
 
     @Override
-    public void getMaxPinsListByType(String type, int max, int limit, RequestCallback<List<PinEntity>> callback) {
+    public void getMaxPinsListByType(String type, int max, int limit,
+                                     RequestCallback<List<PinEntity>> callback) {
         mRemoteDataSource.getMaxPinsListByType(type, max, limit, callback);
     }
 

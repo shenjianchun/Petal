@@ -50,7 +50,7 @@ dependencies {
 
     compile project(':nouilibrary')
     compile project(':uilibrary')
-
+    compile files('libs/disklrucache-2.0.2.jar')
 
 }
 

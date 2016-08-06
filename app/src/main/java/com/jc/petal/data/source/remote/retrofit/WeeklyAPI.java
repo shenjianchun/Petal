@@ -12,7 +12,7 @@ import retrofit2.http.Query;
 
 /**
  * 花瓣周刊API
- * Created by 14110105 on 2016-08-04.
+ * Created by JC on 2016-08-04.
  */
 public interface WeeklyAPI {
 

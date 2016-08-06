@@ -33,7 +33,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
         setHomeButtonEnabled();
 
-        new LoginPresenter(this, PetalRepository.getInstance());
+        new LoginPresenter(this, PetalRepository.getInstance(getApplicationContext()));
 
     }
 

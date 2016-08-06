@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * 周刊数组
- * Created by 14110105 on 2016-08-04.
+ * Created by JC on 2016-08-04.
  */
 public class Weeklies {
 
