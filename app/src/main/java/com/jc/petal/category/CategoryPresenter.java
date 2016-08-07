@@ -1,7 +1,7 @@
 package com.jc.petal.category;
 
 import com.jc.petal.RequestCallback;
-import com.jc.petal.data.model.PinEntity;
+import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.Weekly;
 import com.jc.petal.data.source.PetalRepository;
 
@@ -40,9 +40,9 @@ public class CategoryPresenter implements CategoryContract.Presenter {
 
     @Override
     public void fetchPinsByType(String type, int limit) {
-        mRepository.getPinsListByType(type, limit, new RequestCallback<List<PinEntity>>() {
+        mRepository.getPinsListByType(type, limit, new RequestCallback<List<Pin>>() {
             @Override
-            public void onSuccess(List<PinEntity> data) {
+            public void onSuccess(List<Pin> data) {
 
                 mView.showPins(data);
                 mView.hideLoading();
@@ -57,9 +57,9 @@ public class CategoryPresenter implements CategoryContract.Presenter {
 
     @Override
     public void fetchMaxPinsByType(String type, int max, int limit) {
-        mRepository.getPinsListByType(type, limit, new RequestCallback<List<PinEntity>>() {
+        mRepository.getPinsListByType(type, limit, new RequestCallback<List<Pin>>() {
             @Override
-            public void onSuccess(List<PinEntity> data) {
+            public void onSuccess(List<Pin> data) {
 
 //                Logger.d(data);
                 mView.showPins(data);

@@ -1,7 +1,7 @@
 package com.jc.petal.data.source.local;
 
 import com.jc.petal.RequestCallback;
-import com.jc.petal.data.model.PinEntity;
+import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.User;
 import com.jc.petal.data.model.Weekly;
 import com.jc.petal.data.source.PetalDataSource;
@@ -62,7 +62,7 @@ public class LocalDataSource implements PetalDataSource {
     }
 
 
-    public void savePinsList(List<PinEntity> pins) {
+    public void savePinsList(List<Pin> pins) {
 //
 //        try {
 //            DiskLruCache diskLruCache = DiskLruCache.open(getDiskCacheDir(),
@@ -131,14 +131,14 @@ public class LocalDataSource implements PetalDataSource {
     }
 
     @Override
-    public void getPinsListByType(String type, int limit, RequestCallback<List<PinEntity>>
+    public void getPinsListByType(String type, int limit, RequestCallback<List<Pin>>
             callback) {
 
     }
 
     @Override
     public void getMaxPinsListByType(String type, int max, int limit, RequestCallback<List
-            <PinEntity>> callback) {
+            <Pin>> callback) {
 
     }
 

@@ -2,7 +2,7 @@ package com.jc.petal.category;
 
 import com.jc.petal.BasePresenter;
 import com.jc.petal.BaseView;
-import com.jc.petal.data.model.PinEntity;
+import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.Weekly;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
 public interface CategoryContract {
 
     interface View extends BaseView<Presenter> {
-        void showPins(List<PinEntity> pins);
+        void showPins(List<Pin> pins);
         void showBanners(List<Weekly> weeklies);
     }
 

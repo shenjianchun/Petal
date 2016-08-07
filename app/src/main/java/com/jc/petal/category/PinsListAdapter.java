@@ -2,7 +2,7 @@ package com.jc.petal.category;
 
 import com.bumptech.glide.Glide;
 import com.jc.petal.R;
-import com.jc.petal.data.model.PinEntity;
+import com.jc.petal.data.model.Pin;
 import com.jc.petal.utils.SpannableTextUtils;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -27,24 +27,26 @@ import my.nouilibrary.utils.ScreenUtils;
 import my.nouilibrary.utils.SizeUtils;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link PinEntity} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link Pin} and makes a call to the
  * specified {@link PinsListFragment.OnListFragmentInteractionListener}.
  */
 public class PinsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int BASE_ITEM_TYPE_HEADER = 100000;
     private Context mContext;
-    private final List<PinEntity> mPins;
-    private final PinsListFragment.OnListFragmentInteractionListener mListener;
+    private final List<Pin> mPins;
+    private final PinsListFragment.OnImageClickListener mImageListener;
+    private final PinsListFragment.OnPinInfoClickListener mPinInfoListener;
 
     private View mHeaderView = null;
 
-    public PinsListAdapter(Context context, List<PinEntity> pins,
-                           PinsListFragment.OnListFragmentInteractionListener
-                                   listener) {
+    public PinsListAdapter(Context context, List<Pin> pins,
+                           PinsListFragment.OnImageClickListener imageListener,
+                           PinsListFragment.OnPinInfoClickListener pinInfoListener) {
         mContext = context;
         mPins = pins;
-        mListener = listener;
+        mImageListener = imageListener;
+        mPinInfoListener = pinInfoListener;
     }
 
     public View getHeaderView() {
@@ -90,7 +92,7 @@ public class PinsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         int realPostion = getRealPosition(recyclerHolder);
 
-        PinEntity pin = mPins.get(realPostion);
+        Pin pin = mPins.get(realPostion);
 
         holder.mItem = pin;
 
@@ -118,9 +120,9 @@ public class PinsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         // 采集信息
         String info = mContext.getString(R.string.collection_info, SpannableTextUtils.color(Color
                 .BLACK, pin.user.urlname), SpannableTextUtils.color(Color.BLACK, pin.board.title));
-        holder.mCollectionInfoTv.setText(Html.fromHtml(info));
+        holder.mPinInfoTv.setText(Html.fromHtml(info));
 
-//        holder.mCollectionInfoTv.setText(SpannableTextUtils.color(Color.BLACK, pin.user.urlname));
+//        holder.mPinInfoTv.setText(SpannableTextUtils.color(Color.BLACK, pin.user.urlname));
 
         // avatar url
         String avatarUrl = mContext.getString(R.string.url_image_small, pin.user.avatar.key);
@@ -128,16 +130,24 @@ public class PinsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 .fitCenter().into(holder.mAvatarIv);
 
 
-        holder.mItemView.setOnClickListener(new View.OnClickListener() {
+        holder.mImageIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                if (null != mImageListener) {
+                    mImageListener.onClick(holder.mItem);
                 }
             }
         });
+
+        holder.mPinInfoLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mPinInfoListener != null) {
+                    mPinInfoListener.onClick(holder.mItem);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -182,8 +192,9 @@ public class PinsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public final ImageView mImageIv;
         public final TextView mContentTv;
         public final ImageView mAvatarIv;
-        public final TextView mCollectionInfoTv;
-        public PinEntity mItem;
+        public final View mPinInfoLayout;
+        public final TextView mPinInfoTv;
+        public Pin mItem;
 
         public ContentViewHolder(View view) {
             super(view);
@@ -191,7 +202,8 @@ public class PinsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             mImageIv = ButterKnife.findById(view, R.id.image);
             mContentTv = ButterKnife.findById(view, R.id.content);
             mAvatarIv = ButterKnife.findById(view, R.id.iv_avatar);
-            mCollectionInfoTv = ButterKnife.findById(view, R.id.tv_collection_info);
+            mPinInfoLayout = ButterKnife.findById(view, R.id.rl_pin_info);
+            mPinInfoTv = ButterKnife.findById(view, R.id.tv_pin_info);
         }
 
         @Override
@@ -204,7 +216,6 @@ public class PinsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public HeaderViewHolder(View itemView) {
             super(itemView);
         }
-
 
     }
 

@@ -2,7 +2,7 @@ package com.jc.petal.data.source.remote.retrofit;
 
 import com.jc.petal.RequestCallback;
 import com.jc.petal.data.model.AuthTokenBean;
-import com.jc.petal.data.model.PinEntity;
+import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.PinsListBean;
 import com.jc.petal.data.model.User;
 import com.jc.petal.data.model.Weeklies;
@@ -112,7 +112,7 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
     }
 
     @Override
-    public void getPinsListByType(String type, int limit, final RequestCallback<List<PinEntity>>
+    public void getPinsListByType(String type, int limit, final RequestCallback<List<Pin>>
             callback) {
 
         Retrofit client = RetrofitClient.getRetrofit();
@@ -122,7 +122,7 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
             @Override
             public void onResponse(Call<PinsListBean> call, Response<PinsListBean> response) {
                 if (response.code() == 200) {
-                    List<PinEntity> pinEntities = response.body().pins;
+                    List<Pin> pinEntities = response.body().pins;
                     if (pinEntities != null) {
                         callback.onSuccess(pinEntities);
                     }
@@ -141,7 +141,7 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
 
     @Override
     public void getMaxPinsListByType(String type, int max, int limit,
-                                     final RequestCallback<List<PinEntity>> callback) {
+                                     final RequestCallback<List<Pin>> callback) {
         Retrofit client = RetrofitClient.getRetrofit();
         CategoryAPI service = client.create(CategoryAPI.class);
 
@@ -150,7 +150,7 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
             @Override
             public void onResponse(Call<PinsListBean> call, Response<PinsListBean> response) {
                 if (response.code() == 200) {
-                    List<PinEntity> pinEntities = response.body().pins;
+                    List<Pin> pinEntities = response.body().pins;
                     if (pinEntities != null) {
                         callback.onSuccess(pinEntities);
                     }

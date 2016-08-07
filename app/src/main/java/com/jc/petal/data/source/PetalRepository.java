@@ -1,7 +1,7 @@
 package com.jc.petal.data.source;
 
 import com.jc.petal.RequestCallback;
-import com.jc.petal.data.model.PinEntity;
+import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.User;
 import com.jc.petal.data.model.Weekly;
 import com.jc.petal.data.source.local.LocalDataSource;
@@ -75,28 +75,20 @@ public class PetalRepository implements PetalDataSource {
     }
 
     @Override
-    public void getPinsListByType(String type, int limit, final RequestCallback<List<PinEntity>>
+    public void getPinsListByType(String type, int limit, final RequestCallback<List<Pin>>
             callback) {
 
-        mRemoteDataSource.getPinsListByType(type, limit, new RequestCallback<List<PinEntity>>() {
-            @Override
-            public void onSuccess(List<PinEntity> data) {
+        mRemoteDataSource.getPinsListByType(type, limit, callback);
+    }
 
-
-
-                callback.onSuccess(data);
-            }
-
-            @Override
-            public void onError(String msg) {
-
-            }
-        });
+    public void getLocalPinsList(String type, int limit, final RequestCallback<List<Pin>>
+            callback) {
+        mLocalDataSource.getPinsListByType(type, limit, callback);
     }
 
     @Override
     public void getMaxPinsListByType(String type, int max, int limit,
-                                     RequestCallback<List<PinEntity>> callback) {
+                                     RequestCallback<List<Pin>> callback) {
         mRemoteDataSource.getMaxPinsListByType(type, max, limit, callback);
     }
 

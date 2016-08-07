@@ -1,8 +1,9 @@
 package com.jc.petal.category;
 
 import com.jc.petal.R;
-import com.jc.petal.data.model.PinEntity;
+import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.Weekly;
+import com.jc.petal.pin.PinDetailActivity;
 import com.jc.petal.widget.BannerView;
 import com.jc.petal.widget.EndlessRecyclerViewScrollListener;
 import com.jc.petal.widget.SpacesItemDecoration;
@@ -34,7 +35,7 @@ public class PinsListFragment extends BaseFragment implements CategoryContract.V
     private String mType;
     private OnListFragmentInteractionListener mListener;
 
-    private List<PinEntity> mPins;
+    private List<Pin> mPins;
 
     @Bind(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mRefreshLayout;
@@ -91,7 +92,22 @@ public class PinsListFragment extends BaseFragment implements CategoryContract.V
         mRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources()
                 .getDimensionPixelSize(R.dimen.space_item_decoration)));
         // Set the adapter
-        mAdapter = new PinsListAdapter(getContext(), mPins, mListener);
+        mAdapter = new PinsListAdapter(getContext(), mPins, new OnImageClickListener() {
+            @Override
+            public void onClick(Pin pin) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("pin", pin);
+                readyGo(PinDetailActivity.class, bundle);
+            }
+        }, new OnPinInfoClickListener() {
+            @Override
+            public void onClick(Pin pin) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("pin", pin);
+                // TODO: 2016-08-07  修改需要跳转的类名
+                readyGo(PinDetailActivity.class, bundle);
+            }
+        });
 
         // 首页加上一个Banner
         if (mType.equals("all")) {
@@ -170,7 +186,7 @@ public class PinsListFragment extends BaseFragment implements CategoryContract.V
     }
 
     @Override
-    public void showPins(List<PinEntity> pins) {
+    public void showPins(List<Pin> pins) {
         int curSize = mPins.size();
         mPins.addAll(pins);
         mAdapter.notifyItemRangeChanged(curSize, pins.size());
@@ -194,6 +210,15 @@ public class PinsListFragment extends BaseFragment implements CategoryContract.V
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(PinEntity item);
+        void onListFragmentInteraction(Pin item);
     }
+
+    public interface OnImageClickListener {
+        void onClick(Pin pin);
+    }
+
+    public interface OnPinInfoClickListener {
+        void onClick(Pin pin);
+    }
+
 }

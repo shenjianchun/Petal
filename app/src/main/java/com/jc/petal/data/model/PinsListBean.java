@@ -33,6 +33,6 @@ public class PinsListBean {
      * via_user : {"user_id":605533,"username":"宁馨郁金香","urlname":"xxf837568038","created_at":1344088961,"avatar":"https"}
      */
 
-    public List<PinEntity> pins;
+    public List<Pin> pins;
 
 }

@@ -35,6 +35,7 @@
                 android:textAppearance="?attr/textAppearanceListItem"/>
 
         <RelativeLayout
+                android:id="@+id/rl_pin_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/spacing_normal">
@@ -46,7 +47,7 @@
                     android:src="@drawable/account_circle_grey_36x36"/>
 
             <TextView
-                    android:id="@+id/tv_collection_info"
+                    android:id="@+id/tv_pin_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/iv_avatar"/>

@@ -1,5 +1,8 @@
 package com.jc.petal.utils;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -44,4 +47,28 @@ public class ActivityUtils {
         transaction.commit();
     }
 
+
+    /**
+     * startActivity
+     *
+     * @param clazz
+     */
+    protected void readyGo(Context context, Class<?> clazz) {
+        Intent intent = new Intent(context, clazz);
+        context.startActivity(intent);
+    }
+
+    /**
+     * startActivity with bundle
+     *
+     * @param clazz
+     * @param bundle
+     */
+    protected void readyGo(Context context, Class<?> clazz, Bundle bundle) {
+        Intent intent = new Intent(context, clazz);
+        if (null != bundle) {
+            intent.putExtras(bundle);
+        }
+        context.startActivity(intent);
+    }
 }

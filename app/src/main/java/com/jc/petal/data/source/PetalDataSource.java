@@ -1,7 +1,7 @@
 package com.jc.petal.data.source;
 
 import com.jc.petal.RequestCallback;
-import com.jc.petal.data.model.PinEntity;
+import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.User;
 import com.jc.petal.data.model.Weekly;
 
@@ -37,9 +37,9 @@ public interface PetalDataSource {
      * @param type 类型
      * @param limit 每页多少个
      */
-    void getPinsListByType(String type, int limit, final RequestCallback<List<PinEntity>> callback);
+    void getPinsListByType(String type, int limit, final RequestCallback<List<Pin>> callback);
 
-    void getMaxPinsListByType(String type, int max, int limit, final RequestCallback<List<PinEntity>> callback);
+    void getMaxPinsListByType(String type, int max, int limit, final RequestCallback<List<Pin>> callback);
 
     void getWeeklies(String max , final RequestCallback<List<Weekly>> callback);
 
