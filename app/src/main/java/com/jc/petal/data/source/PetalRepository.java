@@ -11,6 +11,8 @@ import android.content.Context;
 
 import java.util.List;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Concrete implementation to load data from the data sources into a cache.
  * Created by JC on 2016-07-29.
@@ -23,8 +25,9 @@ public class PetalRepository implements PetalDataSource {
     private PetalDataSource mRemoteDataSource;
 
     private PetalRepository(PetalDataSource localDataSource, PetalDataSource remoteDataSource) {
-        mLocalDataSource = localDataSource;
-        mRemoteDataSource = remoteDataSource;
+
+        mLocalDataSource = checkNotNull(localDataSource);
+        mRemoteDataSource = checkNotNull(remoteDataSource);
     }
 
     public static PetalRepository getInstance(PetalDataSource localDataSource, PetalDataSource

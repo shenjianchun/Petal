@@ -35,7 +35,7 @@ public class PinsListFragment extends BaseFragment implements CategoryContract.V
     private String mType;
     private OnListFragmentInteractionListener mListener;
 
-    private List<Pin> mPins;
+    private ArrayList<Pin> mPins;
 
     @Bind(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mRefreshLayout;
@@ -96,14 +96,14 @@ public class PinsListFragment extends BaseFragment implements CategoryContract.V
             @Override
             public void onClick(Pin pin) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("pin", pin);
+                bundle.putParcelableArrayList("pins", mPins);
                 readyGo(PinDetailActivity.class, bundle);
             }
         }, new OnPinInfoClickListener() {
             @Override
             public void onClick(Pin pin) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("pin", pin);
+                bundle.putParcelable("pins", pin);
                 // TODO: 2016-08-07  修改需要跳转的类名
                 readyGo(PinDetailActivity.class, bundle);
             }
