@@ -200,7 +200,7 @@ public class PinsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(view);
             mItemView = view;
             mImageIv = ButterKnife.findById(view, R.id.image);
-            mContentTv = ButterKnife.findById(view, R.id.content);
+            mContentTv = ButterKnife.findById(view, R.id.tv_image_description);
             mAvatarIv = ButterKnife.findById(view, R.id.iv_avatar);
             mPinInfoLayout = ButterKnife.findById(view, R.id.rl_pin_info);
             mPinInfoTv = ButterKnife.findById(view, R.id.tv_pin_info);

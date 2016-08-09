@@ -26,4 +26,8 @@
     <!-- 图片列表之间的间隔 -->
     <dimen name="space_item_decoration">3dp</dimen>
 
+
+    <dimen name="user_head_circle_size">48dp</dimen>
+    <dimen name="user_head_circle_big_size">56dp</dimen>
+
 </resources>

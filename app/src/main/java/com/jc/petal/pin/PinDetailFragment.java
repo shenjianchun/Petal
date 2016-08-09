@@ -1,21 +1,33 @@
 package com.jc.petal.pin;
 
+import com.bumptech.glide.Glide;
 import com.jc.petal.R;
 import com.jc.petal.data.model.Pin;
+import com.uilibrary.app.BaseFragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import butterknife.Bind;
 
 /**
  * Use the {@link PinDetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PinDetailFragment extends Fragment {
+public class PinDetailFragment extends BaseFragment {
 
     private static final String ARG_PIN = "pin";
+
+    @Bind(R.id.tv_image_description)
+    TextView mDescTv;
+
+    @Bind(R.id.tv_image_user_label)
+    TextView mImageUserTv;
+    @Bind(R.id.tv_image_board_title)
+    TextView mImageBoardTv;
+    @Bind(R.id.iv_user_avatar)
+    ImageView mUserAvatarIv;
 
     private Pin mPin;
 
@@ -48,10 +60,23 @@ public class PinDetailFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pin_detail, container, false);
+    protected void initViewsAndEvents() {
+
+        mDescTv.setText(mPin.raw_text);
+        mImageUserTv.setText(mPin.user.username);
+        mImageBoardTv.setText(mPin.board.title);
+
+
+        // avatar url
+        String avatarUrl = getString(R.string.url_image_small, mPin.user.avatar.key);
+        Glide.with(this).load(avatarUrl).placeholder(R.drawable.account_circle_grey_36x36)
+                .fitCenter().into(mUserAvatarIv);
+
+    }
+
+    @Override
+    public int getLayoutResource() {
+        return R.layout.fragment_pin_detail;
     }
 
 }

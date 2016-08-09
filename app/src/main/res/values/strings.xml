@@ -52,6 +52,7 @@
     <!--<string name="collection_info">由&lt;b>%1$s&lt;/b>采集到&lt;b>%2$s&lt;/b></string>-->
     <string name="collection_info">由%1$s采集到%2$s</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="from">由</string>
+    <string name="text_to">采集到</string>
 </resources>

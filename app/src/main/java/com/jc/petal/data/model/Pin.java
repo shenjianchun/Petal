@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
+ * 采集实体
  * Created by JC on 2016-08-01.
  */
 public class Pin implements Parcelable {
