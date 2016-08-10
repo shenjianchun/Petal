@@ -143,6 +143,11 @@ public class LocalDataSource implements PetalDataSource {
     }
 
     @Override
+    public void getPin(int pinId, RequestCallback<Pin> callback) {
+
+    }
+
+    @Override
     public void getWeeklies(String max, RequestCallback<List<Weekly>> callback) {
 
     }

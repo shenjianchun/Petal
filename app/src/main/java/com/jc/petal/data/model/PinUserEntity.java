@@ -51,4 +51,15 @@ public class PinUserEntity implements Parcelable {
             return new PinUserEntity[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "PinUserEntity{" +
+                "user_id=" + user_id +
+                ", username='" + username + '\'' +
+                ", urlname='" + urlname + '\'' +
+                ", created_at=" + created_at +
+                ", avatar=" + avatar +
+                '}';
+    }
 }

@@ -41,6 +41,12 @@ public interface PetalDataSource {
 
     void getMaxPinsListByType(String type, int max, int limit, final RequestCallback<List<Pin>> callback);
 
+    /**
+     * 获取采集信息
+     * @param pinId 采集ID
+     */
+    void getPin(int pinId, final RequestCallback<Pin> callback);
+
     void getWeeklies(String max , final RequestCallback<List<Weekly>> callback);
 
 

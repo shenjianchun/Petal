@@ -1,7 +1,7 @@
 package com.jc.petal.data.source.remote.retrofit;
 
 import com.jc.petal.Constant;
-import com.jc.petal.data.model.Pin;
+import com.jc.petal.data.model.PinDetail;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -20,7 +20,7 @@ public interface PinAPI {
      * @param pinId id
      * @return 详情
      */
-    @GET("{id}")
-    Call<Pin> getPin(@Header(Constant.Authorization) String authorization, @Path("id") String pinId);
+    @GET("pins/{id}")
+    Call<PinDetail> getPin(@Header(Constant.Authorization) String authorization, @Path("id") String pinId);
 
 }

@@ -57,4 +57,17 @@ public class PinFileEntity implements Parcelable {
             return new PinFileEntity[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "PinFileEntity{" +
+                "farm='" + farm + '\'' +
+                ", bucket='" + bucket + '\'' +
+                ", key='" + key + '\'' +
+                ", type='" + type + '\'' +
+                ", width=" + width +
+                ", height=" + height +
+                ", frames=" + frames +
+                '}';
+    }
 }

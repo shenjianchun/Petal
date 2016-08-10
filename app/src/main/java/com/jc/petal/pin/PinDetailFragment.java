@@ -3,31 +3,30 @@ package com.jc.petal.pin;
 import com.bumptech.glide.Glide;
 import com.jc.petal.R;
 import com.jc.petal.data.model.Pin;
+import com.jc.petal.data.source.PetalRepository;
 import com.uilibrary.app.BaseFragment;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Use the {@link PinDetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PinDetailFragment extends BaseFragment {
+public class PinDetailFragment extends BaseFragment implements PinDetailContract.View {
 
     private static final String ARG_PIN = "pin";
 
     @Bind(R.id.tv_image_description)
     TextView mDescTv;
 
-    @Bind(R.id.tv_image_user_label)
-    TextView mImageUserTv;
-    @Bind(R.id.tv_image_board_title)
-    TextView mImageBoardTv;
-    @Bind(R.id.iv_user_avatar)
-    ImageView mUserAvatarIv;
+    private PetalRepository mRepository;
+    private PinDetailContract.Presenter mPresenter;
 
     private Pin mPin;
 
@@ -54,6 +53,7 @@ public class PinDetailFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mPin = getArguments().getParcelable(ARG_PIN);
         }
@@ -62,15 +62,74 @@ public class PinDetailFragment extends BaseFragment {
     @Override
     protected void initViewsAndEvents() {
 
+        mRepository = PetalRepository.getInstance(getActivity().getApplicationContext());
+        mPresenter = new PinDetailPresenter(this, mRepository);
+
         mDescTv.setText(mPin.raw_text);
-        mImageUserTv.setText(mPin.user.username);
-        mImageBoardTv.setText(mPin.board.title);
+
+        // owner
+        View ownerLayout = ButterKnife.findById(getView(), R.id.include_owner);
+        initUserInfo(ownerLayout);
+
+        View viaLayout = ButterKnife.findById(getView(), R.id.include_via);
+        // via_user为空说明没有采集来源者的信息
+        if (mPin.via_user != null) {
+            // via
+            initUserInfo(viaLayout);
+        } else {
+            viaLayout.setVisibility(View.GONE);
+        }
+
+//        initBoardInfo();
 
 
-        // avatar url
-        String avatarUrl = getString(R.string.url_image_small, mPin.user.avatar.key);
-        Glide.with(this).load(avatarUrl).placeholder(R.drawable.account_circle_grey_36x36)
-                .fitCenter().into(mUserAvatarIv);
+        mPresenter.getPin(mPin.pin_id);
+    }
+
+    private void initUserInfo(View layout) {
+
+        TextView actionTv = ButterKnife.findById(layout, R.id.tv_action);
+        // 用户名字
+        TextView imageUserTv = ButterKnife.findById(layout, R.id.tv_image_user);
+        // 用户头像
+        ImageView userAvatarIv = ButterKnife.findById(layout, R.id.iv_user_avatar);
+
+        if (layout.getId() == R.id.include_owner) {
+            actionTv.setText(R.string.who);
+            imageUserTv.setText(mPin.user.username);
+
+            String avatarUrl = getString(R.string.url_image_small, mPin.user.avatar.key);
+            Glide.with(this).load(avatarUrl).placeholder(R.drawable.account_circle_grey_36x36)
+                    .fitCenter().into(userAvatarIv);
+
+        } else if (layout.getId() == R.id.include_via) {
+            actionTv.setText(R.string.from);
+            imageUserTv.setText(mPin.via_user.username);
+
+            String avatarUrl = getString(R.string.url_image_small, mPin.via_user.avatar.key);
+            Glide.with(this).load(avatarUrl).placeholder(R.drawable.account_circle_grey_36x36)
+                    .fitCenter().into(userAvatarIv);
+        }
+
+    }
+
+    /**
+     * 初始化采集画板信息
+     */
+    private void initBoardInfo(Pin pin) {
+
+        View boardLayout = ButterKnife.findById(getView(), R.id.include_to);
+
+        TextView boardTv = ButterKnife.findById(boardLayout, R.id.tv_image_board_title);
+        boardTv.setText(mPin.board.title);
+
+        int[] boardIds = {R.id.iv_board_1, R.id.iv_board_2, R.id.iv_board_3, R.id.iv_board_4};
+        for (int i = 0; i < 4; i++) {
+            ImageView boardIv = ButterKnife.findById(boardLayout, boardIds[i]);
+            String avatarUrl = getString(R.string.url_image_small, pin.board.pins.get(i).file.key);
+            Glide.with(this).load(avatarUrl).placeholder(android.R.drawable.ic_secure)
+                    .fitCenter().into(boardIv);
+        }
 
     }
 
@@ -79,4 +138,28 @@ public class PinDetailFragment extends BaseFragment {
         return R.layout.fragment_pin_detail;
     }
 
+    @Override
+    public void setPresenter(PinDetailContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void showError(String msg) {
+
+    }
+
+    @Override
+    public void showPinInfo(Pin pin) {
+        initBoardInfo(pin);
+    }
 }

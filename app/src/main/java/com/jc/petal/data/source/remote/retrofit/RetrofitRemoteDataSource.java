@@ -3,6 +3,7 @@ package com.jc.petal.data.source.remote.retrofit;
 import com.jc.petal.RequestCallback;
 import com.jc.petal.data.model.AuthTokenBean;
 import com.jc.petal.data.model.Pin;
+import com.jc.petal.data.model.PinDetail;
 import com.jc.petal.data.model.PinsListBean;
 import com.jc.petal.data.model.User;
 import com.jc.petal.data.model.Weeklies;
@@ -169,6 +170,33 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
     }
 
     @Override
+    public void getPin(int pinId, final RequestCallback<Pin> callback) {
+
+        Retrofit retrofit = RetrofitClient.getRetrofit();
+        PinAPI service = retrofit.create(PinAPI.class);
+
+        Call<PinDetail> call = service.getPin(mAccessOauth, String.valueOf(pinId));
+        call.enqueue(new Callback<PinDetail>() {
+            @Override
+            public void onResponse(Call<PinDetail> call, Response<PinDetail> response) {
+                if (response.code() == 200 && response.body() != null) {
+                    Logger.d(response.body());
+                    callback.onSuccess(response.body().pin);
+
+                } else {
+                    Logger.d(response.errorBody());
+                    callback.onError(String.valueOf(response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PinDetail> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
     public void getWeeklies(String max, final RequestCallback<List<Weekly>> callback) {
         Retrofit retrofit = RetrofitClient.getRetrofit();
 
@@ -180,7 +208,7 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
             public void onResponse(Call<Weeklies> call, Response<Weeklies> response) {
                 if (response.code() == 200 && response.body() != null) {
 
-                    Logger.d(response.body().weeklies);
+//                    Logger.d(response.body().weeklies);
 
                     callback.onSuccess(response.body().weeklies);
 

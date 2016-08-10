@@ -44,6 +44,7 @@ public class Pin implements Parcelable {
     public boolean liked;
 
     public PinUserEntity user;
+    public PinUserEntity via_user;
     public PinBoardEntity board;
 
     @Override
@@ -74,6 +75,7 @@ public class Pin implements Parcelable {
         dest.writeString(this.orig_source);
         dest.writeByte(this.liked ? (byte) 1 : (byte) 0);
         dest.writeParcelable(this.user, flags);
+        dest.writeParcelable(this.via_user, flags);
         dest.writeParcelable(this.board, flags);
     }
 
@@ -102,6 +104,7 @@ public class Pin implements Parcelable {
         this.orig_source = in.readString();
         this.liked = in.readByte() != 0;
         this.user = in.readParcelable(PinUserEntity.class.getClassLoader());
+        this.via_user = in.readParcelable(PinUserEntity.class.getClassLoader());
         this.board = in.readParcelable(PinBoardEntity.class.getClassLoader());
     }
 
@@ -116,4 +119,34 @@ public class Pin implements Parcelable {
             return new Pin[size];
         }
     };
+
+
+    @Override
+    public String toString() {
+        return "Pin{" +
+                "pin_id=" + pin_id +
+                ", user_id=" + user_id +
+                ", board_id=" + board_id +
+                ", file_id=" + file_id +
+                ", file=" + file +
+                ", media_type=" + media_type +
+                ", source='" + source + '\'' +
+                ", link='" + link + '\'' +
+                ", raw_text='" + raw_text + '\'' +
+                ", via=" + via +
+                ", via_user_id=" + via_user_id +
+                ", original=" + original +
+                ", created_at=" + created_at +
+                ", like_count=" + like_count +
+                ", seq=" + seq +
+                ", comment_count=" + comment_count +
+                ", repin_count=" + repin_count +
+                ", is_public=" + is_public +
+                ", orig_source='" + orig_source + '\'' +
+                ", liked=" + liked +
+                ", user=" + user +
+                ", via_user=" + via_user +
+                ", board=" + board +
+                '}';
+    }
 }

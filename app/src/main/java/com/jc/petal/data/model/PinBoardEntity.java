@@ -3,6 +3,8 @@ package com.jc.petal.data.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 /**
  * Pin实体中的Board实体
  * Created by JC on  2016/08/03
@@ -22,6 +24,10 @@ public class PinBoardEntity implements Parcelable {
     public int updated_at;
     public int deleting;
     public int is_public;
+    public List<Pin> pins;
+
+    public PinBoardEntity() {
+    }
 
     @Override
     public int describeContents() {
@@ -43,9 +49,7 @@ public class PinBoardEntity implements Parcelable {
         dest.writeInt(this.updated_at);
         dest.writeInt(this.deleting);
         dest.writeInt(this.is_public);
-    }
-
-    public PinBoardEntity() {
+        dest.writeTypedList(this.pins);
     }
 
     protected PinBoardEntity(Parcel in) {
@@ -62,9 +66,10 @@ public class PinBoardEntity implements Parcelable {
         this.updated_at = in.readInt();
         this.deleting = in.readInt();
         this.is_public = in.readInt();
+        this.pins = in.createTypedArrayList(Pin.CREATOR);
     }
 
-    public static final Parcelable.Creator<PinBoardEntity> CREATOR = new Parcelable.Creator<PinBoardEntity>() {
+    public static final Creator<PinBoardEntity> CREATOR = new Creator<PinBoardEntity>() {
         @Override
         public PinBoardEntity createFromParcel(Parcel source) {
             return new PinBoardEntity(source);
@@ -75,4 +80,24 @@ public class PinBoardEntity implements Parcelable {
             return new PinBoardEntity[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "PinBoardEntity{" +
+                "board_id=" + board_id +
+                ", user_id=" + user_id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", category_id='" + category_id + '\'' +
+                ", seq=" + seq +
+                ", pin_count=" + pin_count +
+                ", follow_count=" + follow_count +
+                ", like_count=" + like_count +
+                ", created_at=" + created_at +
+                ", updated_at=" + updated_at +
+                ", deleting=" + deleting +
+                ", is_public=" + is_public +
+                ", pins=" + pins +
+                '}';
+    }
 }

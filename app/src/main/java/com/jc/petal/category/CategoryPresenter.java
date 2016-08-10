@@ -13,7 +13,6 @@ import java.util.List;
  */
 public class CategoryPresenter implements CategoryContract.Presenter {
 
-
     private final CategoryContract.View mView;
     private final PetalRepository mRepository;
 

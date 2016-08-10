@@ -96,6 +96,11 @@ public class PetalRepository implements PetalDataSource {
     }
 
     @Override
+    public void getPin(int pinId, RequestCallback<Pin> callback) {
+        mRemoteDataSource.getPin(pinId, callback);
+    }
+
+    @Override
     public void getWeeklies(String max, RequestCallback<List<Weekly>> callback) {
         mRemoteDataSource.getWeeklies(max, callback);
     }

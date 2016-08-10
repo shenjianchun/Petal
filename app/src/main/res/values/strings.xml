@@ -53,6 +53,7 @@
     <string name="collection_info">由%1$s采集到%2$s</string>
 
 
-    <string name="from">由</string>
+    <string name="who">由</string>
+    <string name="from">从</string>
     <string name="text_to">采集到</string>
 </resources>
