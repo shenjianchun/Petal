@@ -22,6 +22,8 @@ public class PinDetailFragment extends BaseFragment implements PinDetailContract
 
     private static final String ARG_PIN = "pin";
 
+    @Bind(R.id.iv_header)
+    ImageView mImageIv;
     @Bind(R.id.tv_image_description)
     TextView mDescTv;
 
@@ -66,6 +68,10 @@ public class PinDetailFragment extends BaseFragment implements PinDetailContract
         mPresenter = new PinDetailPresenter(this, mRepository);
 
         mDescTv.setText(mPin.raw_text);
+
+        String imageUrl = getString(R.string.url_image_general, mPin.file.key);
+        Glide.with(this).load(imageUrl).placeholder(R.drawable.account_circle_grey_36x36)
+                .fitCenter().into(mImageIv);
 
         // owner
         View ownerLayout = ButterKnife.findById(getView(), R.id.include_owner);
@@ -118,17 +124,21 @@ public class PinDetailFragment extends BaseFragment implements PinDetailContract
      */
     private void initBoardInfo(Pin pin) {
 
-        View boardLayout = ButterKnife.findById(getView(), R.id.include_to);
+        if (getView() != null) {
 
-        TextView boardTv = ButterKnife.findById(boardLayout, R.id.tv_image_board_title);
-        boardTv.setText(mPin.board.title);
+            View boardLayout = ButterKnife.findById(getView(), R.id.include_to);
 
-        int[] boardIds = {R.id.iv_board_1, R.id.iv_board_2, R.id.iv_board_3, R.id.iv_board_4};
-        for (int i = 0; i < 4; i++) {
-            ImageView boardIv = ButterKnife.findById(boardLayout, boardIds[i]);
-            String avatarUrl = getString(R.string.url_image_small, pin.board.pins.get(i).file.key);
-            Glide.with(this).load(avatarUrl).placeholder(android.R.drawable.ic_secure)
-                    .fitCenter().into(boardIv);
+            TextView boardTv = ButterKnife.findById(boardLayout, R.id.tv_image_board_title);
+            boardTv.setText(mPin.board.title);
+
+            int[] boardIds = {R.id.iv_board_1, R.id.iv_board_2, R.id.iv_board_3, R.id.iv_board_4};
+            for (int i = 0; i < 4; i++) {
+                ImageView boardIv = ButterKnife.findById(boardLayout, boardIds[i]);
+                String avatarUrl = getString(R.string.url_image_small, pin.board.pins.get(i).file
+                        .key);
+                Glide.with(this).load(avatarUrl).placeholder(android.R.drawable.ic_secure)
+                        .fitCenter().into(boardIv);
+            }
         }
 
     }

@@ -90,7 +90,7 @@ public class PinsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         final ContentViewHolder holder = (ContentViewHolder) recyclerHolder;
 
-        int realPostion = getRealPosition(recyclerHolder);
+        final int realPostion = getRealPosition(recyclerHolder);
 
         Pin pin = mPins.get(realPostion);
 
@@ -134,7 +134,7 @@ public class PinsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             @Override
             public void onClick(View v) {
                 if (null != mImageListener) {
-                    mImageListener.onClick(holder.mItem);
+                    mImageListener.onClick(holder.mItem, realPostion);
                 }
             }
         });

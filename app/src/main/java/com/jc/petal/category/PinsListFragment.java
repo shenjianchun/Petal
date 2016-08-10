@@ -94,9 +94,10 @@ public class PinsListFragment extends BaseFragment implements CategoryContract.V
         // Set the adapter
         mAdapter = new PinsListAdapter(getContext(), mPins, new OnImageClickListener() {
             @Override
-            public void onClick(Pin pin) {
+            public void onClick(Pin pin, int position) {
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("pins", mPins);
+                bundle.putInt("position", position);
                 readyGo(PinDetailActivity.class, bundle);
             }
         }, new OnPinInfoClickListener() {
@@ -214,7 +215,7 @@ public class PinsListFragment extends BaseFragment implements CategoryContract.V
     }
 
     public interface OnImageClickListener {
-        void onClick(Pin pin);
+        void onClick(Pin pin, int position);
     }
 
     public interface OnPinInfoClickListener {

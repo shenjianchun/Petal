@@ -75,6 +75,7 @@
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
+            android:src="@drawable/ic_chevron_right_black_36dp"
             android:background="@android:color/transparent"/>
 
 </RelativeLayout>

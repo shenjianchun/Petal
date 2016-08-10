@@ -28,14 +28,20 @@ public class PinDetailActivity extends BaseActivity {
     @Override
     protected void initViewsAndEvents() {
 
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         setHomeButtonEnabled();
 
         mPins = getIntent().getParcelableArrayListExtra("pins") ;
+        int postion = getIntent().getIntExtra("position", 0);
+
         // 禁止为空，为空则为异常情况
         Preconditions.checkNotNull(mPins);
         mAdapter = new PinDetailAdapter(getSupportFragmentManager(), mPins);
 
         mViewPager.setAdapter(mAdapter);
+
+        mViewPager.setCurrentItem(postion);
     }
 
     @Override

@@ -5,7 +5,6 @@ import com.google.common.base.Preconditions;
 import com.jc.petal.RequestCallback;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.source.PetalRepository;
-import com.orhanobut.logger.Logger;
 
 /**
  * Pin Detail Presenter
@@ -27,7 +26,7 @@ public class PinDetailPresenter implements PinDetailContract.Presenter{
         mRepository.getPin(pinId, new RequestCallback<Pin>() {
             @Override
             public void onSuccess(Pin data) {
-                Logger.d(data);
+//                Logger.d(data);
                 mView.showPinInfo(data);
             }
 
