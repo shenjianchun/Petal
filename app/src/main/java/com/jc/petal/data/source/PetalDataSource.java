@@ -28,9 +28,9 @@ public interface PetalDataSource {
     /**
      * 获取用户信息
      *
-     * @param authorization 登录凭证
+     * @param userId 用户ID
      */
-    void getUserInfo(final String authorization);
+    void getUser(final String userId, final RequestCallback<User> callback);
 
     /**
      * 根据传入类型获取图片列表

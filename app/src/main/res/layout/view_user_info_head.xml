@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/layout_user_info"
+              android:layout_width="match_parent"
+              android:layout_height="240dp"
+              android:fitsSystemWindows="true"
+              tools:background="@drawable/header_back_night"
+              app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+              android:gravity="center|bottom"
+              android:orientation="vertical">
+
+    <ImageView
+            android:id="@+id/img_image_user"
+            android:layout_width="@dimen/user_head_circle_big_size"
+            android:layout_height="@dimen/user_head_circle_big_size"/>
+
+    <TextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_large"
+            tools:text="用户名"/>
+
+    <TextView
+            android:id="@+id/tv_user_location_job"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_large"
+            tools:text="用户的信息"/>
+
+    <TextView
+            android:id="@+id/tv_user_friend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:layout_marginBottom="@dimen/text_margin"
+            android:background="@drawable/bg_text_user_friend"
+            android:drawablePadding="@dimen/spacing_normal"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingLeft="@dimen/spacing_double"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_large"
+            tools:text="100粉丝 100关注"/>
+
+</LinearLayout>

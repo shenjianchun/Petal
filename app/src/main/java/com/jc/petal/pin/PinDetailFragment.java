@@ -4,6 +4,7 @@ import com.bumptech.glide.Glide;
 import com.jc.petal.R;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.source.PetalRepository;
+import com.jc.petal.user.UserActivity;
 import com.uilibrary.app.BaseFragment;
 
 import android.os.Bundle;
@@ -105,13 +106,18 @@ public class PinDetailFragment extends BaseFragment implements PinDetailContract
             viaLayout.setVisibility(View.GONE);
         }
 
-//        initBoardInfo();
-
-
+        // 获取采集详情
         mPresenter.getPin(mPin.pin_id);
     }
 
     private void initUserInfo(View layout) {
+
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                readyGo(UserActivity.class);
+            }
+        });
 
         TextView actionTv = ButterKnife.findById(layout, R.id.tv_action);
         // 用户名字

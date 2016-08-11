@@ -32,6 +32,12 @@
                 android:theme="@style/AppTheme.OverlapSystemBar"
                 android:label="@string/pin_detail">
 
+        </activity>
+
+        <activity
+                android:name=".user.UserActivity"
+                android:theme="@style/AppTheme.OverlapSystemBar"
+                android:label="@string/pin_detail">
 
         </activity>
     </application>

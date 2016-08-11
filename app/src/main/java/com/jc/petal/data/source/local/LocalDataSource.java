@@ -57,10 +57,9 @@ public class LocalDataSource implements PetalDataSource {
     }
 
     @Override
-    public void getUserInfo(String authorization) {
+    public void getUser(final String userId, final RequestCallback<User> callback) {
 
     }
-
 
     public void savePinsList(List<Pin> pins) {
 //

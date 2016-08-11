@@ -25,8 +25,15 @@ import retrofit2.Retrofit;
  */
 public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSource {
 
+    private static Retrofit sClient;
+
     public RetrofitRemoteDataSource() {
         super();
+        sClient = RetrofitClient.getRetrofit();
+    }
+
+    private Object getServiceAPI(Class<?> clazz) {
+        return sClient.create(clazz);
     }
 
     /**
@@ -108,7 +115,22 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
     }
 
     @Override
-    public void getUserInfo(String authorization) {
+    public void getUser(final String userId, final RequestCallback<User> callback) {
+
+        UserAPI service = (UserAPI) getServiceAPI(UserAPI.class);
+        Call<User> call = service.getUser(mAccessOauth, userId);
+
+        call.enqueue(new EnqueueCallback<User>(callback) {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                super.onResponse(call, response);
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                super.onFailure(call, t);
+            }
+        });
 
     }
 

@@ -73,7 +73,7 @@ public class PetalRepository implements PetalDataSource {
     }
 
     @Override
-    public void getUserInfo(String authorization) {
+    public void getUser(final String userId, final RequestCallback<User> callback) {
 
     }
 

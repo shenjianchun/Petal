@@ -59,14 +59,14 @@
 
     <include
             android:id="@+id/include_owner"
-            layout="@layout/view_bar_user_info"/>
+            layout="@layout/cell_user_info"/>
 
     <include
             android:id="@+id/include_via"
-            layout="@layout/view_bar_user_info"/>
+            layout="@layout/cell_user_info"/>
 
     <include
             android:id="@+id/include_to"
-            layout="@layout/view_bar_board_info"/>
+            layout="@layout/cell_board_info"/>
 
 </LinearLayout>
