@@ -6,6 +6,7 @@ import com.jc.petal.data.model.User;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Path;
 
 /**
  * 用户信息API
@@ -21,4 +22,10 @@ public interface UserAPI {
      */
     @GET("users/me")
     Call<User> getSelf(@Header(Constant.Authorization) String authorization);
+
+    @GET("users/{userId}")
+    Call<User> getUser(@Header(Constant.Authorization) String authorization, @Path("userId") String userId);
+
+
+
 }

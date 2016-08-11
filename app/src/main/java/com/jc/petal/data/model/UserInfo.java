@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Binging -> UserInfoBean ， 绑定的社交网络账户的用户信息
+ * Binging -> UserInfo ， 绑定的社交网络账户的用户信息
  * Created by JC on 2016-08-04.
  */
 public class UserInfo implements Parcelable {

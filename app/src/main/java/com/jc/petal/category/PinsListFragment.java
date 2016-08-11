@@ -129,19 +129,22 @@ public class PinsListFragment extends BaseFragment implements CategoryContract.V
                 mPresenter.fetchMaxPinsByType(mType, mPins.get(mPins.size() - 1).pin_id, 20);
             }
         });
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+        // 首次进入刷新
         mPresenter.fetchPinsByType(mType, 20);
-
         mRefreshLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
                 mRefreshLayout.setRefreshing(true);
             }
         }, 100);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 
     @Override

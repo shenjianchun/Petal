@@ -55,5 +55,7 @@
 
     <string name="who">由</string>
     <string name="from">从</string>
+    <string name="like">喜欢</string>
+    <string name="download">下载</string>
     <string name="text_to">采集到</string>
 </resources>

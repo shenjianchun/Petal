@@ -7,6 +7,7 @@ import com.jc.petal.data.model.Pin;
 import com.uilibrary.app.BaseActivity;
 
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
 
 import java.util.List;
 
@@ -47,5 +48,13 @@ public class PinDetailActivity extends BaseActivity {
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_pin_detail;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_pin_detail, menu);
+
+        return true;
     }
 }

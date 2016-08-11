@@ -7,12 +7,15 @@ import com.jc.petal.data.source.PetalRepository;
 import com.uilibrary.app.BaseFragment;
 
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import my.nouilibrary.utils.ScreenUtils;
 
 /**
  * Use the {@link PinDetailFragment#newInstance} factory method to
@@ -22,6 +25,8 @@ public class PinDetailFragment extends BaseFragment implements PinDetailContract
 
     private static final String ARG_PIN = "pin";
 
+    @Bind(R.id.appbar)
+    AppBarLayout mAppBarLayout;
     @Bind(R.id.iv_header)
     ImageView mImageIv;
     @Bind(R.id.tv_image_description)
@@ -68,6 +73,20 @@ public class PinDetailFragment extends BaseFragment implements PinDetailContract
         mPresenter = new PinDetailPresenter(this, mRepository);
 
         mDescTv.setText(mPin.raw_text);
+
+
+        // 设置ImageView的宽高比
+        int imgWidth = ScreenUtils.getScreenWidth(getContext());
+        float scale = (float) mPin.file.width / (float) mPin.file.height;
+        if (scale < 0.7f) {
+            scale = 0.7f;
+        }
+        int imgHeight = (int) (imgWidth / scale);
+        ViewGroup.LayoutParams layoutParams =
+                mAppBarLayout.getLayoutParams();
+//        layoutParams.width = imgWidth;
+        layoutParams.height = imgHeight;
+        mAppBarLayout.setLayoutParams(layoutParams);
 
         String imageUrl = getString(R.string.url_image_general, mPin.file.key);
         Glide.with(this).load(imageUrl).placeholder(R.drawable.account_circle_grey_36x36)

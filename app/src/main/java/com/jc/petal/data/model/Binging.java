@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * UseBean -> UserBindings -> Binging , 用户的社交网络账户绑定类
+ * Use -> UserBindings -> Binging , 用户的社交网络账户绑定类
  * Created by JC on 2016-08-04.
  */
 public class Binging implements Parcelable {

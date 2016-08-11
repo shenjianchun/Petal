@@ -16,7 +16,7 @@
         app:contentScrim="@android:color/transparent"
         app:expandedTitleMarginEnd="64dp"
         app:expandedTitleMarginStart="48dp"
-        android:minHeight="81dp"
+        android:minHeight="120dp"
         app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
 
