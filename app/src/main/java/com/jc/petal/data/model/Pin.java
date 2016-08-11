@@ -45,7 +45,7 @@ public class Pin implements Parcelable {
 
     public PinUserEntity user;
     public PinUserEntity via_user;
-    public PinBoardEntity board;
+    public Board board;
 
     @Override
     public int describeContents() {
@@ -105,7 +105,7 @@ public class Pin implements Parcelable {
         this.liked = in.readByte() != 0;
         this.user = in.readParcelable(PinUserEntity.class.getClassLoader());
         this.via_user = in.readParcelable(PinUserEntity.class.getClassLoader());
-        this.board = in.readParcelable(PinBoardEntity.class.getClassLoader());
+        this.board = in.readParcelable(Board.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<Pin> CREATOR = new Parcelable.Creator<Pin>() {

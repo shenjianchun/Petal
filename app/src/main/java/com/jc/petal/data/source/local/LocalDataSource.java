@@ -1,6 +1,7 @@
 package com.jc.petal.data.source.local;
 
 import com.jc.petal.RequestCallback;
+import com.jc.petal.data.model.Board;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.User;
 import com.jc.petal.data.model.Weekly;
@@ -148,6 +149,11 @@ public class LocalDataSource implements PetalDataSource {
 
     @Override
     public void getWeeklies(String max, RequestCallback<List<Weekly>> callback) {
+
+    }
+
+    @Override
+    public void getBoard(String boardId, RequestCallback<Board> callback) {
 
     }
 }

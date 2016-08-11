@@ -1,6 +1,7 @@
 package com.jc.petal.data.source;
 
 import com.jc.petal.RequestCallback;
+import com.jc.petal.data.model.Board;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.User;
 import com.jc.petal.data.model.Weekly;
@@ -103,6 +104,11 @@ public class PetalRepository implements PetalDataSource {
     @Override
     public void getWeeklies(String max, RequestCallback<List<Weekly>> callback) {
         mRemoteDataSource.getWeeklies(max, callback);
+    }
+
+    @Override
+    public void getBoard(String boardId, RequestCallback<Board> callback) {
+        mRemoteDataSource.getBoard(boardId, callback);
     }
 
 }

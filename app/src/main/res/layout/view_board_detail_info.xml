@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:divider="@drawable/line"
+              android:background="@android:color/white"
+              android:orientation="vertical"
+              android:showDividers="middle">
+
+    <LinearLayout
+            android:id="@+id/layout_board_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:orientation="horizontal"
+            android:padding="@dimen/spacing_double">
+
+        <ImageView
+                android:id="@+id/iv_board_user"
+                android:layout_width="@dimen/user_head_circle_size"
+                android:layout_height="@dimen/user_head_circle_size"
+                android:src="@drawable/account_circle_grey_36x36"/>
+
+        <TextView
+                android:id="@+id/tv_board_user"
+                style="@style/textPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingStart="@dimen/spacing_normal"
+                android:paddingEnd="@dimen/spacing_normal"
+                tools:text="用户名"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+            android:id="@+id/layout_board_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/spacing_double">
+
+        <TextView
+                android:id="@+id/tv_board_describe"
+                style="@style/textSecondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:paddingBottom="@dimen/activity_horizontal_margin"
+                tools:text="画板的文字描述"/>
+
+        <TextView
+                android:id="@+id/tv_board_follow_count"
+                style="@style/textSecondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/tv_board_describe"
+                android:paddingLeft="@dimen/spacing_normal"
+                tools:text="关注数量"/>
+
+        <TextView
+                android:id="@+id/tv_board_pin_count"
+                style="@style/textSecondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_board_describe"
+                android:layout_toStartOf="@+id/tv_board_follow_count"
+                tools:text="采集数量"/>
+    </RelativeLayout>
+</LinearLayout>

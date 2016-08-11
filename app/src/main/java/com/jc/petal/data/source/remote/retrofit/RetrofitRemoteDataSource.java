@@ -2,6 +2,7 @@ package com.jc.petal.data.source.remote.retrofit;
 
 import com.jc.petal.RequestCallback;
 import com.jc.petal.data.model.AuthTokenBean;
+import com.jc.petal.data.model.Board;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.PinDetail;
 import com.jc.petal.data.model.PinsListBean;
@@ -243,6 +244,25 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
             @Override
             public void onFailure(Call<Weeklies> call, Throwable t) {
                 callback.onError(t.toString());
+            }
+        });
+
+    }
+
+    @Override
+    public void getBoard(String boardId, final RequestCallback<Board> callback) {
+        BoardAPI service = (BoardAPI) getServiceAPI(Board.class);
+        service.getBoard(mAccessOauth, boardId).enqueue(new EnqueueCallback<Board>(callback) {
+            @Override
+            public void onResponse(Call<Board> call, Response<Board> response) {
+                super.onResponse(call, response);
+
+
+            }
+
+            @Override
+            public void onFailure(Call<Board> call, Throwable t) {
+                super.onFailure(call, t);
             }
         });
 

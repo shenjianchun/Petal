@@ -40,6 +40,12 @@
                 android:label="@string/pin_detail">
 
         </activity>
+
+        <activity
+                android:name=".board.BoardActivity"
+                android:label="@string/board_detail">
+
+        </activity>
     </application>
 
 </manifest>

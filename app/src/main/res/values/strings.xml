@@ -16,6 +16,7 @@
     <!-- activity label-->
     <string name="pin_detail">采集详情</string>
     <string name="user_detail">用户信息</string>
+    <string name="board_detail">画板信息</string>
 
     <!-- drawer button -->
     <string name="care">关注</string>

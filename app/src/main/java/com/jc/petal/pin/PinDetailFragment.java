@@ -2,6 +2,7 @@ package com.jc.petal.pin;
 
 import com.bumptech.glide.Glide;
 import com.jc.petal.R;
+import com.jc.petal.board.BoardActivity;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.source.PetalRepository;
 import com.jc.petal.user.UserActivity;
@@ -147,7 +148,7 @@ public class PinDetailFragment extends BaseFragment implements PinDetailContract
     /**
      * 初始化采集画板信息
      */
-    private void initBoardInfo(Pin pin) {
+    private void initBoardInfo(final Pin pin) {
 
         if (getView() != null) {
 
@@ -164,6 +165,17 @@ public class PinDetailFragment extends BaseFragment implements PinDetailContract
                 Glide.with(this).load(avatarUrl).placeholder(android.R.drawable.ic_secure)
                         .fitCenter().into(boardIv);
             }
+
+
+            boardLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("pin", pin);
+                    readyGo(BoardActivity.class, bundle);
+                }
+            });
+
         }
 
     }

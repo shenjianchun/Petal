@@ -10,7 +10,7 @@ import java.util.List;
  * Created by JC on  2016/08/03
  */
 
-public class PinBoardEntity implements Parcelable {
+public class Board implements Parcelable {
     public int board_id;
     public int user_id;
     public String title;
@@ -26,7 +26,7 @@ public class PinBoardEntity implements Parcelable {
     public int is_public;
     public List<Pin> pins;
 
-    public PinBoardEntity() {
+    public Board() {
     }
 
     @Override
@@ -52,7 +52,7 @@ public class PinBoardEntity implements Parcelable {
         dest.writeTypedList(this.pins);
     }
 
-    protected PinBoardEntity(Parcel in) {
+    protected Board(Parcel in) {
         this.board_id = in.readInt();
         this.user_id = in.readInt();
         this.title = in.readString();
@@ -69,15 +69,15 @@ public class PinBoardEntity implements Parcelable {
         this.pins = in.createTypedArrayList(Pin.CREATOR);
     }
 
-    public static final Creator<PinBoardEntity> CREATOR = new Creator<PinBoardEntity>() {
+    public static final Creator<Board> CREATOR = new Creator<Board>() {
         @Override
-        public PinBoardEntity createFromParcel(Parcel source) {
-            return new PinBoardEntity(source);
+        public Board createFromParcel(Parcel source) {
+            return new Board(source);
         }
 
         @Override
-        public PinBoardEntity[] newArray(int size) {
-            return new PinBoardEntity[size];
+        public Board[] newArray(int size) {
+            return new Board[size];
         }
     };
 

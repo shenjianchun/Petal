@@ -2,6 +2,7 @@ package com.jc.petal.data.source;
 
 import com.jc.petal.RequestCallback;
 import com.jc.petal.data.model.Pin;
+import com.jc.petal.data.model.Board;
 import com.jc.petal.data.model.User;
 import com.jc.petal.data.model.Weekly;
 
@@ -47,7 +48,18 @@ public interface PetalDataSource {
      */
     void getPin(int pinId, final RequestCallback<Pin> callback);
 
+    /**
+     * 获取周刊
+     * @param max
+     * @param callback
+     */
     void getWeeklies(String max , final RequestCallback<List<Weekly>> callback);
 
+    /**
+     * 获取画板信息
+     * @param boardId
+     * @param callback
+     */
+    void getBoard(String boardId, final RequestCallback<Board> callback);
 
 }
