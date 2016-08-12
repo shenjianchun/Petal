@@ -1,6 +1,7 @@
 package com.jc.petal.pin;
 
 import com.bumptech.glide.Glide;
+import com.jc.petal.Constant;
 import com.jc.petal.R;
 import com.jc.petal.board.BoardDetailActivity;
 import com.jc.petal.data.model.Pin;
@@ -15,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import my.nouilibrary.utils.ScreenUtils;
 
@@ -27,11 +28,11 @@ public class PinDetailFragment extends BaseFragment implements PinDetailContract
 
     private static final String ARG_PIN = "pin";
 
-    @Bind(R.id.appbar)
+    @BindView(R.id.appbar)
     AppBarLayout mAppBarLayout;
-    @Bind(R.id.iv_header)
+    @BindView(R.id.iv_header)
     ImageView mImageIv;
-    @Bind(R.id.tv_image_description)
+    @BindView(R.id.tv_image_description)
     TextView mDescTv;
 
     private PetalRepository mRepository;
@@ -116,7 +117,9 @@ public class PinDetailFragment extends BaseFragment implements PinDetailContract
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                readyGo(UserActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(Constant.ARG_PIN, mPin);
+                readyGo(UserActivity.class, bundle);
             }
         });
 

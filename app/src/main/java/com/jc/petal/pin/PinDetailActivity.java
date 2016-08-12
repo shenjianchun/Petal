@@ -11,7 +11,7 @@ import android.view.Menu;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * 图片采集详情Activity
@@ -19,7 +19,7 @@ import butterknife.Bind;
  */
 public class PinDetailActivity extends BaseActivity {
 
-    @Bind(R.id.view_pager)
+    @BindView(R.id.view_pager)
     ViewPager mViewPager;
 
     private PinDetailAdapter mAdapter;

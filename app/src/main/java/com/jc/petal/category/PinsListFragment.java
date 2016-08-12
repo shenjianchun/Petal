@@ -18,7 +18,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * A fragment representing a list of Items.
@@ -37,9 +37,9 @@ public class PinsListFragment extends BaseFragment implements CategoryContract.V
 
     private ArrayList<Pin> mPins;
 
-    @Bind(R.id.swipe_refresh_layout)
+    @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mRefreshLayout;
-    @Bind(R.id.recycler_view)
+    @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     PinsListAdapter mAdapter;
 

@@ -8,7 +8,7 @@ import android.os.Parcelable;
  * Created by JC on 2016-08-03.
  */
 public class PinUserEntity implements Parcelable {
-    public int user_id;
+    public String user_id;
     public String username;
     public String urlname;
     public int created_at;
@@ -21,7 +21,7 @@ public class PinUserEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.user_id);
+        dest.writeString(this.user_id);
         dest.writeString(this.username);
         dest.writeString(this.urlname);
         dest.writeInt(this.created_at);
@@ -32,7 +32,7 @@ public class PinUserEntity implements Parcelable {
     }
 
     protected PinUserEntity(Parcel in) {
-        this.user_id = in.readInt();
+        this.user_id = in.readString();
         this.username = in.readString();
         this.urlname = in.readString();
         this.created_at = in.readInt();

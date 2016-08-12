@@ -12,7 +12,7 @@
               android:orientation="vertical">
 
     <ImageView
-            android:id="@+id/img_image_user"
+            android:id="@+id/iv_user_avatar"
             android:layout_width="@dimen/user_head_circle_big_size"
             android:layout_height="@dimen/user_head_circle_big_size"/>
 
@@ -28,7 +28,7 @@
             tools:text="用户名"/>
 
     <TextView
-            android:id="@+id/tv_user_location_job"
+            android:id="@+id/tv_user_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_margin"
@@ -40,7 +40,7 @@
             tools:text="用户的信息"/>
 
     <TextView
-            android:id="@+id/tv_user_friend"
+            android:id="@+id/tv_user_fans_follows"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_margin"

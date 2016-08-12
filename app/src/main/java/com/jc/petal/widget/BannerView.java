@@ -38,7 +38,7 @@ public class BannerView extends FrameLayout {
 
     private int preDotPosition;
 
-    private int scrollTimeOffset = 2000; // ms
+    private int scrollTimeOffset = 5000; // ms
 
     /** Banner滚动线程是否销毁的标志，默认不销毁 */
     private boolean isStop = false;
@@ -106,6 +106,7 @@ public class BannerView extends FrameLayout {
             ImageView imageView = new ImageView(getContext());
             imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams
                     .MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 //            imageView.setBackgroundResource(id);
             mImageViews.add(imageView);
 
@@ -183,6 +184,11 @@ public class BannerView extends FrameLayout {
                     T.showShort(getContext(), "点击图片！！");
                 }
             });
+
+            if (view.getParent() != null) {
+                ((ViewGroup)view.getParent()).removeView(view);
+            }
+
             container.addView(view);
             return view;
         }

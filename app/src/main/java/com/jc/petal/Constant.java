@@ -60,4 +60,13 @@ public class Constant {
 
     //删除画板的操作符
     public static final String OPERATEDELETEBOARD="DELETE";
+
+
+
+    /*****************************************************/
+    public static final String ARG_TYPE = "type";
+
+    public static final String ARG_PIN = "pin";
+    public static final String ARG_PINS = "pins";
+
 }

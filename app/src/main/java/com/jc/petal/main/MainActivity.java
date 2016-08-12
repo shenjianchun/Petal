@@ -24,7 +24,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
@@ -33,10 +33,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String DEFAULT_TYPE = "all";
 
-    @Bind(R.id.drawer_layout)
+    @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
 
-    @Bind(R.id.nav_view)
+    @BindView(R.id.nav_view)
     NavigationView mNavigationView;
 
     ActionBarDrawerToggle mDrawerToggle;

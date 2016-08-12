@@ -11,7 +11,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import my.nouilibrary.utils.T;
 
@@ -23,9 +23,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     private LoginContract.Presenter mPresenter;
 
-    @Bind(R.id.et_username)
+    @BindView(R.id.et_username)
     EditText mUsernameEt;
-    @Bind(R.id.et_password)
+    @BindView(R.id.et_password)
     EditText mPasswordEt;
 
     @Override

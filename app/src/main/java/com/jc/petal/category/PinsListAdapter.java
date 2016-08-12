@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import my.nouilibrary.utils.ScreenUtils;
 import my.nouilibrary.utils.SizeUtils;
@@ -90,9 +91,9 @@ public class PinsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         final ContentViewHolder holder = (ContentViewHolder) recyclerHolder;
 
-        final int realPostion = getRealPosition(recyclerHolder);
+        final int realPosition = getRealPosition(recyclerHolder);
 
-        Pin pin = mPins.get(realPostion);
+        Pin pin = mPins.get(realPosition);
 
         holder.mItem = pin;
 
@@ -134,7 +135,7 @@ public class PinsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             @Override
             public void onClick(View v) {
                 if (null != mImageListener) {
-                    mImageListener.onClick(holder.mItem, realPostion);
+                    mImageListener.onClick(holder.mItem, realPosition);
                 }
             }
         });
@@ -188,27 +189,16 @@ public class PinsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public class ContentViewHolder extends RecyclerView.ViewHolder {
-        public final View mItemView;
-        public final ImageView mImageIv;
-        public final TextView mContentTv;
-        public final ImageView mAvatarIv;
-        public final View mPinInfoLayout;
-        public final TextView mPinInfoTv;
+        @BindView(R.id.image) ImageView mImageIv;
+        @BindView(R.id.tv_image_description)  TextView mContentTv;
+        @BindView(R.id.iv_avatar) ImageView mAvatarIv;
+        @BindView(R.id.rl_pin_info) View mPinInfoLayout;
+        @BindView(R.id.tv_pin_info) TextView mPinInfoTv;
         public Pin mItem;
 
         public ContentViewHolder(View view) {
             super(view);
-            mItemView = view;
-            mImageIv = ButterKnife.findById(view, R.id.image);
-            mContentTv = ButterKnife.findById(view, R.id.tv_image_description);
-            mAvatarIv = ButterKnife.findById(view, R.id.iv_avatar);
-            mPinInfoLayout = ButterKnife.findById(view, R.id.rl_pin_info);
-            mPinInfoTv = ButterKnife.findById(view, R.id.tv_pin_info);
-        }
-
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentTv.getText() + "'";
+            ButterKnife.bind(this, view);
         }
     }
 
