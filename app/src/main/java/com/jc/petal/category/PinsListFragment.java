@@ -39,7 +39,7 @@ public class PinsListFragment extends BaseFragment implements CategoryContract.V
 
     @Bind(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mRefreshLayout;
-    @Bind(R.id.list)
+    @Bind(R.id.recycler_view)
     RecyclerView mRecyclerView;
     PinsListAdapter mAdapter;
 

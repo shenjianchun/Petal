@@ -25,4 +25,9 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <style name="card_text_secondary_info" parent="textSecondary">
+        <item name="android:padding">@dimen/spacing_double</item>
+        <item name="android:gravity">center|left</item>
+    </style>
+
 </resources>

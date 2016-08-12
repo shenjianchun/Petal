@@ -2,7 +2,7 @@ package com.jc.petal.pin;
 
 import com.bumptech.glide.Glide;
 import com.jc.petal.R;
-import com.jc.petal.board.BoardActivity;
+import com.jc.petal.board.BoardDetailActivity;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.source.PetalRepository;
 import com.jc.petal.user.UserActivity;
@@ -172,7 +172,7 @@ public class PinDetailFragment extends BaseFragment implements PinDetailContract
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("pin", pin);
-                    readyGo(BoardActivity.class, bundle);
+                    readyGo(BoardDetailActivity.class, bundle);
                 }
             });
 

@@ -1,17 +1,16 @@
-package com.jc.petal.category;
+package com.jc.petal.board;
 
 import com.bumptech.glide.Glide;
 import com.jc.petal.R;
+import com.jc.petal.category.PinsListFragment;
 import com.jc.petal.data.model.Pin;
-import com.jc.petal.utils.SpannableTextUtils;
+import com.jc.petal.utils.CompatUtils;
 
 import org.apache.commons.collections4.CollectionUtils;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,10 +26,11 @@ import my.nouilibrary.utils.ScreenUtils;
 import my.nouilibrary.utils.SizeUtils;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link Pin} and makes a call to the
- * specified {@link PinsListFragment.OnListFragmentInteractionListener}.
+ *
+ * 画板详情界面中的RecyclerView对应的Adapter
+ *
  */
-public class PinsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class BoardDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int BASE_ITEM_TYPE_HEADER = 100000;
     private Context mContext;
@@ -40,9 +40,9 @@ public class PinsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private View mHeaderView = null;
 
-    public PinsListAdapter(Context context, List<Pin> pins,
-                           PinsListFragment.OnImageClickListener imageListener,
-                           PinsListFragment.OnPinInfoClickListener pinInfoListener) {
+    public BoardDetailAdapter(Context context, List<Pin> pins,
+                              PinsListFragment.OnImageClickListener imageListener,
+                              PinsListFragment.OnPinInfoClickListener pinInfoListener) {
         mContext = context;
         mPins = pins;
         mImageListener = imageListener;
@@ -75,7 +75,20 @@ public class PinsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         } else {
 
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_pins_list, parent, false);
+                    .inflate(R.layout.item_board_detail_pins_list, parent, false);
+
+            ContentViewHolder holder = new  ContentViewHolder(view);
+
+            holder.mLikeCountTv.setCompoundDrawablesWithIntrinsicBounds(
+                    CompatUtils.getTintListDrawable(mContext, R.drawable.ic_favorite_black_18dp, R.color.tint_list_grey),
+                    null,
+                    null,
+                    null);
+            holder.mPinCountTv.setCompoundDrawablesWithIntrinsicBounds(
+                    CompatUtils.getTintListDrawable(mContext, R.drawable.ic_camera_black_18dp, R.color.tint_list_grey),
+                    null,
+                    null,
+                    null);
             return new ContentViewHolder(view);
         }
 
@@ -88,13 +101,19 @@ public class PinsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return;
         }
 
-        final ContentViewHolder holder = (ContentViewHolder) recyclerHolder;
+        ContentViewHolder holder = (ContentViewHolder) recyclerHolder;
 
-        final int realPostion = getRealPosition(recyclerHolder);
-
-        Pin pin = mPins.get(realPostion);
-
+        int realPosition = getRealPosition(recyclerHolder);
+        Pin pin = mPins.get(realPosition);
         holder.mItem = pin;
+
+        onBindData(holder, pin);
+
+        onBindListener(holder, realPosition);
+    }
+
+
+    private void onBindData(final ContentViewHolder holder, Pin pin) {
 
         // 设置ImageView的宽高比
         int screenWidth = ScreenUtils.getScreenWidth(mContext);
@@ -117,37 +136,21 @@ public class PinsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             holder.mContentTv.setVisibility(View.GONE);
         }
 
-        // 采集信息
-        String info = mContext.getString(R.string.collection_info, SpannableTextUtils.color(Color
-                .BLACK, pin.user.username), SpannableTextUtils.color(Color.BLACK, pin.board.title));
-        holder.mPinInfoTv.setText(Html.fromHtml(info));
+        holder.mPinCountTv.setText(String.valueOf(pin.repin_count));
+        holder.mLikeCountTv.setText(String.valueOf(pin.like_count));
+    }
 
-//        holder.mLikeCountTv.setText(SpannableTextUtils.color(Color.BLACK, pin.user.urlname));
 
-        // avatar url
-        String avatarUrl = mContext.getString(R.string.url_image_small, pin.user.avatar.key);
-        Glide.with(mContext).load(avatarUrl).placeholder(R.drawable.account_circle_grey_36x36)
-                .fitCenter().into(holder.mAvatarIv);
-
+    private void onBindListener(final ContentViewHolder holder, final int position) {
 
         holder.mImageIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != mImageListener) {
-                    mImageListener.onClick(holder.mItem, realPostion);
+                    mImageListener.onClick(holder.mItem, position);
                 }
             }
         });
-
-        holder.mPinInfoLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mPinInfoListener != null) {
-                    mPinInfoListener.onClick(holder.mItem);
-                }
-            }
-        });
-
     }
 
     @Override
@@ -191,9 +194,9 @@ public class PinsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public final View mItemView;
         public final ImageView mImageIv;
         public final TextView mContentTv;
-        public final ImageView mAvatarIv;
-        public final View mPinInfoLayout;
-        public final TextView mPinInfoTv;
+
+        public final TextView mPinCountTv;
+        public final TextView mLikeCountTv;
         public Pin mItem;
 
         public ContentViewHolder(View view) {
@@ -201,9 +204,8 @@ public class PinsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             mItemView = view;
             mImageIv = ButterKnife.findById(view, R.id.image);
             mContentTv = ButterKnife.findById(view, R.id.tv_image_description);
-            mAvatarIv = ButterKnife.findById(view, R.id.iv_avatar);
-            mPinInfoLayout = ButterKnife.findById(view, R.id.rl_pin_info);
-            mPinInfoTv = ButterKnife.findById(view, R.id.tv_pin_info);
+            mPinCountTv = ButterKnife.findById(view, R.id.tv_pin_count);
+            mLikeCountTv = ButterKnife.findById(view, R.id.tv_like_count);
         }
 
         @Override

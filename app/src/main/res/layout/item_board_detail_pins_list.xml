@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/card_item_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/spacing_nano"
+        android:layout_marginRight="@dimen/spacing_nano"
+        android:layout_marginTop="@dimen/spacing_nano"
+        app:cardCornerRadius="2dp"
+        app:elevation="2dp">
+
+    <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical">
+
+        <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxHeight="500dp"
+                android:maxWidth="200dp"
+                android:adjustViewBounds="true"/>
+
+        <TextView
+                android:id="@+id/tv_image_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:textSize="@dimen/text_size_small"
+                android:maxLines="4"
+                android:ellipsize="end"
+                android:textAppearance="?attr/textAppearanceListItem"/>
+
+        <LinearLayout
+                android:id="@+id/ll_pin_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/spacing_normal">
+
+            <TextView
+                    android:id="@+id/tv_pin_count"
+                    style="@style/card_text_secondary_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    tools:text="被采集的数量"/>
+
+            <TextView
+                    android:id="@+id/tv_like_count"
+                    style="@style/card_text_secondary_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    tools:text="被喜欢的数量"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

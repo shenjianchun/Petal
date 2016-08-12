@@ -6,7 +6,8 @@
               android:divider="@drawable/line"
               android:background="@android:color/white"
               android:orientation="vertical"
-              android:showDividers="middle">
+              android:showDividers="middle"
+              tools:text="画板信息的Header View">
 
     <LinearLayout
             android:id="@+id/layout_board_user"

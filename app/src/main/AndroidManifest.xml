@@ -42,7 +42,7 @@
         </activity>
 
         <activity
-                android:name=".board.BoardActivity"
+                android:name=".board.BoardDetailActivity"
                 android:label="@string/board_detail">
 
         </activity>
