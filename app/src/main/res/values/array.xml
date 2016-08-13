@@ -17,4 +17,11 @@
         <item>beauty</item>
     </string-array>
 
+    <string-array name="user_section">
+        <item>画板</item>
+        <item>采集</item>
+        <item>赞</item>
+        <item>关于TA</item>
+    </string-array>
+
 </resources>

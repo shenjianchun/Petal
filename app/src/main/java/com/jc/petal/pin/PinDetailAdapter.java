@@ -28,9 +28,7 @@ public class PinDetailAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         Pin pin = mPins.get(position);
 
-        Fragment fragment = PinDetailFragment.newInstance(pin);
-
-        return fragment;
+        return PinDetailFragment.newInstance(pin);
     }
 
     @Override

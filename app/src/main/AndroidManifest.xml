@@ -19,32 +19,23 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-
         <activity
                 android:name=".login.LoginActivity"
                 android:label="@string/login">
-
         </activity>
-
         <activity
                 android:name=".pin.PinDetailActivity"
-                android:theme="@style/AppTheme.OverlapSystemBar"
-                android:label="@string/pin_detail">
-
+                android:label="@string/pin_detail"
+                android:theme="@style/AppTheme.OverlapSystemBar">
         </activity>
-
         <activity
                 android:name=".user.UserActivity"
-                android:theme="@style/AppTheme.OverlapSystemBar"
-                android:label="@string/pin_detail">
-
+                android:label="@string/pin_detail"
+                android:theme="@style/AppTheme.OverlapSystemBar">
         </activity>
-
         <activity
                 android:name=".board.BoardDetailActivity"
                 android:label="@string/board_detail">
-
         </activity>
     </application>
 
