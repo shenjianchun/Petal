@@ -1,6 +1,7 @@
 package com.jc.petal.data.source.remote.retrofit;
 
 import com.jc.petal.Constant;
+import com.jc.petal.data.model.BoardList;
 import com.jc.petal.data.model.User;
 
 import retrofit2.Call;
@@ -26,6 +27,6 @@ public interface UserAPI {
     @GET("users/{userId}")
     Call<User> getUser(@Header(Constant.Authorization) String authorization, @Path("userId") String userId);
 
-
-
+    @GET("users/{userId}/boards")
+    Call<BoardList> getUserBoards(@Header(Constant.Authorization) String authorization, @Path("userId") String userId);
 }

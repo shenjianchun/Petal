@@ -7,6 +7,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.jc.petal.Constant;
 import com.jc.petal.R;
+import com.jc.petal.board.BoardListFragment;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.utils.FastBlurUtil;
 import com.uilibrary.app.BaseActivity;
@@ -71,7 +72,7 @@ public class UserActivity extends BaseActivity {
     private void initViewPager() {
         mTitleList = getResources().getStringArray(R.array.user_section);
         mFragmentList = new ArrayList<>(4);
-        mFragmentList.add(UserAboutFragment.newInstance());
+        mFragmentList.add(BoardListFragment.newInstance(2));
         mFragmentList.add(UserAboutFragment.newInstance());
         mFragmentList.add(UserAboutFragment.newInstance());
         mFragmentList.add(UserAboutFragment.newInstance());
