@@ -1,30 +1,31 @@
 package com.jc.petal.board;
 
 import com.jc.petal.R;
-import com.jc.petal.board.BoardListFragment.OnListFragmentInteractionListener;
-import com.jc.petal.board.dummy.DummyContent.DummyItem;
+import com.jc.petal.data.model.Board;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
+ * User board list adapter
  */
 public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final List<Board> mBoards;
 
-    public BoardListAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
-        mListener = listener;
+    public BoardListAdapter(@NonNull List<Board> items) {
+        mBoards = items;
     }
 
     @Override
@@ -36,43 +37,40 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
-            }
-        });
+        Board board = mBoards.get(position);
+
+        holder.mDesTv.setText(board.description);
+
+
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return mBoards.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+
+        @BindView(R.id.tv_des)
+        TextView mDesTv;
+        @BindView(R.id.iv_main)
+        ImageView mMainIv;
+        @BindView(R.id.iv_user_board_bottom_0)
+        ImageView mBottomIV0;
+        @BindView(R.id.iv_user_board_bottom_1)
+        ImageView mBottomIV1;
+        @BindView(R.id.iv_user_board_bottom_2)
+        ImageView mBottomIV2;
+        @BindView(R.id.iv_user_board_bottom_3)
+        ImageView mBottomIV3;
+        @BindView(R.id.btn_follow)
+        Button mFollowBtn;
 
         public ViewHolder(View view) {
             super(view);
-            mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            ButterKnife.bind(this, view);
         }
 
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
-        }
     }
 }

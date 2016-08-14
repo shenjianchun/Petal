@@ -1,37 +1,32 @@
 package com.jc.petal.board;
 
+import com.jc.petal.Constant;
 import com.jc.petal.R;
-import com.jc.petal.board.dummy.DummyContent;
-import com.jc.petal.board.dummy.DummyContent.DummyItem;
 import com.jc.petal.data.model.Board;
+import com.jc.petal.widget.SpacesItemDecoration;
+import com.uilibrary.app.BaseFragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+
 /**
- * A fragment representing a list of Items.
- * <p />
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
+ * BoardList Fragment
  */
-public class BoardListFragment extends Fragment implements BoardContract.BoardListView {
+public class BoardListFragment extends BaseFragment implements BoardContract.BoardListView {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 2;
-    private OnListFragmentInteractionListener mListener;
-
+    private int mUserId;
     private BoardContract.BoardListPresenter mPresenter;
+    private List<Board> mBoards;
+
+    @BindView(R.id.recycler_view)
+    RecyclerView mRecyclerView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -40,66 +35,61 @@ public class BoardListFragment extends Fragment implements BoardContract.BoardLi
     public BoardListFragment() {
     }
 
-    // TODO: Customize parameter initialization
+    BoardListAdapter mAdapter;
+
     @SuppressWarnings("unused")
-    public static BoardListFragment newInstance(int columnCount) {
+    public static BoardListFragment newInstance(int userId) {
         BoardListFragment fragment = new BoardListFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
+        args.putInt(Constant.ARG_USER_ID, userId);
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
+    public int getLayoutResource() {
+        return R.layout.fragment_board_list;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_board_list, container, false);
-
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new BoardListAdapter(DummyContent.ITEMS, mListener));
+    protected void initViewsAndEvents() {
+        if (getArguments() != null) {
+            mUserId = getArguments().getInt(Constant.ARG_USER_ID);
         }
-//        mPresenter.getUserBoards("137688");
 
-        return view;
+
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,
+                StaggeredGridLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
+        // 添加间隔
+        mRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources()
+                .getDimensionPixelSize(R.dimen.space_item_decoration)));
+        // Set the adapter
+        mBoards = new ArrayList<>();
+        mAdapter = new BoardListAdapter(mBoards);
+
+        mRecyclerView.setAdapter(mAdapter);
+
+        mPresenter.getUserBoards(String.valueOf(mUserId));
     }
 
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnListFragmentInteractionListener) {
-//            mListener = (OnListFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnListFragmentInteractionListener");
-//        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     @Override
     public void showBoards(List<Board> boards) {
+
+        int curSize = mBoards.size();
+        mBoards.addAll(boards);
+        mAdapter.notifyItemRangeChanged(curSize, boards.size());
 
     }
 
@@ -121,20 +111,5 @@ public class BoardListFragment extends Fragment implements BoardContract.BoardLi
     @Override
     public void showError(String msg) {
 
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
     }
 }

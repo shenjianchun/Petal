@@ -8,7 +8,9 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.jc.petal.Constant;
 import com.jc.petal.R;
 import com.jc.petal.board.BoardListFragment;
+import com.jc.petal.board.BoardListPresenterImpl;
 import com.jc.petal.data.model.Pin;
+import com.jc.petal.data.source.PetalRepository;
 import com.jc.petal.utils.FastBlurUtil;
 import com.uilibrary.app.BaseActivity;
 
@@ -51,6 +53,8 @@ public class UserActivity extends BaseActivity {
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
 
+    private PetalRepository mRepository;
+
     private Pin mPin;
 
     private String[] mTitleList;
@@ -62,6 +66,7 @@ public class UserActivity extends BaseActivity {
         setHomeButtonEnabled();
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        mRepository = PetalRepository.getInstance(this);
 
         initHeader();
         initViewPager();
@@ -72,7 +77,11 @@ public class UserActivity extends BaseActivity {
     private void initViewPager() {
         mTitleList = getResources().getStringArray(R.array.user_section);
         mFragmentList = new ArrayList<>(4);
-        mFragmentList.add(BoardListFragment.newInstance(2));
+
+        BoardListFragment boardListFragment = BoardListFragment.newInstance(137688);
+        new BoardListPresenterImpl(boardListFragment, mRepository);
+        mFragmentList.add(boardListFragment);
+
         mFragmentList.add(UserAboutFragment.newInstance());
         mFragmentList.add(UserAboutFragment.newInstance());
         mFragmentList.add(UserAboutFragment.newInstance());
@@ -92,19 +101,23 @@ public class UserActivity extends BaseActivity {
         mUserNameTv.setText(mPin.user.username);
         mUserProfileTv.setText(mPin.user.user_id);
 
-        String userFansFollows = getString(R.string.user_fans_follows, mPin.like_count, mPin.repin_count);
+        String userFansFollows = getString(R.string.user_fans_follows, mPin.like_count, mPin
+                .repin_count);
         mFansFollowsTv.setText(userFansFollows);
 
         // avatar url
         String avatarUrl = getString(R.string.url_image_small, mPin.user.avatar.key);
-        Glide.with(this).load(avatarUrl).asBitmap().placeholder(R.drawable.account_circle_grey_36x36)
+        Glide.with(this).load(avatarUrl).asBitmap().placeholder(R.drawable
+                .account_circle_grey_36x36)
                 .fitCenter().into(new SimpleTarget<Bitmap>() {
             @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap>
+                    glideAnimation) {
                 mAvatarIv.setImageBitmap(resource);
 
                 // 加载高斯模糊图片作为背景
-                Drawable backDrawable = new BitmapDrawable(getResources(), FastBlurUtil.doBlur(resource, 25, false));
+                Drawable backDrawable = new BitmapDrawable(getResources(), FastBlurUtil.doBlur
+                        (resource, 25, false));
                 mAppBar.setBackground(backDrawable);
             }
         });
@@ -117,7 +130,6 @@ public class UserActivity extends BaseActivity {
     protected int getLayoutResource() {
         return R.layout.activity_user;
     }
-
 
 
     /**

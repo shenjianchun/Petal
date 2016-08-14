@@ -76,8 +76,6 @@ public class PinsListFragment extends BaseFragment implements CategoryContract.V
     @Override
     protected void initViewsAndEvents() {
 
-        mPins = new ArrayList<>();
-
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -91,7 +89,9 @@ public class PinsListFragment extends BaseFragment implements CategoryContract.V
         // 添加间隔
         mRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources()
                 .getDimensionPixelSize(R.dimen.space_item_decoration)));
+
         // Set the adapter
+        mPins = new ArrayList<>();
         mAdapter = new PinsListAdapter(getContext(), mPins, new OnImageClickListener() {
             @Override
             public void onClick(Pin pin, int position) {

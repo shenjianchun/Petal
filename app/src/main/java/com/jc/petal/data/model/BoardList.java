@@ -150,4 +150,11 @@ public class BoardList {
 
 
     public List<Board> boards;
+
+    @Override
+    public String toString() {
+        return "BoardList{" +
+                "boards=" + boards +
+                '}';
+    }
 }
