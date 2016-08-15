@@ -68,6 +68,8 @@ public class Constant {
 
     public static final String ARG_PIN = "pin";
     public static final String ARG_PINS = "pins";
+
+    public static final String ARG_BOARD_ID = "board_id";
     public static final String ARG_USER_ID = "user_id";
 
 }

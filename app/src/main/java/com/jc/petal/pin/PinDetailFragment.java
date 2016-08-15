@@ -174,7 +174,7 @@ public class PinDetailFragment extends BaseFragment implements PinDetailContract
                 @Override
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
-                    bundle.putParcelable("pin", pin);
+                    bundle.putString(Constant.ARG_BOARD_ID, String.valueOf(pin.board_id));
                     readyGo(BoardDetailActivity.class, bundle);
                 }
             });

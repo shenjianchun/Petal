@@ -1,8 +1,13 @@
 package com.jc.petal.board;
 
+import com.bumptech.glide.Glide;
 import com.jc.petal.R;
 import com.jc.petal.data.model.Board;
+import com.jc.petal.data.model.Pin;
 
+import org.apache.commons.collections4.CollectionUtils;
+
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,10 +26,11 @@ import butterknife.ButterKnife;
  * User board list adapter
  */
 public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.ViewHolder> {
-
+    private Context mContext;
     private final List<Board> mBoards;
 
-    public BoardListAdapter(@NonNull List<Board> items) {
+    public BoardListAdapter(@NonNull Context context,@NonNull List<Board> items) {
+        mContext = context;
         mBoards = items;
     }
 
@@ -41,6 +47,52 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
         Board board = mBoards.get(position);
 
         holder.mDesTv.setText(board.description);
+
+
+        List<Pin> pins = board.pins;
+
+        if (!CollectionUtils.isEmpty(pins)) {
+
+            for (int i = 0; i < pins.size(); i++) {
+
+                Pin pin = pins.get(i);
+                String imageUrl = mContext.getString(R.string.url_image_general, pin.file.key);
+
+                ImageView target;
+
+                switch (i) {
+
+                    case 0:
+                        target = holder.mMainIv;
+                        break;
+                    case 1:
+                        target = holder.mBottomIV0;
+                        break;
+                    case 2:
+                        target = holder.mBottomIV1;
+                        break;
+                    case 3:
+                        target = holder.mBottomIV2;
+                        break;
+                    case 4:
+                        target = holder.mBottomIV3;
+                        break;
+                    default:
+                        target = holder.mMainIv;
+                        break;
+                }
+
+                Glide.with(mContext).load(imageUrl).centerCrop().into(target);
+
+                if (i == 4) {
+                    break;
+                }
+
+            }
+
+
+        }
+
 
 
     }

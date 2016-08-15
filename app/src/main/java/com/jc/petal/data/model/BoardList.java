@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Board List
- * Created by 14110105 on 2016-08-13.
+ * Created by JC on 2016-08-13.
  */
 public class BoardList {
     /*

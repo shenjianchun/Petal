@@ -9,7 +9,7 @@ import retrofit2.Response;
 
 /**
  *
- * Created by 14110105 on 2016-08-11.
+ * Created by JC on 2016-08-11.
  */
 public abstract class EnqueueCallback<T> implements Callback<T> {
 

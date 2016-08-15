@@ -3,7 +3,8 @@ package com.jc.petal.user;
 import com.jc.petal.data.source.PetalRepository;
 
 /**
- * Created by 14110105 on 2016-08-13.
+ * User Presenter
+ * Created by JC on 2016-08-13.
  */
 public class UserPresenter implements UserContract.Presenter {
 

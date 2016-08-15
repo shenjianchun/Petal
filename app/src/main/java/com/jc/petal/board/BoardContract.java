@@ -19,4 +19,14 @@ public interface BoardContract {
     interface BoardListPresenter extends BasePresenter {
         void getUserBoards(String userId);
     }
+
+    interface BoardDetailView extends BaseView<BoardDetailPresenter> {
+        void showBoard(Board board);
+    }
+
+    interface BoardDetailPresenter extends BasePresenter {
+        void getBoard(String boardId);
+    }
+
+
 }

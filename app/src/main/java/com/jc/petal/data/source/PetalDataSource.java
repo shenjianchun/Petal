@@ -1,7 +1,7 @@
 package com.jc.petal.data.source;
 
 import com.jc.petal.RequestCallback;
-import com.jc.petal.data.model.Board;
+import com.jc.petal.data.model.BoardDetail;
 import com.jc.petal.data.model.BoardList;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.User;
@@ -60,7 +60,7 @@ public interface PetalDataSource {
     /**
      * 获取画板信息
      */
-    void getBoard(String boardId, RequestCallback<Board> callback);
+    void getBoard(String boardId, RequestCallback<BoardDetail> callback);
 
     /**
      * 获取用户拥有的画板集合

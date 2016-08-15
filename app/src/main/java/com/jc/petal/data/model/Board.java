@@ -25,6 +25,7 @@ public class Board implements Parcelable {
     public int deleting;
     public int is_public;
     public List<Pin> pins;
+    public User user;
 
     public Board() {
     }
@@ -50,6 +51,7 @@ public class Board implements Parcelable {
         dest.writeInt(this.deleting);
         dest.writeInt(this.is_public);
         dest.writeTypedList(this.pins);
+        dest.writeParcelable(this.user, flags);
     }
 
     protected Board(Parcel in) {
@@ -67,6 +69,7 @@ public class Board implements Parcelable {
         this.deleting = in.readInt();
         this.is_public = in.readInt();
         this.pins = in.createTypedArrayList(Pin.CREATOR);
+        this.user = in.readParcelable(User.class.getClassLoader());
     }
 
     public static final Creator<Board> CREATOR = new Creator<Board>() {
@@ -83,7 +86,7 @@ public class Board implements Parcelable {
 
     @Override
     public String toString() {
-        return "PinBoardEntity{" +
+        return "Board{" +
                 "board_id=" + board_id +
                 ", user_id=" + user_id +
                 ", title='" + title + '\'' +
@@ -98,6 +101,7 @@ public class Board implements Parcelable {
                 ", deleting=" + deleting +
                 ", is_public=" + is_public +
                 ", pins=" + pins +
+                ", user=" + user +
                 '}';
     }
 }

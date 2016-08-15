@@ -8,6 +8,7 @@ import com.uilibrary.app.BaseFragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
@@ -38,7 +39,7 @@ public class BoardListFragment extends BaseFragment implements BoardContract.Boa
     BoardListAdapter mAdapter;
 
     @SuppressWarnings("unused")
-    public static BoardListFragment newInstance(int userId) {
+    public static BoardListFragment newInstance(@NonNull int userId) {
         BoardListFragment fragment = new BoardListFragment();
         Bundle args = new Bundle();
         args.putInt(Constant.ARG_USER_ID, userId);
@@ -66,7 +67,7 @@ public class BoardListFragment extends BaseFragment implements BoardContract.Boa
                 .getDimensionPixelSize(R.dimen.space_item_decoration)));
         // Set the adapter
         mBoards = new ArrayList<>();
-        mAdapter = new BoardListAdapter(mBoards);
+        mAdapter = new BoardListAdapter(getContext(), mBoards);
 
         mRecyclerView.setAdapter(mAdapter);
 
