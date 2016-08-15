@@ -3,6 +3,7 @@ package com.jc.petal.board;
 import com.jc.petal.BasePresenter;
 import com.jc.petal.BaseView;
 import com.jc.petal.data.model.Board;
+import com.jc.petal.data.model.Pin;
 
 import java.util.List;
 
@@ -21,11 +22,13 @@ public interface BoardContract {
     }
 
     interface BoardDetailView extends BaseView<BoardDetailPresenter> {
-        void showBoard(Board board);
+        void showBoardInfo(Board board);
+        void showBoardPins(List<Pin> pins);
     }
 
     interface BoardDetailPresenter extends BasePresenter {
         void getBoard(String boardId);
+        void getBoardPins(String boardId, int current, int limit);
     }
 
 

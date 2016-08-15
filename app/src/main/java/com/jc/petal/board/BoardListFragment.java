@@ -88,9 +88,9 @@ public class BoardListFragment extends BaseFragment implements BoardContract.Boa
     @Override
     public void showBoards(List<Board> boards) {
 
-        int curSize = mBoards.size();
+        int curSize = mAdapter.getItemCount();
         mBoards.addAll(boards);
-        mAdapter.notifyItemRangeChanged(curSize, boards.size());
+        mAdapter.notifyItemRangeInserted(curSize, boards.size());
 
     }
 

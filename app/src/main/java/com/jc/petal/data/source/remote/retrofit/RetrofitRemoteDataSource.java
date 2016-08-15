@@ -6,7 +6,7 @@ import com.jc.petal.data.model.BoardDetail;
 import com.jc.petal.data.model.BoardList;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.PinDetail;
-import com.jc.petal.data.model.PinsListBean;
+import com.jc.petal.data.model.PinList;
 import com.jc.petal.data.model.User;
 import com.jc.petal.data.model.Weeklies;
 import com.jc.petal.data.model.Weekly;
@@ -142,10 +142,10 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
 
         Retrofit client = RetrofitClient.getRetrofit();
         CategoryAPI service = client.create(CategoryAPI.class);
-        Call<PinsListBean> call = service.httpsTypeLimit(mAccessOauth, type, limit);
-        call.enqueue(new Callback<PinsListBean>() {
+        Call<PinList> call = service.httpsTypeLimit(mAccessOauth, type, limit);
+        call.enqueue(new Callback<PinList>() {
             @Override
-            public void onResponse(Call<PinsListBean> call, Response<PinsListBean> response) {
+            public void onResponse(Call<PinList> call, Response<PinList> response) {
                 if (response.code() == 200) {
                     List<Pin> pinEntities = response.body().pins;
                     if (pinEntities != null) {
@@ -158,7 +158,7 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
             }
 
             @Override
-            public void onFailure(Call<PinsListBean> call, Throwable t) {
+            public void onFailure(Call<PinList> call, Throwable t) {
                 callback.onError(t.toString());
             }
         });
@@ -170,10 +170,10 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
         Retrofit client = RetrofitClient.getRetrofit();
         CategoryAPI service = client.create(CategoryAPI.class);
 
-        Call<PinsListBean> call = service.httpsTypeMaxLimitRx(mAccessOauth, type, max, limit);
-        call.enqueue(new Callback<PinsListBean>() {
+        Call<PinList> call = service.httpsTypeMaxLimitRx(mAccessOauth, type, max, limit);
+        call.enqueue(new Callback<PinList>() {
             @Override
-            public void onResponse(Call<PinsListBean> call, Response<PinsListBean> response) {
+            public void onResponse(Call<PinList> call, Response<PinList> response) {
                 if (response.code() == 200) {
                     List<Pin> pinEntities = response.body().pins;
                     if (pinEntities != null) {
@@ -187,7 +187,7 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
             }
 
             @Override
-            public void onFailure(Call<PinsListBean> call, Throwable t) {
+            public void onFailure(Call<PinList> call, Throwable t) {
                 callback.onError(t.toString());
             }
         });
@@ -260,6 +260,24 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
 
             @Override
             public void onFailure(Call<BoardDetail> call, Throwable t) {
+                super.onFailure(call, t);
+            }
+        });
+
+    }
+
+    @Override
+    public void getBoardPins(String boardId, int current, int limit, RequestCallback<PinList>
+            requestCallback) {
+        BoardAPI service = getServiceAPI(BoardAPI.class);
+        service.getBoardPins(mAccessOauth,boardId, current, limit).enqueue(new EnqueueCallback<PinList>(requestCallback) {
+            @Override
+            public void onResponse(Call<PinList> call, Response<PinList> response) {
+                super.onResponse(call, response);
+            }
+
+            @Override
+            public void onFailure(Call<PinList> call, Throwable t) {
                 super.onFailure(call, t);
             }
         });

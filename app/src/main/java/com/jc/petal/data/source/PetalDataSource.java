@@ -4,6 +4,7 @@ import com.jc.petal.RequestCallback;
 import com.jc.petal.data.model.BoardDetail;
 import com.jc.petal.data.model.BoardList;
 import com.jc.petal.data.model.Pin;
+import com.jc.petal.data.model.PinList;
 import com.jc.petal.data.model.User;
 import com.jc.petal.data.model.Weekly;
 
@@ -61,6 +62,15 @@ public interface PetalDataSource {
      * 获取画板信息
      */
     void getBoard(String boardId, RequestCallback<BoardDetail> callback);
+
+    /**
+     * 获取画板包含的采集图片列表
+     * @param boardId 画板ID
+     * @param current 当前页
+     * @param limit   一页多少个
+     * @param callback 回调函数
+     */
+    void getBoardPins(String boardId, int current, int limit, RequestCallback<PinList> callback);
 
     /**
      * 获取用户拥有的画板集合

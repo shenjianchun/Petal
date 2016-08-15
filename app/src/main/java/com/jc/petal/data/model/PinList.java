@@ -6,7 +6,7 @@ import java.util.List;
  * Created by LiCola on  2015/12/04  20:02
  * 所有的图片列表基类
  */
-public class PinsListBean {
+public class PinList {
 
     /**
      * pin_id : 562785369
@@ -35,4 +35,10 @@ public class PinsListBean {
 
     public List<Pin> pins;
 
+    @Override
+    public String toString() {
+        return "PinList{" +
+                "pins=" + pins +
+                '}';
+    }
 }

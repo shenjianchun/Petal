@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,26 +34,43 @@ public class BoardDetailActivity extends BaseActivity implements BoardContract.B
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
 
+    TextView mBoardDesc;
+    TextView mUserTv;
+    TextView mBoardFollowCount;
+    TextView mBoardPinCount;
+
     private String mBoardId;
     private ArrayList<Pin> mPins;
+    private BoardDetailAdapter mAdapter;
     private BoardContract.BoardDetailPresenter mPresenter;
+
+    private int mCurrent = 0;
+    private int mLimit = 20;
 
     @Override
     protected void initViewsAndEvents() {
 
         setHomeButtonEnabled();
 
+        mPins = new ArrayList<>();
+
         mBoardId = getIntent().getStringExtra(Constant.ARG_BOARD_ID);
 
         Preconditions.checkNotNull(mBoardId);
 
-        mPresenter = new BoardDetailPresenterImpl(this, PetalRepository.getInstance(this));
+
+        new BoardDetailPresenterImpl(this, PetalRepository.getInstance(this));
+
+        initRecyclerView();
 
         mPresenter.getBoard(mBoardId);
+        mPresenter.getBoardPins(mBoardId, mCurrent, mLimit);
     }
 
-
-    private void initRecyclerView(Board board) {
+    /**
+     * 初始化RecyclerView
+     */
+    private void initRecyclerView() {
 
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,
                 StaggeredGridLayoutManager.VERTICAL);
@@ -61,7 +79,7 @@ public class BoardDetailActivity extends BaseActivity implements BoardContract.B
         mRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources()
                 .getDimensionPixelSize(R.dimen.space_item_decoration)));
         // Set the adapter
-        BoardDetailAdapter adapter = new BoardDetailAdapter(this, board.pins, new PinsListFragment.OnImageClickListener() {
+        mAdapter = new BoardDetailAdapter(this, mPins, new PinsListFragment.OnImageClickListener() {
             @Override
             public void onClick(Pin pin, int position) {
                 Bundle bundle = new Bundle();
@@ -79,32 +97,34 @@ public class BoardDetailActivity extends BaseActivity implements BoardContract.B
             }
         });
 
-        adapter.setHeaderView(inflateHeader(board));
+        mAdapter.setHeaderView(inflateHeader());
 
-        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     /**
      * 画板详情的头部View
      * @return Header View
      */
-    private View inflateHeader(Board board) {
+    private View inflateHeader() {
 
         View headerView = getLayoutInflater().inflate(R.layout.view_board_detail_info, mRecyclerView,
                 false);
 
-        TextView mBoardDesc = ButterKnife.findById(headerView, R.id.tv_board_describe);
-        TextView mUserTv = ButterKnife.findById(headerView,R.id.tv_board_describe);
-        TextView mBoardFollowCount = ButterKnife.findById(headerView, R.id.tv_board_follow_count);
-        TextView mBoardPinCount = ButterKnife.findById(headerView, R.id.tv_board_pin_count);
+        mBoardDesc = ButterKnife.findById(headerView, R.id.tv_board_describe);
+        mUserTv = ButterKnife.findById(headerView,R.id.tv_board_describe);
+        mBoardFollowCount = ButterKnife.findById(headerView, R.id.tv_board_follow_count);
+        mBoardPinCount = ButterKnife.findById(headerView, R.id.tv_board_pin_count);
 
+        return headerView;
+    }
+
+    private void updateHeader(Board board) {
 
         mUserTv.setText(board.user.username);
         mBoardDesc.setText(board.title);
         mBoardFollowCount.setText(String.valueOf(board.follow_count));
         mBoardPinCount.setText(String.valueOf(board.pin_count));
-
-        return headerView;
     }
 
 
@@ -114,15 +134,21 @@ public class BoardDetailActivity extends BaseActivity implements BoardContract.B
     }
 
     @Override
-    public void showBoard(Board board) {
+    public void showBoardInfo(Board board) {
 
-        initRecyclerView(board);
+        updateHeader(board);
+    }
 
+    @Override
+    public void showBoardPins(List<Pin> pins) {
+        int curSize = mAdapter.getItemCount();
+        mPins.addAll(pins);
+        mAdapter.notifyItemRangeInserted(curSize, pins.size());
     }
 
     @Override
     public void setPresenter(BoardContract.BoardDetailPresenter presenter) {
-
+        mPresenter = presenter;
     }
 
     @Override

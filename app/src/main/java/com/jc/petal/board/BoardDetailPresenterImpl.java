@@ -5,9 +5,15 @@ import com.google.common.base.Preconditions;
 import com.jc.petal.RequestCallback;
 import com.jc.petal.data.model.Board;
 import com.jc.petal.data.model.BoardDetail;
+import com.jc.petal.data.model.Pin;
+import com.jc.petal.data.model.PinList;
 import com.jc.petal.data.source.PetalRepository;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 import android.support.annotation.NonNull;
+
+import java.util.List;
 
 /**
  * Board detail presenter
@@ -36,7 +42,7 @@ public class BoardDetailPresenterImpl implements BoardContract.BoardDetailPresen
 
                 Board board = data.board;
 
-                mView.showBoard(board);
+                mView.showBoardInfo(board);
                 mView.hideLoading();
 
             }
@@ -47,6 +53,27 @@ public class BoardDetailPresenterImpl implements BoardContract.BoardDetailPresen
                 mView.hideLoading();
             }
         });
+    }
+
+    @Override
+    public void getBoardPins(String boardId, int current, int limit) {
+
+        mRepository.getBoardPins(boardId, current, limit, new RequestCallback<PinList>() {
+            @Override
+            public void onSuccess(PinList data) {
+                List<Pin> pins = data.pins;
+                if (!CollectionUtils.isEmpty(pins)) {
+                    mView.showBoardPins(pins);
+                }
+            }
+
+            @Override
+            public void onError(String msg) {
+//                mView.showError(msg);
+//                mView.hideLoading();
+            }
+        });
+
     }
 
     @Override

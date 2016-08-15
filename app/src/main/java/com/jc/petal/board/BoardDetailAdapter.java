@@ -6,8 +6,6 @@ import com.jc.petal.category.PinsListFragment;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.utils.CompatUtils;
 
-import org.apache.commons.collections4.CollectionUtils;
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -89,7 +87,8 @@ public class BoardDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     null,
                     null,
                     null);
-            return new ContentViewHolder(view);
+
+            return holder;
         }
 
     }
@@ -147,7 +146,7 @@ public class BoardDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             @Override
             public void onClick(View v) {
                 if (null != mImageListener) {
-                    mImageListener.onClick(holder.mItem, position);
+//                    mImageListener.onClick(holder.mItem, position);
                 }
             }
         });
@@ -156,7 +155,7 @@ public class BoardDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public int getItemCount() {
 
-        if (CollectionUtils.isEmpty(mPins)) {
+        if (mPins == null) {
             return 0;
         }
 

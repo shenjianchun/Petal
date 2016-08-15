@@ -1,6 +1,7 @@
 package com.jc.petal.board;
 
 import com.bumptech.glide.Glide;
+import com.jc.petal.Constant;
 import com.jc.petal.R;
 import com.jc.petal.data.model.Board;
 import com.jc.petal.data.model.Pin;
@@ -8,6 +9,7 @@ import com.jc.petal.data.model.Pin;
 import org.apache.commons.collections4.CollectionUtils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,7 +31,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
     private Context mContext;
     private final List<Board> mBoards;
 
-    public BoardListAdapter(@NonNull Context context,@NonNull List<Board> items) {
+    public BoardListAdapter(@NonNull Context context, @NonNull List<Board> items) {
         mContext = context;
         mBoards = items;
     }
@@ -50,6 +52,13 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
 
 
         List<Pin> pins = board.pins;
+
+        onBindData(holder, pins);
+        onBindListener(holder, position);
+
+    }
+
+    private void onBindData(final ViewHolder holder, final List<Pin> pins) {
 
         if (!CollectionUtils.isEmpty(pins)) {
 
@@ -87,14 +96,23 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
                 if (i == 4) {
                     break;
                 }
-
             }
 
-
         }
+    }
 
 
+    private void onBindListener(final ViewHolder holder, final int position) {
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra(Constant.ARG_BOARD_ID, String.valueOf(mBoards.get(position).board_id));
+                intent.setClass(mContext, BoardDetailActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -5,10 +5,8 @@ package com.jc.petal;
  * 常量类 用于保存字段的key值
  */
 public class Constant {
-    public static final String EMPTY_STRING = "";
-    public static final String[] EMPTY_STRING_ARRAY = new String[0];
 
-    public static final String Authorization="Authorization";
+    public static final String Authorization = "Authorization";
 
     //token information
     public static final String TOKENACCESS = "TokenAccess";
@@ -31,11 +29,11 @@ public class Constant {
     public static final String USEREMAIL = "userEmail";
 
     //board info
-    public static final String BOARDTILTARRAY="boardTitleArray";
-    public static final String BOARDIDARRAY="boardIdArray";
+    public static final String BOARDTILTARRAY = "boardTitleArray";
+    public static final String BOARDIDARRAY = "boardIdArray";
 
     //,
-    public static final String SEPARATECOMMA=",";
+    public static final String SEPARATECOMMA = ",";
 
     //search
     public static final String HISTORYTEXT = "historyText";
@@ -44,7 +42,7 @@ public class Constant {
     public static final int LIMIT = 20;
 
     //RxView点击防止抖动时间间隔
-    public static final long throttDuration=300;
+    public static final long throttDuration = 300;
 
     //用户喜欢操作的操作字段
     public static final String OPERATELIKE = "like";
@@ -55,13 +53,18 @@ public class Constant {
     public static final String OPERATEUNFOLLOW = "unfollow";
 
     //获得用户画板列表详情的操作符
-    public static final String OPERATEBOARDEXTRA="recommend_tags";
-    public static final boolean OPERATECHECK=true;
+    public static final String OPERATEBOARDEXTRA = "recommend_tags";
+    public static final boolean OPERATECHECK = true;
 
     //删除画板的操作符
-    public static final String OPERATEDELETEBOARD="DELETE";
+    public static final String OPERATEDELETEBOARD = "DELETE";
 
 
+    /*****************************************************/
+
+    public static final String QUERY_KEY_CURRENT = "current";
+    public static final String QUERY_KEY_MAX = "max";
+    public static final String QUERY_KEY_SINCE = "since";
 
     /*****************************************************/
     public static final String ARG_TYPE = "type";

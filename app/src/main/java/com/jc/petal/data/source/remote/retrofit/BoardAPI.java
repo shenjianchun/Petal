@@ -2,11 +2,13 @@ package com.jc.petal.data.source.remote.retrofit;
 
 import com.jc.petal.Constant;
 import com.jc.petal.data.model.BoardDetail;
+import com.jc.petal.data.model.PinList;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * 画板相关 API
@@ -15,5 +17,12 @@ import retrofit2.http.Path;
 public interface BoardAPI {
 
     @GET("boards/{boardId}")
-    Call<BoardDetail> getBoard(@Header(Constant.Authorization) String authorization, @Path("boardId") String boardId);
+    Call<BoardDetail> getBoard(@Header(Constant.Authorization) String authorization,
+                               @Path("boardId") String boardId);
+
+    @GET("boards/{boardId}/pins")
+    Call<PinList> getBoardPins(@Header(Constant.Authorization) String authorization,
+                               @Path("boardId") String boardId,
+                               @Query("current") int current,
+                               @Query("limit") int limit);
 }

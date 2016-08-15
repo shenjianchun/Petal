@@ -191,9 +191,9 @@ public class PinsListFragment extends BaseFragment implements CategoryContract.V
 
     @Override
     public void showPins(List<Pin> pins) {
-        int curSize = mPins.size();
+        int curSize = mAdapter.getItemCount();
         mPins.addAll(pins);
-        mAdapter.notifyItemRangeChanged(curSize, pins.size());
+        mAdapter.notifyItemRangeInserted(curSize, pins.size());
     }
 
     @Override
