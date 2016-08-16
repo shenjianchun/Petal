@@ -24,6 +24,9 @@ public abstract class EnqueueCallback<T> implements Callback<T> {
         if (response.code() == 200 && response.body() != null) {
             T object = response.body();
             Logger.d(object);
+
+            refreshLocal(object);
+
             mRequestCallback.onSuccess(object);
 
         } else {
@@ -37,4 +40,9 @@ public abstract class EnqueueCallback<T> implements Callback<T> {
         Logger.d(t.toString());
         mRequestCallback.onError("网络或者服务器有问题！");
     }
+
+    protected void refreshLocal(T object) {
+
+    }
+
 }

@@ -32,28 +32,28 @@ public class PetalAPI {
     protected static final String API_TOKEN = "https://huaban.com/oauth/access_token/";
     protected static final String API_USER = "http://api.huaban.com/users/";
     protected static final String API_WEEKLY = "http://api.huaban.com/weekly/";
-    private static final String Authorization = "Authorization";
+
+
     private static final int CONNECTION_TIMEOUT = 20000;
     public static final String HBIMG = "http://img.hb.aicdn.com/";
-    protected static final String LIMIT = "limit";
-    protected static final String MAX = "max";
-    protected static final String SINCE = "since";
     private static final int SO_TIMEOUT = 20000;
     private static final String X_Client_ID = "X-Client-ID";
-    protected String mClientID;
-    protected String mClientInfo;
-    protected String mClientSecret;
-    protected String mMD;
 
-    protected String mAuthorization;
-    protected AuthTokenBean mToken;
+
+    private String mClientID;
+    private String mClientInfo;
+    private String mClientSecret;
+    private String mMD;
+
+    private String mAuthorization;
+    private AuthTokenBean mToken;
     /**
      * 登陆完成之后取得到的授权字段
      * 根据AuthTokenBean中的 token_type + " " + access_token 组合而成
      */
-    protected String mAccessOauth;
+    private String mAccessOauth;
 
-    protected User mSelf;
+    private User mSelf;
 
     public PetalAPI() {
         init();
@@ -66,4 +66,59 @@ public class PetalAPI {
         mAuthorization = "Basic " + Base64.encodeString(mClientInfo);
     }
 
+    public String getAuthorization() {
+        return mAuthorization;
+    }
+
+    public void setAuthorization(String authorization) {
+        mAuthorization = authorization;
+    }
+
+    public AuthTokenBean getToken() {
+        return mToken;
+    }
+
+    public void setToken(AuthTokenBean token) {
+        mToken = token;
+    }
+
+    public String getAccessOauth() {
+        return mAccessOauth;
+    }
+
+    public void setAccessOauth(String accessOauth) {
+        mAccessOauth = accessOauth;
+    }
+
+    public User getSelf() {
+        return mSelf;
+    }
+
+    public void setSelf(User self) {
+        mSelf = self;
+    }
+
+    public String getClientInfo() {
+        return mClientInfo;
+    }
+
+    public void setClientInfo(String clientInfo) {
+        mClientInfo = clientInfo;
+    }
+
+    public String getClientID() {
+        return mClientID;
+    }
+
+    public void setClientID(String clientID) {
+        mClientID = clientID;
+    }
+
+    public String getClientSecret() {
+        return mClientSecret;
+    }
+
+    public void setClientSecret(String clientSecret) {
+        mClientSecret = clientSecret;
+    }
 }

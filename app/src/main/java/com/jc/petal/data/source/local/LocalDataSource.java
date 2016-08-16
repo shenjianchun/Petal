@@ -1,6 +1,7 @@
 package com.jc.petal.data.source.local;
 
 import com.jc.petal.RequestCallback;
+import com.jc.petal.data.model.AuthTokenBean;
 import com.jc.petal.data.model.BoardDetail;
 import com.jc.petal.data.model.BoardList;
 import com.jc.petal.data.model.Pin;
@@ -41,7 +42,6 @@ public class LocalDataSource implements PetalDataSource {
             synchronized (LocalDataSource.class) {
                 if (INSTANCE == null) {
                     INSTANCE = new LocalDataSource(context);
-
                 }
             }
         }
@@ -50,7 +50,7 @@ public class LocalDataSource implements PetalDataSource {
     }
 
     @Override
-    public void login(String name, String password, RequestCallback<User> callback) {
+    public void login(String name, String password, RequestCallback<AuthTokenBean> callback) {
 
     }
 

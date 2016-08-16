@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import my.nouilibrary.utils.T;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
@@ -201,7 +202,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_picture:
-                readyGoForResult(LoginActivity.class, REQUEST_CODE_LOGIN);
+                if (!mRepository.isLogin()) {
+                    readyGoForResult(LoginActivity.class, REQUEST_CODE_LOGIN);
+                } else {
+                    T.showShort(this, "已经登录过了！");
+                }
                 break;
             default:
                 break;

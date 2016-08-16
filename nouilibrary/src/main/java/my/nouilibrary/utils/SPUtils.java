@@ -14,7 +14,7 @@ public class SPUtils {
     /**
      * 保存在手机里面的文件名
      */
-    public static final String FILE_NAME = "petal";
+    public static final String FILE_NAME = "petal_data";
 
     /* cannot be instantiated */
     private SPUtils() {

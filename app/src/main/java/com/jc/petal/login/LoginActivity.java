@@ -1,11 +1,13 @@
 package com.jc.petal.login;
 
+import com.jc.petal.Constants;
 import com.jc.petal.R;
 import com.jc.petal.data.model.User;
 import com.jc.petal.data.source.PetalRepository;
 import com.uilibrary.app.BaseActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
@@ -78,7 +80,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
             cancel = true;
         }
 
-
         if (cancel) {
             focusView.requestFocus();
 
@@ -115,4 +116,17 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
         finish();
     }
+
+    private void saveLoginInfo(User user) {
+
+        SharedPreferences  sharedPreferences = getSharedPreferences("share_data", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putBoolean(Constants.IS_LOGIN, true);
+//        editor.putString(Constants.LOGIN_TIME, user.);
+
+        editor.apply();
+
+    }
+
 }

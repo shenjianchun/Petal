@@ -1,6 +1,7 @@
 package com.jc.petal.login;
 
 import com.jc.petal.RequestCallback;
+import com.jc.petal.data.model.AuthTokenBean;
 import com.jc.petal.data.model.User;
 import com.jc.petal.data.source.PetalRepository;
 import com.orhanobut.logger.Logger;
@@ -26,19 +27,38 @@ public class LoginPresenter implements LoginContract.Presenter {
     @Override
     public void login(String username, String password) {
         mView.showLoading();
-        mRepository.login(username, password, new RequestCallback<User>() {
+        mRepository.login(username, password, new RequestCallback<AuthTokenBean>() {
+            @Override
+            public void onSuccess(AuthTokenBean data) {
+
+                if (data != null) {
+                    getSelfInfo();
+                }
+
+//                mView.hideLoading();
+//                mView.loginSuccess(data);
+            }
+
+            @Override
+            public void onError(String msg) {
+
+                mView.hideLoading();
+                mView.showError(msg);
+            }
+        });
+    }
+
+    @Override
+    public void getSelfInfo() {
+        mRepository.getSelf(new RequestCallback<User>() {
             @Override
             public void onSuccess(User data) {
-                Logger.d(data);
-
                 mView.hideLoading();
                 mView.loginSuccess(data);
             }
 
             @Override
             public void onError(String msg) {
-                Logger.d(msg);
-
                 mView.hideLoading();
                 mView.showError(msg);
             }

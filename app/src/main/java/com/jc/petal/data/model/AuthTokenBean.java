@@ -15,7 +15,7 @@ public class AuthTokenBean {
 
     public String access_token;
     public String token_type;
-    public int expires_in;
+    public String expires_in;
     public String refresh_token;
 
     @Override

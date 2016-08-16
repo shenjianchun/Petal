@@ -1,5 +1,6 @@
 package com.jc.petal.data.source.remote.retrofit;
 
+import com.jc.petal.Constants;
 import com.jc.petal.RequestCallback;
 import com.jc.petal.data.model.AuthTokenBean;
 import com.jc.petal.data.model.BoardDetail;
@@ -25,13 +26,16 @@ import retrofit2.Retrofit;
  * Implementation of the data source that adds a latency network.
  * Created by JC on 2016-07-29.
  */
-public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSource {
+public class RetrofitRemoteDataSource implements PetalDataSource {
 
     private static Retrofit sClient;
 
-    public RetrofitRemoteDataSource() {
+    private final PetalAPI mPetalAPI;
+
+    public RetrofitRemoteDataSource(PetalAPI api) {
         super();
         sClient = RetrofitClient.getRetrofit();
+        mPetalAPI = api;
     }
 
     private <T> T getServiceAPI(Class<T> clazz) {
@@ -46,28 +50,30 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
      * @param callback 成功或失败后的回调函数
      */
     @Override
-    public void login(String name, String password, final RequestCallback<User> callback) {
+    public void login(String name, String password, final RequestCallback<AuthTokenBean> callback) {
 
         Retrofit client = RetrofitClient.getRetrofit();
 
         OAuthAPI service = client.create(OAuthAPI.class);
-        //联网的授权字段
-//        String authorization = "Basic " +
-//                "MWQ5MTJjYWU0NzE0NGZhMDlkODg6Zjk0ZmNjMDliNTliNDM0OWExNDhhMjAzYWIyZjIwYzc=";
 
-        Call<AuthTokenBean> call = service.getToken(mAuthorization, "password", name, password);
+        Call<AuthTokenBean> call = service.getToken(mPetalAPI.getAuthorization(), Constants
+                .GRANT_TYPE_PASSWORD, name, password);
         call.enqueue(new Callback<AuthTokenBean>() {
             @Override
             public void onResponse(Call<AuthTokenBean> call, Response<AuthTokenBean> response) {
 
                 if (response.code() == 200 && response.body() != null) {
-                    // 保存用户Token
-                    mToken = response.body();
-                    mAccessOauth = mToken.token_type + " " + mToken.access_token;
-                    Logger.d(mToken);
 
-                    getSelf(callback);
-//                    callback.onSuccess(mToken.access_token);
+                    AuthTokenBean token = response.body();
+                    // 保存用户Token
+                    mPetalAPI.setToken(token);
+
+                    String accessOauth = token.token_type +  " " + token.access_token;
+                    mPetalAPI.setAccessOauth(accessOauth);
+
+                    Logger.d(token);
+
+                    callback.onSuccess(token);
                 } else {
                     callback.onError("账号或者密码不对！");
                 }
@@ -88,28 +94,12 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
     public void getSelf(final RequestCallback<User> callback) {
         Retrofit client = RetrofitClient.getRetrofit();
         final UserAPI userAPI = client.create(UserAPI.class);
-        userAPI.getSelf(mAccessOauth).enqueue(new Callback<User>() {
-
+        userAPI.getSelf(mPetalAPI.getAccessOauth()).enqueue(new EnqueueCallback<User>(callback) {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            protected void refreshLocal(User object) {
+                super.refreshLocal(object);
 
-                if (response.code() == 200 && response.body() != null) {
-                    User user = response.body();
-                    Logger.d(user);
-
-                    mSelf = user;
-                    callback.onSuccess(user);
-                } else {
-                    Logger.d(response.errorBody());
-                    callback.onError(String.valueOf(response.code()));
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Logger.d(t.toString());
-                callback.onError("网络或者服务器有问题！");
+                mPetalAPI.setSelf(object);
             }
         });
 
@@ -120,7 +110,7 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
     public void getUser(final String userId, final RequestCallback<User> callback) {
 
         UserAPI service = getServiceAPI(UserAPI.class);
-        Call<User> call = service.getUser(mAccessOauth, userId);
+        Call<User> call = service.getUser(mPetalAPI.getAccessOauth(), userId);
 
         call.enqueue(new EnqueueCallback<User>(callback) {
             @Override
@@ -142,7 +132,7 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
 
         Retrofit client = RetrofitClient.getRetrofit();
         CategoryAPI service = client.create(CategoryAPI.class);
-        Call<PinList> call = service.httpsTypeLimit(mAccessOauth, type, limit);
+        Call<PinList> call = service.httpsTypeLimit(mPetalAPI.getAccessOauth(), type, limit);
         call.enqueue(new Callback<PinList>() {
             @Override
             public void onResponse(Call<PinList> call, Response<PinList> response) {
@@ -170,7 +160,7 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
         Retrofit client = RetrofitClient.getRetrofit();
         CategoryAPI service = client.create(CategoryAPI.class);
 
-        Call<PinList> call = service.httpsTypeMaxLimitRx(mAccessOauth, type, max, limit);
+        Call<PinList> call = service.httpsTypeMaxLimitRx(mPetalAPI.getAccessOauth(), type, max, limit);
         call.enqueue(new Callback<PinList>() {
             @Override
             public void onResponse(Call<PinList> call, Response<PinList> response) {
@@ -199,7 +189,7 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
         Retrofit retrofit = RetrofitClient.getRetrofit();
         PinAPI service = retrofit.create(PinAPI.class);
 
-        Call<PinDetail> call = service.getPin(mAccessOauth, String.valueOf(pinId));
+        Call<PinDetail> call = service.getPin(mPetalAPI.getAccessOauth(), String.valueOf(pinId));
         call.enqueue(new Callback<PinDetail>() {
             @Override
             public void onResponse(Call<PinDetail> call, Response<PinDetail> response) {
@@ -225,7 +215,7 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
 
         WeeklyAPI service = getServiceAPI(WeeklyAPI.class);
 
-        Call<Weeklies> call = service.getWeekies(mAccessOauth, max);
+        Call<Weeklies> call = service.getWeekies(mPetalAPI.getAccessOauth(), max);
         call.enqueue(new Callback<Weeklies>() {
             @Override
             public void onResponse(Call<Weeklies> call, Response<Weeklies> response) {
@@ -252,7 +242,8 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
     @Override
     public void getBoard(String boardId, final RequestCallback<BoardDetail> requestCallback) {
         BoardAPI service = getServiceAPI(BoardAPI.class);
-        service.getBoard(mAccessOauth, boardId).enqueue(new EnqueueCallback<BoardDetail>(requestCallback) {
+        service.getBoard(mPetalAPI.getAccessOauth(), boardId).enqueue(new EnqueueCallback<BoardDetail>
+                (requestCallback) {
             @Override
             public void onResponse(Call<BoardDetail> call, Response<BoardDetail> response) {
                 super.onResponse(call, response);
@@ -270,7 +261,7 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
     public void getBoardPins(String boardId, int current, int limit, RequestCallback<PinList>
             requestCallback) {
         BoardAPI service = getServiceAPI(BoardAPI.class);
-        service.getBoardPins(mAccessOauth,boardId, current, limit).enqueue(new EnqueueCallback<PinList>(requestCallback) {
+        service.getBoardPins(mPetalAPI.getAccessOauth(), boardId, current, limit).enqueue(new EnqueueCallback<PinList>(requestCallback) {
             @Override
             public void onResponse(Call<PinList> call, Response<PinList> response) {
                 super.onResponse(call, response);
@@ -287,7 +278,8 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
     @Override
     public void getUserBoards(String userId, RequestCallback<BoardList> callback) {
         UserAPI service = getServiceAPI(UserAPI.class);
-        service.getUserBoards(mAccessOauth, userId).enqueue(new EnqueueCallback<BoardList>(callback) {
+        service.getUserBoards(mPetalAPI.getAccessOauth(), userId).enqueue(new EnqueueCallback<BoardList>
+                (callback) {
             @Override
             public void onResponse(Call<BoardList> call, Response<BoardList> response) {
                 super.onResponse(call, response);

@@ -6,20 +6,12 @@ package com.jc.petal;
  */
 public class Constants {
 
-    public static final String Authorization = "Authorization";
 
     //token information
-    public static final String TOKENACCESS = "TokenAccess";
-    public static final String TOKENREFRESH = "TokenRefresh";
-    public static final String TOKENTYPE = "TokenType";
-    public static final String TOKENEXPIRESIN = "TokeExpiresIn";
-
-    //user information
-    public static final String ISLOGIN = "isLogin";
-    public static final String LOGINTIME = "loginTime";
-    public static final String USERACCOUNT = "userAccount";
-    public static final String USERPASSWORD = "userPassword";
-
+    public static final String TOKEN_ACCESS = "TokenAccess";
+    public static final String TOKEN_REFRESH = "TokenRefresh";
+    public static final String TOKEN_TYPE = "TokenType";
+    public static final String TOKE_EXPIRES_IN = "TokeExpiresIn";
 
     public static final String USERNAME = "userName";
     public static final String USERID = "userID";
@@ -37,9 +29,6 @@ public class Constants {
 
     //search
     public static final String HISTORYTEXT = "historyText";
-
-    //http limit number
-    public static final int LIMIT = 20;
 
     //RxView点击防止抖动时间间隔
     public static final long throttDuration = 300;
@@ -59,6 +48,20 @@ public class Constants {
     //删除画板的操作符
     public static final String OPERATEDELETEBOARD = "DELETE";
 
+    /*****************************************************/
+
+    public static final String Authorization = "Authorization";
+
+    public static final String GRANT_TYPE_PASSWORD = "password";
+
+    //user information
+    public static final String IS_LOGIN = "isLogin";
+    public static final String LOGIN_TIME = "loginTime";
+    public static final String USER_ACCOUNT = "userAccount";
+    public static final String USER_PASSWORD = "userPassword";
+
+    //http limit number
+    public static final int LIMIT = 20;
 
     /*****************************************************/
 

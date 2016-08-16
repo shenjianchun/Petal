@@ -64,7 +64,7 @@ public class UserActivity extends BaseActivity implements UserContract.View {
         setHomeButtonEnabled();
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        mRepository = PetalRepository.getInstance(this);
+        mRepository = PetalRepository.getInstance(getApplicationContext());
         new UserPresenter(this, mRepository);
 
         String userId = getIntent().getStringExtra(Constants.ARG_USER_ID);

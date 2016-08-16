@@ -59,7 +59,7 @@ public class BoardDetailActivity extends BaseActivity implements BoardContract.B
         Preconditions.checkNotNull(mBoardId);
 
 
-        new BoardDetailPresenterImpl(this, PetalRepository.getInstance(this));
+        new BoardDetailPresenterImpl(this, PetalRepository.getInstance(getApplicationContext()));
 
         initRecyclerView();
 
