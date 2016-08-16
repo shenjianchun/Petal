@@ -1,6 +1,6 @@
 package com.jc.petal.data.source.remote.retrofit;
 
-import com.jc.petal.Constant;
+import com.jc.petal.Constants;
 import com.jc.petal.data.model.Weeklies;
 import com.jc.petal.data.model.Weekly;
 
@@ -17,11 +17,11 @@ import retrofit2.http.Query;
 public interface WeeklyAPI {
 
     @GET("weekly")
-    Call<Weeklies> getWeekies(@Header(Constant.Authorization) String authorization,
+    Call<Weeklies> getWeekies(@Header(Constants.Authorization) String authorization,
                               @Query("max") String max);
 
     @GET("weekly/{number}")
-    Call<Weekly> getWeeklyDetail(@Header(Constant.Authorization) String authorization,
+    Call<Weekly> getWeeklyDetail(@Header(Constants.Authorization) String authorization,
                                  @Path("number") String number);
 
 }

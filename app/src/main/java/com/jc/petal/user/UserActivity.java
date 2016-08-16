@@ -1,15 +1,13 @@
 package com.jc.petal.user;
 
-import com.google.common.base.Preconditions;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.jc.petal.Constant;
+import com.jc.petal.Constants;
 import com.jc.petal.R;
 import com.jc.petal.board.BoardListFragment;
 import com.jc.petal.board.BoardListPresenterImpl;
-import com.jc.petal.data.model.Pin;
+import com.jc.petal.data.model.User;
 import com.jc.petal.data.source.PetalRepository;
 import com.jc.petal.utils.FastBlurUtil;
 import com.uilibrary.app.BaseActivity;
@@ -30,12 +28,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import my.nouilibrary.utils.T;
 
 /**
  * 用户信息 Activity
  * Created by JC on 2016-08-11.
  */
-public class UserActivity extends BaseActivity {
+public class UserActivity extends BaseActivity implements UserContract.View {
 
     @BindView(R.id.iv_user_avatar)
     ImageView mAvatarIv;
@@ -54,8 +53,7 @@ public class UserActivity extends BaseActivity {
     ViewPager mViewPager;
 
     private PetalRepository mRepository;
-
-    private Pin mPin;
+    private UserContract.Presenter mPresenter;
 
     private String[] mTitleList;
     private List<Fragment> mFragmentList;
@@ -67,24 +65,29 @@ public class UserActivity extends BaseActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         mRepository = PetalRepository.getInstance(this);
+        new UserPresenter(this, mRepository);
 
-        initHeader();
-        initViewPager();
+        String userId = getIntent().getStringExtra(Constants.ARG_USER_ID);
+
+        mPresenter.getUserInfo(userId);
+
+//        initHeader();
+//        initViewPager();
 
     }
 
 
-    private void initViewPager() {
+    private void initViewPager(User user) {
         mTitleList = getResources().getStringArray(R.array.user_section);
         mFragmentList = new ArrayList<>(4);
 
-        BoardListFragment boardListFragment = BoardListFragment.newInstance(137688);
+        BoardListFragment boardListFragment = BoardListFragment.newInstance(user.user_id);
         new BoardListPresenterImpl(boardListFragment, mRepository);
         mFragmentList.add(boardListFragment);
 
-        mFragmentList.add(UserAboutFragment.newInstance());
-        mFragmentList.add(UserAboutFragment.newInstance());
-        mFragmentList.add(UserAboutFragment.newInstance());
+        mFragmentList.add(UserAboutFragment.newInstance(user));
+        mFragmentList.add(UserAboutFragment.newInstance(user));
+        mFragmentList.add(UserAboutFragment.newInstance(user));
 
 
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -93,20 +96,19 @@ public class UserActivity extends BaseActivity {
 
     }
 
-    private void initHeader() {
+    private void initHeader(User user) {
         // TODO: 2016-08-12 需要重新拉取数据，而不是从Intent中获取
-        mPin = getIntent().getParcelableExtra(Constant.ARG_PIN);
-        Preconditions.checkNotNull(mPin);
 
-        mUserNameTv.setText(mPin.user.username);
-        mUserProfileTv.setText(mPin.user.user_id);
 
-        String userFansFollows = getString(R.string.user_fans_follows, mPin.like_count, mPin
-                .repin_count);
+        mUserNameTv.setText(user.username);
+        mUserProfileTv.setText(user.user_id);
+
+        String userFansFollows = getString(R.string.user_fans_follows, user.like_count, user
+                .follower_count);
         mFansFollowsTv.setText(userFansFollows);
 
         // avatar url
-        String avatarUrl = getString(R.string.url_image_small, mPin.user.avatar.key);
+        String avatarUrl = getString(R.string.url_image_small, user.avatar.key);
         Glide.with(this).load(avatarUrl).asBitmap().placeholder(R.drawable
                 .account_circle_grey_36x36)
                 .fitCenter().into(new SimpleTarget<Bitmap>() {
@@ -122,13 +124,39 @@ public class UserActivity extends BaseActivity {
             }
         });
 
-
     }
 
 
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_user;
+    }
+
+    @Override
+    public void setPresenter(UserContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
+    public void showLoading() {
+        showLoadingDialog("正在加载...");
+    }
+
+    @Override
+    public void hideLoading() {
+        hideLoadingDialog();
+    }
+
+    @Override
+    public void showError(String msg) {
+        T.showShort(this, msg);
+    }
+
+    @Override
+    public void showUserInfo(User user) {
+
+        initHeader(user);
+        initViewPager(user);
     }
 
 

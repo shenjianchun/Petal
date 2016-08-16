@@ -2,7 +2,7 @@ package com.jc.petal.board;
 
 import com.google.common.base.Preconditions;
 
-import com.jc.petal.Constant;
+import com.jc.petal.Constants;
 import com.jc.petal.R;
 import com.jc.petal.category.PinsListFragment;
 import com.jc.petal.data.model.Board;
@@ -54,7 +54,7 @@ public class BoardDetailActivity extends BaseActivity implements BoardContract.B
 
         mPins = new ArrayList<>();
 
-        mBoardId = getIntent().getStringExtra(Constant.ARG_BOARD_ID);
+        mBoardId = getIntent().getStringExtra(Constants.ARG_BOARD_ID);
 
         Preconditions.checkNotNull(mBoardId);
 

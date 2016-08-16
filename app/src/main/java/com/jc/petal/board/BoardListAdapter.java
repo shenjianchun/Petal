@@ -1,7 +1,7 @@
 package com.jc.petal.board;
 
 import com.bumptech.glide.Glide;
-import com.jc.petal.Constant;
+import com.jc.petal.Constants;
 import com.jc.petal.R;
 import com.jc.petal.data.model.Board;
 import com.jc.petal.data.model.Pin;
@@ -108,7 +108,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.putExtra(Constant.ARG_BOARD_ID, String.valueOf(mBoards.get(position).board_id));
+                intent.putExtra(Constants.ARG_BOARD_ID, String.valueOf(mBoards.get(position).board_id));
                 intent.setClass(mContext, BoardDetailActivity.class);
                 mContext.startActivity(intent);
             }

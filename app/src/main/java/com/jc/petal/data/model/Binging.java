@@ -13,7 +13,7 @@ public class Binging implements Parcelable {
     public int user_id;
     public String service_name;
     public String auth_type;
-    public UserInfo user_info;
+    public BindingUserInfo user_info;
     public int created_at;
 
     @Override
@@ -51,7 +51,7 @@ public class Binging implements Parcelable {
         this.user_id = in.readInt();
         this.service_name = in.readString();
         this.auth_type = in.readString();
-        this.user_info = in.readParcelable(UserInfo.class.getClassLoader());
+        this.user_info = in.readParcelable(BindingUserInfo.class.getClassLoader());
         this.created_at = in.readInt();
     }
 

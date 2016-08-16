@@ -1,6 +1,6 @@
 package com.jc.petal.board;
 
-import com.jc.petal.Constant;
+import com.jc.petal.Constants;
 import com.jc.petal.R;
 import com.jc.petal.data.model.Board;
 import com.jc.petal.widget.SpacesItemDecoration;
@@ -22,7 +22,7 @@ import butterknife.BindView;
  */
 public class BoardListFragment extends BaseFragment implements BoardContract.BoardListView {
 
-    private int mUserId;
+    private String mUserId;
     private BoardContract.BoardListPresenter mPresenter;
     private List<Board> mBoards;
 
@@ -39,10 +39,10 @@ public class BoardListFragment extends BaseFragment implements BoardContract.Boa
     BoardListAdapter mAdapter;
 
     @SuppressWarnings("unused")
-    public static BoardListFragment newInstance(@NonNull int userId) {
+    public static BoardListFragment newInstance(@NonNull String userId) {
         BoardListFragment fragment = new BoardListFragment();
         Bundle args = new Bundle();
-        args.putInt(Constant.ARG_USER_ID, userId);
+        args.putString(Constants.ARG_USER_ID, userId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,7 +55,7 @@ public class BoardListFragment extends BaseFragment implements BoardContract.Boa
     @Override
     protected void initViewsAndEvents() {
         if (getArguments() != null) {
-            mUserId = getArguments().getInt(Constant.ARG_USER_ID);
+            mUserId = getArguments().getString(Constants.ARG_USER_ID);
         }
 
 
@@ -71,7 +71,7 @@ public class BoardListFragment extends BaseFragment implements BoardContract.Boa
 
         mRecyclerView.setAdapter(mAdapter);
 
-        mPresenter.getUserBoards(String.valueOf(mUserId));
+        mPresenter.getUserBoards(mUserId);
     }
 
 

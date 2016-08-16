@@ -1,6 +1,6 @@
 package com.jc.petal.data.source.remote.retrofit;
 
-import com.jc.petal.Constant;
+import com.jc.petal.Constants;
 import com.jc.petal.data.model.AuthTokenBean;
 
 import retrofit2.Call;
@@ -29,7 +29,7 @@ public interface OAuthAPI {
      */
     @FormUrlEncoded
     @POST("https://huaban.com/oauth/access_token/")
-    Call<AuthTokenBean> getToken(@Header(Constant.Authorization) String authorization,
+    Call<AuthTokenBean> getToken(@Header(Constants.Authorization) String authorization,
                                  @Field("grant_type") String grant,
                                  @Field("username") String username,
                                  @Field("password") String password);

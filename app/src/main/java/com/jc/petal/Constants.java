@@ -4,7 +4,7 @@ package com.jc.petal;
  * Created by LiCola on  2015/12/19  18:15
  * 常量类 用于保存字段的key值
  */
-public class Constant {
+public class Constants {
 
     public static final String Authorization = "Authorization";
 
@@ -74,5 +74,5 @@ public class Constant {
 
     public static final String ARG_BOARD_ID = "board_id";
     public static final String ARG_USER_ID = "user_id";
-
+    public static final String ARG_USER = "user";
 }

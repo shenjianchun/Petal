@@ -7,9 +7,9 @@ import android.os.Parcelable;
  * Binging -> UserInfo ， 绑定的社交网络账户的用户信息
  * Created by JC on 2016-08-04.
  */
-public class UserInfo implements Parcelable {
+public class BindingUserInfo implements Parcelable {
 
-    private int id;
+    private String id;
     private String username;
     private String email;
     /**
@@ -57,7 +57,7 @@ public class UserInfo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
+        dest.writeString(this.id);
         dest.writeString(this.username);
         dest.writeString(this.email);
         dest.writeParcelable(this.avatar, flags);
@@ -70,11 +70,11 @@ public class UserInfo implements Parcelable {
         dest.writeString(this.about);
     }
 
-    public UserInfo() {
+    public BindingUserInfo() {
     }
 
-    protected UserInfo(Parcel in) {
-        this.id = in.readInt();
+    protected BindingUserInfo(Parcel in) {
+        this.id = in.readString();
         this.username = in.readString();
         this.email = in.readString();
         this.avatar = in.readParcelable(AvatarEntity.class.getClassLoader());
@@ -87,15 +87,15 @@ public class UserInfo implements Parcelable {
         this.about = in.readString();
     }
 
-    public static final Parcelable.Creator<UserInfo> CREATOR = new Parcelable.Creator<UserInfo>() {
+    public static final Parcelable.Creator<BindingUserInfo> CREATOR = new Parcelable.Creator<BindingUserInfo>() {
         @Override
-        public UserInfo createFromParcel(Parcel source) {
-            return new UserInfo(source);
+        public BindingUserInfo createFromParcel(Parcel source) {
+            return new BindingUserInfo(source);
         }
 
         @Override
-        public UserInfo[] newArray(int size) {
-            return new UserInfo[size];
+        public BindingUserInfo[] newArray(int size) {
+            return new BindingUserInfo[size];
         }
     };
 }

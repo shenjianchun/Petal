@@ -58,7 +58,7 @@
                     android:layout_weight="1"
                     style="?android:attr/buttonBarButtonStyle"
                     android:background="@android:color/transparent"
-                    android:drawableTop="@drawable/ic_loyalty_black_36dp"
+                    android:drawableTop="@drawable/ic_loyalty_white_36dp"
                     android:text="@string/care"/>
 
             <Button
@@ -67,7 +67,7 @@
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:drawableTop="@drawable/ic_camera_black_36dp"
+                    android:drawableTop="@drawable/ic_camera_white_36dp"
                     android:text="@string/collect"/>
 
             <Button
@@ -76,7 +76,7 @@
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:drawableTop="@drawable/ic_message_black_36dp"
+                    android:drawableTop="@drawable/ic_message_white_36dp"
                     android:text="@string/message"/>
 
             <Button
@@ -85,7 +85,7 @@
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:drawableTop="@drawable/ic_people_black_36dp"
+                    android:drawableTop="@drawable/ic_people_white_36dp"
                     android:text="@string/friend"/>
         </LinearLayout>
 

@@ -119,7 +119,7 @@ public class RetrofitRemoteDataSource extends PetalAPI implements PetalDataSourc
     @Override
     public void getUser(final String userId, final RequestCallback<User> callback) {
 
-        UserAPI service = (UserAPI) getServiceAPI(UserAPI.class);
+        UserAPI service = getServiceAPI(UserAPI.class);
         Call<User> call = service.getUser(mAccessOauth, userId);
 
         call.enqueue(new EnqueueCallback<User>(callback) {

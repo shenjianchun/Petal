@@ -112,7 +112,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         int order = 0;
         for (String title : mTypeTitles) {
             menu.add(R.id.group_type_title, Menu.NONE, order++, title).setIcon(R.drawable
-                    .ic_loyalty_black_36dp).setCheckable(true);
+                    .ic_loyalty_white_36dp).setCheckable(true);
         }
         menu.getItem(0).setChecked(true);
 

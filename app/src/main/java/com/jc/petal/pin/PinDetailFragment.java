@@ -1,7 +1,7 @@
 package com.jc.petal.pin;
 
 import com.bumptech.glide.Glide;
-import com.jc.petal.Constant;
+import com.jc.petal.Constants;
 import com.jc.petal.R;
 import com.jc.petal.board.BoardDetailActivity;
 import com.jc.petal.data.model.Pin;
@@ -118,7 +118,7 @@ public class PinDetailFragment extends BaseFragment implements PinDetailContract
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(Constant.ARG_PIN, mPin);
+                bundle.putString(Constants.ARG_USER_ID, String.valueOf(mPin.user_id));
                 readyGo(UserActivity.class, bundle);
             }
         });
@@ -174,7 +174,7 @@ public class PinDetailFragment extends BaseFragment implements PinDetailContract
                 @Override
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
-                    bundle.putString(Constant.ARG_BOARD_ID, String.valueOf(pin.board_id));
+                    bundle.putString(Constants.ARG_BOARD_ID, String.valueOf(pin.board_id));
                     readyGo(BoardDetailActivity.class, bundle);
                 }
             });

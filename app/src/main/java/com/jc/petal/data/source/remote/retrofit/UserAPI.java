@@ -1,6 +1,6 @@
 package com.jc.petal.data.source.remote.retrofit;
 
-import com.jc.petal.Constant;
+import com.jc.petal.Constants;
 import com.jc.petal.data.model.BoardList;
 import com.jc.petal.data.model.User;
 
@@ -22,11 +22,11 @@ public interface UserAPI {
      * @return 用户信息
      */
     @GET("users/me")
-    Call<User> getSelf(@Header(Constant.Authorization) String authorization);
+    Call<User> getSelf(@Header(Constants.Authorization) String authorization);
 
     @GET("users/{userId}")
-    Call<User> getUser(@Header(Constant.Authorization) String authorization, @Path("userId") String userId);
+    Call<User> getUser(@Header(Constants.Authorization) String authorization, @Path("userId") String userId);
 
     @GET("users/{userId}/boards")
-    Call<BoardList> getUserBoards(@Header(Constant.Authorization) String authorization, @Path("userId") String userId);
+    Call<BoardList> getUserBoards(@Header(Constants.Authorization) String authorization, @Path("userId") String userId);
 }

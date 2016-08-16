@@ -1,6 +1,6 @@
 package com.jc.petal.data.source.remote.retrofit;
 
-import com.jc.petal.Constant;
+import com.jc.petal.Constants;
 import com.jc.petal.data.model.BoardDetail;
 import com.jc.petal.data.model.PinList;
 
@@ -17,11 +17,11 @@ import retrofit2.http.Query;
 public interface BoardAPI {
 
     @GET("boards/{boardId}")
-    Call<BoardDetail> getBoard(@Header(Constant.Authorization) String authorization,
+    Call<BoardDetail> getBoard(@Header(Constants.Authorization) String authorization,
                                @Path("boardId") String boardId);
 
     @GET("boards/{boardId}/pins")
-    Call<PinList> getBoardPins(@Header(Constant.Authorization) String authorization,
+    Call<PinList> getBoardPins(@Header(Constants.Authorization) String authorization,
                                @Path("boardId") String boardId,
                                @Query("current") int current,
                                @Query("limit") int limit);

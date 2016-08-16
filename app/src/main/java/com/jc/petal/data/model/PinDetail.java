@@ -10,4 +10,11 @@ public class PinDetail {
 
     public boolean promotions;
 
+    @Override
+    public String toString() {
+        return "PinDetail{" +
+                "pin=" + pin +
+                ", promotions=" + promotions +
+                '}';
+    }
 }

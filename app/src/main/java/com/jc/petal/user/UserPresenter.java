@@ -1,5 +1,7 @@
 package com.jc.petal.user;
 
+import com.jc.petal.RequestCallback;
+import com.jc.petal.data.model.User;
 import com.jc.petal.data.source.PetalRepository;
 
 /**
@@ -8,14 +10,14 @@ import com.jc.petal.data.source.PetalRepository;
  */
 public class UserPresenter implements UserContract.Presenter {
 
-//    private final UserContract.BoardListView mBoardListView;
+    private final UserContract.View mView;
     private final PetalRepository mRepository;
 
-    public UserPresenter(PetalRepository repository) {
+    public UserPresenter(UserContract.View view, PetalRepository repository) {
+        mView = view;
         mRepository = repository;
+        mView.setPresenter(this);
     }
-
-
 
     @Override
     public void initialize() {
@@ -30,5 +32,23 @@ public class UserPresenter implements UserContract.Presenter {
     @Override
     public void stop() {
 
+    }
+
+    @Override
+    public void getUserInfo(String userId) {
+        mView.showLoading();
+        mRepository.getUser(userId, new RequestCallback<User>() {
+            @Override
+            public void onSuccess(User data) {
+                mView.showUserInfo(data);
+                mView.hideLoading();
+            }
+
+            @Override
+            public void onError(String msg) {
+                mView.hideLoading();
+                mView.showError(msg);
+            }
+        });
     }
 }
