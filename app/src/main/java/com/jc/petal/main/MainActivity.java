@@ -26,7 +26,6 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import my.nouilibrary.utils.T;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
@@ -161,6 +160,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     /**
      * 根据不同的type类型切换对应的Fragment
+     *
      * @param type 图片类型
      */
     private void setCurrentFragment(String type) {
@@ -202,11 +202,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_picture:
-                if (!mRepository.isLogin()) {
-                    readyGoForResult(LoginActivity.class, REQUEST_CODE_LOGIN);
-                } else {
-                    T.showShort(this, "已经登录过了！");
-                }
+                readyGoForResult(LoginActivity.class, REQUEST_CODE_LOGIN);
+
                 break;
             default:
                 break;

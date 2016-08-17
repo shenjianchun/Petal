@@ -41,8 +41,11 @@ public class PetalAPI {
 
 
     private String mClientID;
-    private String mClientInfo;
     private String mClientSecret;
+    /**
+     * 用于登录时的 Authorization
+     */
+    private String mClientInfo;
     private String mMD;
 
     private String mAuthorization;

@@ -81,6 +81,11 @@ public class PetalRepository implements PetalDataSource {
         sInstance = null;
     }
 
+
+    private void fetchTocken() {
+
+    }
+
     @Override
     public void login(String name, String password, final RequestCallback<AuthTokenBean> callback) {
         mRemoteDataSource.login(name, password, new RequestCallback<AuthTokenBean>() {
