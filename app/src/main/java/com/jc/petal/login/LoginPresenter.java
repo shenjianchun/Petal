@@ -1,10 +1,9 @@
 package com.jc.petal.login;
 
 import com.jc.petal.RequestCallback;
-import com.jc.petal.data.model.AuthTokenBean;
+import com.jc.petal.data.model.AuthToken;
 import com.jc.petal.data.model.User;
 import com.jc.petal.data.source.PetalRepository;
-import com.orhanobut.logger.Logger;
 
 /**
  * Listens to user actions from the UI ({@link LoginActivity}), retrieves the data and updates
@@ -27,9 +26,9 @@ public class LoginPresenter implements LoginContract.Presenter {
     @Override
     public void login(String username, String password) {
         mView.showLoading();
-        mRepository.login(username, password, new RequestCallback<AuthTokenBean>() {
+        mRepository.login(username, password, new RequestCallback<AuthToken>() {
             @Override
-            public void onSuccess(AuthTokenBean data) {
+            public void onSuccess(AuthToken data) {
 
                 if (data != null) {
                     getSelfInfo();

@@ -1,6 +1,7 @@
 package com.jc.petal.main;
 
 import com.bumptech.glide.Glide;
+import com.jc.petal.Constants;
 import com.jc.petal.R;
 import com.jc.petal.category.CategoryContract;
 import com.jc.petal.category.CategoryPresenter;
@@ -18,6 +19,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +28,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import my.nouilibrary.utils.SPUtils;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
@@ -77,6 +80,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         // 初始化 Presenter
         mPresenter = new CategoryPresenter(mFragment, mRepository);
+
+        // TODO: 2016-08-17  需要删除，重构
+        if (mRepository.isLogin()) {
+            String userName = (String) SPUtils.get(this, Constants.USER_NAME, "");
+            String avatarKey = (String) SPUtils.get(this, Constants.USER_AVATAR_KEY, "");
+
+            View headerView = mNavigationView.getHeaderView(0);
+            TextView nameTv = ButterKnife.findById(headerView, R.id.tv_name);
+            ImageView imageView = ButterKnife.findById(headerView, R.id.iv_picture);
+
+            nameTv.setText(userName);
+            if (!TextUtils.isEmpty(avatarKey)) {
+                String url = getString(R.string.url_image_small, avatarKey);
+                Glide.with(this).load(url).into(imageView);
+            }
+        }
 
     }
 

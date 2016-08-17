@@ -2,9 +2,8 @@ package com.jc.petal.data.source;
 
 import com.google.common.base.Preconditions;
 
-import com.jc.petal.Constants;
 import com.jc.petal.RequestCallback;
-import com.jc.petal.data.model.AuthTokenBean;
+import com.jc.petal.data.model.AuthToken;
 import com.jc.petal.data.model.BoardDetail;
 import com.jc.petal.data.model.BoardList;
 import com.jc.petal.data.model.Pin;
@@ -16,11 +15,8 @@ import com.jc.petal.data.source.remote.PetalAPI;
 import com.jc.petal.data.source.remote.retrofit.RetrofitRemoteDataSource;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import java.util.List;
-
-import my.nouilibrary.utils.SPUtils;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -32,21 +28,34 @@ public class PetalRepository implements PetalDataSource {
 
     private static PetalRepository sInstance = null;
 
-    private static PetalAPI mPetalAPI  = new PetalAPI();
+    private static PetalAPI mPetalAPI = new PetalAPI();
 
-    private Context mContext;
+//    private AuthToken mToken;
+    private User mSelf;
+
     private PetalDataSource mLocalDataSource;
     private PetalDataSource mRemoteDataSource;
 
-    private PetalRepository( PetalDataSource localDataSource, PetalDataSource remoteDataSource) {
+    /**
+     * Marks the cache as invalid, to force an update the next time data is requested. This
+     * variable
+     * has package local visibility so it can be accessed from tests.
+     */
+    boolean mCacheIsDirty = false;
+
+    boolean mLoginIsDirty = true;
+
+    private PetalRepository(PetalDataSource localDataSource, PetalDataSource remoteDataSource) {
         this(null, localDataSource, remoteDataSource);
     }
 
-    private PetalRepository(Context context, PetalDataSource localDataSource, PetalDataSource remoteDataSource) {
-        mContext = context;
+    private PetalRepository(Context context, PetalDataSource localDataSource, PetalDataSource
+            remoteDataSource) {
 
         mLocalDataSource = checkNotNull(localDataSource);
         mRemoteDataSource = checkNotNull(remoteDataSource);
+
+        fetchLocalToken();
     }
 
     public static PetalRepository getInstance(PetalDataSource localDataSource, PetalDataSource
@@ -69,7 +78,7 @@ public class PetalRepository implements PetalDataSource {
             synchronized (PetalRepository.class) {
                 if (sInstance == null) {
                     sInstance = new PetalRepository(context, LocalDataSource.getInstance(context),
-                            new RetrofitRemoteDataSource(mPetalAPI));
+                            new RetrofitRemoteDataSource());
                 }
             }
         }
@@ -81,19 +90,41 @@ public class PetalRepository implements PetalDataSource {
         sInstance = null;
     }
 
+    private void fetchLocalToken() {
+        AuthToken token = getToken();
+        if (token != null) {
+            setToken(token);
+        }
+    }
 
-    private void fetchTocken() {
-
+    /**
+     * 更新本地Access Token
+     */
+    @Override
+    public void setToken(AuthToken token) {
+        mLocalDataSource.setToken(token);
+        mRemoteDataSource.setToken(token);
     }
 
     @Override
-    public void login(String name, String password, final RequestCallback<AuthTokenBean> callback) {
-        mRemoteDataSource.login(name, password, new RequestCallback<AuthTokenBean>() {
+    public AuthToken getToken() {
+        return mLocalDataSource.getToken();
+    }
+
+    public boolean isLogin() {
+        return mLocalDataSource.getToken() != null;
+    }
+
+    @Override
+    public void login(String name, String password, final RequestCallback<AuthToken> callback) {
+
+        mRemoteDataSource.login(name, password, new RequestCallback<AuthToken>() {
             @Override
-            public void onSuccess(AuthTokenBean data) {
+            public void onSuccess(AuthToken data) {
 
                 callback.onSuccess(data);
-                refreshAuthToken(data);
+
+                setToken(data);
             }
 
             @Override
@@ -101,32 +132,32 @@ public class PetalRepository implements PetalDataSource {
                 callback.onError(msg);
             }
         });
-    }
 
-    /**
-     * 更新本地Access Token
-     */
-    private void refreshAuthToken(AuthTokenBean token) {
-
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences(SPUtils.FILE_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.putBoolean(Constants.IS_LOGIN, true);
-        editor.putString(Constants.TOKEN_ACCESS, token.access_token);
-        editor.putString(Constants.TOKEN_REFRESH, token.refresh_token);
-        editor.putString(Constants.TOKE_EXPIRES_IN, token.expires_in);
-        editor.putString(Constants.TOKEN_TYPE, token.token_type);
-
-        editor.apply();
-    }
-
-    public boolean isLogin() {
-        return (boolean) SPUtils.get(mContext, Constants.IS_LOGIN, false);
     }
 
     @Override
     public void getSelf(final RequestCallback<User> callback) {
-        mRemoteDataSource.getSelf(callback);
+
+        mRemoteDataSource.getSelf(new RequestCallback<User>() {
+            @Override
+            public void onSuccess(User data) {
+                callback.onSuccess(data);
+                // 更新本地 用户信息
+                mLocalDataSource.setSelf(data);
+            }
+
+            @Override
+            public void onError(String msg) {
+                callback.onError(msg);
+            }
+        });
+
+
+    }
+
+    @Override
+    public void setSelf(User user) {
+
     }
 
     @Override

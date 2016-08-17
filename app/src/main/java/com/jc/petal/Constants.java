@@ -13,12 +13,10 @@ public class Constants {
     public static final String TOKEN_TYPE = "TokenType";
     public static final String TOKE_EXPIRES_IN = "TokeExpiresIn";
 
-    public static final String USERNAME = "userName";
-    public static final String USERID = "userID";
+
 
     public static final String USERHEADKEY = "userHeadKey";
 
-    public static final String USEREMAIL = "userEmail";
 
     //board info
     public static final String BOARDTILTARRAY = "boardTitleArray";
@@ -59,6 +57,11 @@ public class Constants {
     public static final String LOGIN_TIME = "loginTime";
     public static final String USER_ACCOUNT = "userAccount";
     public static final String USER_PASSWORD = "userPassword";
+    public static final String USER_ID = "userID";
+    public static final String USER_NAME = "userName";
+    public static final String USER_EMAIL = "userEmail";
+    public static final String USER_AVATAR_KEY = "userAvatarKey";
+
 
     //http limit number
     public static final int LIMIT = 20;

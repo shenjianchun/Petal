@@ -4,7 +4,7 @@ package com.jc.petal.data.model;
  *
  * Created by JC on 2016-07-30.
  */
-public class AuthTokenBean {
+public class AuthToken {
 
     /**
      * access_token : da0e9e1b-1a7a-4b3c-ade7-531910b6e847
@@ -17,6 +17,10 @@ public class AuthTokenBean {
     public String token_type;
     public String expires_in;
     public String refresh_token;
+
+    public String getAccessOauth() {
+        return token_type +  " " + access_token;
+    }
 
     @Override
     public String toString() {

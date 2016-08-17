@@ -1,7 +1,8 @@
 package com.jc.petal.data.source.local;
 
+import com.jc.petal.Constants;
 import com.jc.petal.RequestCallback;
-import com.jc.petal.data.model.AuthTokenBean;
+import com.jc.petal.data.model.AuthToken;
 import com.jc.petal.data.model.BoardDetail;
 import com.jc.petal.data.model.BoardList;
 import com.jc.petal.data.model.Pin;
@@ -11,12 +12,14 @@ import com.jc.petal.data.model.Weekly;
 import com.jc.petal.data.source.PetalDataSource;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import my.nouilibrary.utils.SPUtils;
 import my.nouilibrary.utils.StorageUtils;
 
 /**
@@ -29,6 +32,8 @@ public class LocalDataSource implements PetalDataSource {
     private static final String DISK_CACHE_SUBDIR = "bitmap";
 
     private Context mContext;
+
+    private AuthToken mToken;
 
     private static LocalDataSource INSTANCE;
 
@@ -50,13 +55,72 @@ public class LocalDataSource implements PetalDataSource {
     }
 
     @Override
-    public void login(String name, String password, RequestCallback<AuthTokenBean> callback) {
+    public void setToken(AuthToken token) {
+        mToken = token;
 
+        // 保存在本地
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(SPUtils.FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putBoolean(Constants.IS_LOGIN, true);
+        editor.putString(Constants.TOKEN_ACCESS, token.access_token);
+        editor.putString(Constants.TOKEN_REFRESH, token.refresh_token);
+        editor.putString(Constants.TOKE_EXPIRES_IN, token.expires_in);
+        editor.putString(Constants.TOKEN_TYPE, token.token_type);
+
+        editor.apply();
+
+    }
+
+    @Override
+    public AuthToken getToken() {
+
+        boolean isLogin = (boolean) SPUtils.get(mContext, Constants.IS_LOGIN, false);
+
+        if (isLogin) {
+
+            mToken = new AuthToken();
+
+            mToken.access_token = (String) SPUtils.get(mContext, Constants.TOKEN_ACCESS, "");
+            mToken.refresh_token = (String) SPUtils.get(mContext, Constants.TOKEN_REFRESH, "");
+            mToken.expires_in = (String) SPUtils.get(mContext, Constants.TOKE_EXPIRES_IN, "");
+            mToken.token_type = (String) SPUtils.get(mContext, Constants.TOKEN_TYPE, "");
+
+            return  mToken;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void login(String name, String password, RequestCallback<AuthToken> callback) {
+        if (mToken != null) {
+            callback.onSuccess(mToken);
+        } else {
+            callback.onError("本地没有缓存");
+        }
     }
 
     @Override
     public void getSelf(RequestCallback<User> callback) {
 
+
+
+    }
+
+    @Override
+    public void setSelf(User user) {
+        // 保存在本地
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(SPUtils.FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putBoolean(Constants.IS_LOGIN, true);
+        editor.putString(Constants.USER_ID, user.user_id);
+        editor.putString(Constants.USER_NAME, user.username);
+        editor.putString(Constants.USER_EMAIL, user.email);
+        editor.putString(Constants.USER_AVATAR_KEY, user.avatar.key);
+
+        editor.apply();
     }
 
     @Override

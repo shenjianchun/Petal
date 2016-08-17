@@ -1,6 +1,6 @@
 package com.jc.petal.data.source.remote;
 
-import com.jc.petal.data.model.AuthTokenBean;
+import com.jc.petal.data.model.AuthToken;
 import com.jc.petal.data.model.User;
 import com.jc.petal.utils.Base64;
 
@@ -40,88 +40,18 @@ public class PetalAPI {
     private static final String X_Client_ID = "X-Client-ID";
 
 
-    private String mClientID;
-    private String mClientSecret;
+    private final static String mClientID = "1d912cae47144fa09d88";
+    private final static String mClientSecret = "f94fcc09b59b4349a148a203ab2f20c7";
+
     /**
      * 用于登录时的 Authorization
      */
-    private String mClientInfo;
-    private String mMD;
+    private final static String mClientInfo = mClientID + ":" + mClientSecret;
+    public static final String mAuthorization = "Basic " + Base64.encodeString(mClientInfo);
 
-    private String mAuthorization;
-    private AuthTokenBean mToken;
-    /**
-     * 登陆完成之后取得到的授权字段
-     * 根据AuthTokenBean中的 token_type + " " + access_token 组合而成
-     */
-    private String mAccessOauth;
+
+    private AuthToken mToken;
 
     private User mSelf;
 
-    public PetalAPI() {
-        init();
-    }
-
-    public void init() {
-        mClientID = "1d912cae47144fa09d88";
-        mClientSecret = "f94fcc09b59b4349a148a203ab2f20c7";
-        mClientInfo = mClientID + ":" + mClientSecret;
-        mAuthorization = "Basic " + Base64.encodeString(mClientInfo);
-    }
-
-    public String getAuthorization() {
-        return mAuthorization;
-    }
-
-    public void setAuthorization(String authorization) {
-        mAuthorization = authorization;
-    }
-
-    public AuthTokenBean getToken() {
-        return mToken;
-    }
-
-    public void setToken(AuthTokenBean token) {
-        mToken = token;
-    }
-
-    public String getAccessOauth() {
-        return mAccessOauth;
-    }
-
-    public void setAccessOauth(String accessOauth) {
-        mAccessOauth = accessOauth;
-    }
-
-    public User getSelf() {
-        return mSelf;
-    }
-
-    public void setSelf(User self) {
-        mSelf = self;
-    }
-
-    public String getClientInfo() {
-        return mClientInfo;
-    }
-
-    public void setClientInfo(String clientInfo) {
-        mClientInfo = clientInfo;
-    }
-
-    public String getClientID() {
-        return mClientID;
-    }
-
-    public void setClientID(String clientID) {
-        mClientID = clientID;
-    }
-
-    public String getClientSecret() {
-        return mClientSecret;
-    }
-
-    public void setClientSecret(String clientSecret) {
-        mClientSecret = clientSecret;
-    }
 }

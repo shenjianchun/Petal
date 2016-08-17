@@ -1,7 +1,7 @@
 package com.jc.petal.data.source;
 
 import com.jc.petal.RequestCallback;
-import com.jc.petal.data.model.AuthTokenBean;
+import com.jc.petal.data.model.AuthToken;
 import com.jc.petal.data.model.BoardDetail;
 import com.jc.petal.data.model.BoardList;
 import com.jc.petal.data.model.Pin;
@@ -17,6 +17,10 @@ import java.util.List;
  */
 public interface PetalDataSource {
 
+    void setToken(AuthToken token);
+
+    AuthToken getToken();
+
     /**
      * 用户登录
      *
@@ -24,11 +28,12 @@ public interface PetalDataSource {
      * @param password password
      * @param callback 成功或失败后的回调函数
      */
-    void login(String name, String password, final RequestCallback<AuthTokenBean> callback);
+    void login(String name, String password, final RequestCallback<AuthToken> callback);
 
 
     void getSelf(final RequestCallback<User> callback);
 
+    void setSelf(User user);
     /**
      * 获取用户信息
      *

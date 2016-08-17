@@ -2,7 +2,7 @@ package com.jc.petal.data.source.remote.retrofit;
 
 import com.jc.petal.Constants;
 import com.jc.petal.RequestCallback;
-import com.jc.petal.data.model.AuthTokenBean;
+import com.jc.petal.data.model.AuthToken;
 import com.jc.petal.data.model.BoardDetail;
 import com.jc.petal.data.model.BoardList;
 import com.jc.petal.data.model.Pin;
@@ -30,16 +30,25 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
 
     private static Retrofit sClient;
 
-    private final PetalAPI mPetalAPI;
+    private AuthToken mToken = new AuthToken();
 
-    public RetrofitRemoteDataSource(PetalAPI api) {
+    public RetrofitRemoteDataSource() {
         super();
         sClient = RetrofitClient.getRetrofit();
-        mPetalAPI = api;
     }
 
     private <T> T getServiceAPI(Class<T> clazz) {
         return sClient.create(clazz);
+    }
+
+    @Override
+    public void setToken(AuthToken token) {
+        mToken = token;
+    }
+
+    @Override
+    public AuthToken getToken() {
+        return null;
     }
 
     /**
@@ -50,27 +59,21 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
      * @param callback 成功或失败后的回调函数
      */
     @Override
-    public void login(String name, String password, final RequestCallback<AuthTokenBean> callback) {
+    public void login(String name, String password, final RequestCallback<AuthToken> callback) {
 
         Retrofit client = RetrofitClient.getRetrofit();
 
         OAuthAPI service = client.create(OAuthAPI.class);
 
-        Call<AuthTokenBean> call = service.getToken(mPetalAPI.getAuthorization(), Constants
+        Call<AuthToken> call = service.getToken(PetalAPI.mAuthorization, Constants
                 .GRANT_TYPE_PASSWORD, name, password);
-        call.enqueue(new Callback<AuthTokenBean>() {
+        call.enqueue(new Callback<AuthToken>() {
             @Override
-            public void onResponse(Call<AuthTokenBean> call, Response<AuthTokenBean> response) {
+            public void onResponse(Call<AuthToken> call, Response<AuthToken> response) {
 
                 if (response.code() == 200 && response.body() != null) {
 
-                    AuthTokenBean token = response.body();
-                    // 保存用户Token
-                    mPetalAPI.setToken(token);
-
-                    String accessOauth = token.token_type +  " " + token.access_token;
-                    mPetalAPI.setAccessOauth(accessOauth);
-
+                    AuthToken token = response.body();
                     Logger.d(token);
 
                     callback.onSuccess(token);
@@ -81,7 +84,7 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
             }
 
             @Override
-            public void onFailure(Call<AuthTokenBean> call, Throwable t) {
+            public void onFailure(Call<AuthToken> call, Throwable t) {
                 callback.onError("网络或者服务器有问题！");
             }
         });
@@ -94,12 +97,12 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
     public void getSelf(final RequestCallback<User> callback) {
         Retrofit client = RetrofitClient.getRetrofit();
         final UserAPI userAPI = client.create(UserAPI.class);
-        userAPI.getSelf(mPetalAPI.getAccessOauth()).enqueue(new EnqueueCallback<User>(callback) {
+        userAPI.getSelf(mToken.getAccessOauth()).enqueue(new EnqueueCallback<User>(callback) {
             @Override
             protected void refreshLocal(User object) {
                 super.refreshLocal(object);
 
-                mPetalAPI.setSelf(object);
+//                mPetalAPI.setSelf(object);
             }
         });
 
@@ -107,10 +110,15 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
     }
 
     @Override
+    public void setSelf(User user) {
+
+    }
+
+    @Override
     public void getUser(final String userId, final RequestCallback<User> callback) {
 
         UserAPI service = getServiceAPI(UserAPI.class);
-        Call<User> call = service.getUser(mPetalAPI.getAccessOauth(), userId);
+        Call<User> call = service.getUser(mToken.getAccessOauth(), userId);
 
         call.enqueue(new EnqueueCallback<User>(callback) {
             @Override
@@ -123,7 +131,6 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
                 super.onFailure(call, t);
             }
         });
-
     }
 
     @Override
@@ -132,7 +139,7 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
 
         Retrofit client = RetrofitClient.getRetrofit();
         CategoryAPI service = client.create(CategoryAPI.class);
-        Call<PinList> call = service.httpsTypeLimit(mPetalAPI.getAccessOauth(), type, limit);
+        Call<PinList> call = service.httpsTypeLimit(mToken.getAccessOauth(), type, limit);
         call.enqueue(new Callback<PinList>() {
             @Override
             public void onResponse(Call<PinList> call, Response<PinList> response) {
@@ -160,7 +167,7 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
         Retrofit client = RetrofitClient.getRetrofit();
         CategoryAPI service = client.create(CategoryAPI.class);
 
-        Call<PinList> call = service.httpsTypeMaxLimitRx(mPetalAPI.getAccessOauth(), type, max, limit);
+        Call<PinList> call = service.httpsTypeMaxLimitRx(mToken.getAccessOauth(), type, max, limit);
         call.enqueue(new Callback<PinList>() {
             @Override
             public void onResponse(Call<PinList> call, Response<PinList> response) {
@@ -189,7 +196,7 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
         Retrofit retrofit = RetrofitClient.getRetrofit();
         PinAPI service = retrofit.create(PinAPI.class);
 
-        Call<PinDetail> call = service.getPin(mPetalAPI.getAccessOauth(), String.valueOf(pinId));
+        Call<PinDetail> call = service.getPin(mToken.getAccessOauth(), String.valueOf(pinId));
         call.enqueue(new Callback<PinDetail>() {
             @Override
             public void onResponse(Call<PinDetail> call, Response<PinDetail> response) {
@@ -215,7 +222,7 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
 
         WeeklyAPI service = getServiceAPI(WeeklyAPI.class);
 
-        Call<Weeklies> call = service.getWeekies(mPetalAPI.getAccessOauth(), max);
+        Call<Weeklies> call = service.getWeekies(PetalAPI.mAuthorization, max);
         call.enqueue(new Callback<Weeklies>() {
             @Override
             public void onResponse(Call<Weeklies> call, Response<Weeklies> response) {
@@ -242,7 +249,7 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
     @Override
     public void getBoard(String boardId, final RequestCallback<BoardDetail> requestCallback) {
         BoardAPI service = getServiceAPI(BoardAPI.class);
-        service.getBoard(mPetalAPI.getAccessOauth(), boardId).enqueue(new EnqueueCallback<BoardDetail>
+        service.getBoard(mToken.getAccessOauth(), boardId).enqueue(new EnqueueCallback<BoardDetail>
                 (requestCallback) {
             @Override
             public void onResponse(Call<BoardDetail> call, Response<BoardDetail> response) {
@@ -261,7 +268,7 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
     public void getBoardPins(String boardId, int current, int limit, RequestCallback<PinList>
             requestCallback) {
         BoardAPI service = getServiceAPI(BoardAPI.class);
-        service.getBoardPins(mPetalAPI.getAccessOauth(), boardId, current, limit).enqueue(new EnqueueCallback<PinList>(requestCallback) {
+        service.getBoardPins(mToken.getAccessOauth(), boardId, current, limit).enqueue(new EnqueueCallback<PinList>(requestCallback) {
             @Override
             public void onResponse(Call<PinList> call, Response<PinList> response) {
                 super.onResponse(call, response);
@@ -278,7 +285,7 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
     @Override
     public void getUserBoards(String userId, RequestCallback<BoardList> callback) {
         UserAPI service = getServiceAPI(UserAPI.class);
-        service.getUserBoards(mPetalAPI.getAccessOauth(), userId).enqueue(new EnqueueCallback<BoardList>
+        service.getUserBoards(mToken.getAccessOauth(), userId).enqueue(new EnqueueCallback<BoardList>
                 (callback) {
             @Override
             public void onResponse(Call<BoardList> call, Response<BoardList> response) {
