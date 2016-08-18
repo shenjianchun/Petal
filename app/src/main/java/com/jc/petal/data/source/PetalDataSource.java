@@ -9,6 +9,8 @@ import com.jc.petal.data.model.PinList;
 import com.jc.petal.data.model.User;
 import com.jc.petal.data.model.Weekly;
 
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 /**
@@ -28,12 +30,14 @@ public interface PetalDataSource {
      * @param password password
      * @param callback 成功或失败后的回调函数
      */
-    void login(String name, String password, final RequestCallback<AuthToken> callback);
+    void login(@NonNull String name, String password, @NonNull final RequestCallback<AuthToken>
+            callback);
 
 
-    void getSelf(final RequestCallback<User> callback);
+    void getSelf(@NonNull final RequestCallback<User> callback);
 
     void setSelf(User user);
+
     /**
      * 获取用户信息
      *
@@ -41,13 +45,18 @@ public interface PetalDataSource {
      */
     void getUser(final String userId, final RequestCallback<User> callback);
 
+
+    void refreshPinsList();
+
+    void refreshPinsListLocalDataSource(@NonNull List<Pin> pins);
     /**
      * 根据传入类型获取图片列表
      *
      * @param type  类型
      * @param limit 每页多少个
      */
-    void getPinsListByType(String type, int limit, final RequestCallback<List<Pin>> callback);
+    void getPinsListByType(@NonNull final String type, final int limit, @NonNull final
+                            RequestCallback<List<Pin>> callback);
 
     void getMaxPinsListByType(String type, int max, int limit, final RequestCallback<List<Pin>>
             callback);
@@ -71,16 +80,18 @@ public interface PetalDataSource {
 
     /**
      * 获取画板包含的采集图片列表
-     * @param boardId 画板ID
-     * @param current 当前页
-     * @param limit   一页多少个
+     *
+     * @param boardId  画板ID
+     * @param current  当前页
+     * @param limit    一页多少个
      * @param callback 回调函数
      */
     void getBoardPins(String boardId, int current, int limit, RequestCallback<PinList> callback);
 
     /**
      * 获取用户拥有的画板集合
-     * @param userId 用户ID
+     *
+     * @param userId   用户ID
      * @param callback 回调函数
      */
     void getUserBoards(String userId, RequestCallback<BoardList> callback);

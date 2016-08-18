@@ -13,6 +13,7 @@ import com.jc.petal.data.source.PetalDataSource;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 
 import java.io.File;
 import java.security.MessageDigest;
@@ -59,7 +60,8 @@ public class LocalDataSource implements PetalDataSource {
         mToken = token;
 
         // 保存在本地
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences(SPUtils.FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(SPUtils.FILE_NAME,
+                Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.putBoolean(Constants.IS_LOGIN, true);
@@ -86,14 +88,14 @@ public class LocalDataSource implements PetalDataSource {
             mToken.expires_in = (String) SPUtils.get(mContext, Constants.TOKE_EXPIRES_IN, "");
             mToken.token_type = (String) SPUtils.get(mContext, Constants.TOKEN_TYPE, "");
 
-            return  mToken;
+            return mToken;
         } else {
             return null;
         }
     }
 
     @Override
-    public void login(String name, String password, RequestCallback<AuthToken> callback) {
+    public void login(@NonNull String name, @NonNull String password, @NonNull RequestCallback<AuthToken> callback) {
         if (mToken != null) {
             callback.onSuccess(mToken);
         } else {
@@ -102,8 +104,7 @@ public class LocalDataSource implements PetalDataSource {
     }
 
     @Override
-    public void getSelf(RequestCallback<User> callback) {
-
+    public void getSelf(@NonNull RequestCallback<User> callback) {
 
 
     }
@@ -111,7 +112,8 @@ public class LocalDataSource implements PetalDataSource {
     @Override
     public void setSelf(User user) {
         // 保存在本地
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences(SPUtils.FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(SPUtils.FILE_NAME,
+                Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.putBoolean(Constants.IS_LOGIN, true);
@@ -128,6 +130,16 @@ public class LocalDataSource implements PetalDataSource {
 
     }
 
+    @Override
+    public void refreshPinsList() {
+
+    }
+
+    @Override
+    public void refreshPinsListLocalDataSource(@NonNull List<Pin> pins) {
+
+    }
+
     public void savePinsList(List<Pin> pins) {
 //
 //        try {
@@ -140,7 +152,8 @@ public class LocalDataSource implements PetalDataSource {
 //                String key = pinEntity.file.key;
 //                editor = diskLruCache.edit(key);
 //                try {
-//                    File file = Glide.with(mContext).load(key).into(500, 500).downloadOnly(pinEntity.file.width,
+//                    File file = Glide.with(mContext).load(key).into(500, 500).downloadOnly
+// (pinEntity.file.width,
 //                            pinEntity.file.height).get();
 //
 //
@@ -197,7 +210,7 @@ public class LocalDataSource implements PetalDataSource {
     }
 
     @Override
-    public void getPinsListByType(String type, int limit, RequestCallback<List<Pin>>
+    public void getPinsListByType(@NonNull String type, @NonNull int limit, @NonNull RequestCallback<List<Pin>>
             callback) {
 
     }

@@ -1,10 +1,12 @@
 package com.jc.petal.data.model;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by LiCola on  2016/05/05  21:27
+ * 采集的图片信息
+ * Created by JC on  2016/05/05  21:27
  */
 
 public class PinFileEntity implements Parcelable {
@@ -69,5 +71,70 @@ public class PinFileEntity implements Parcelable {
                 ", height=" + height +
                 ", frames=" + frames +
                 '}';
+    }
+
+
+    protected static final String FW192 = "_fw192";
+    protected static final String FW192W = "_fw192w";
+    protected static final String FW554 = "_fw554";
+    protected static final String FW554W = "_fw554w";
+
+    protected static final String SQ140 = "_sq140";
+    protected static final String SQ140W = "_sq140w";
+    protected static final String SQ75 = "_sq75";
+    protected static final String SQ75W = "_sq75w";
+
+    public String getFW192()
+    {
+        if (Build.VERSION.SDK_INT >= 14)
+        {
+            return (new StringBuilder()).append("http://img.hb.aicdn.com/").append(key).append("_fw192w").toString();
+        } else
+        {
+            return (new StringBuilder()).append("http://img.hb.aicdn.com/").append(key).append("_fw192").toString();
+        }
+    }
+
+    public String getFW554()
+    {
+        if (Build.VERSION.SDK_INT >= 14)
+        {
+            return (new StringBuilder()).append("http://img.hb.aicdn.com/").append(key).append("_fw554w").toString();
+        } else
+        {
+            return (new StringBuilder()).append("http://img.hb.aicdn.com/").append(key).append("_fw554").toString();
+        }
+    }
+
+    public String getOrignal()
+    {
+        return (new StringBuilder()).append("http://img.hb.aicdn.com/").append(key).toString();
+    }
+
+    public String getSq140()
+    {
+        if (Build.VERSION.SDK_INT >= 14)
+        {
+            return (new StringBuilder()).append("http://img.hb.aicdn.com/").append(key).append("_sq140w").toString();
+        } else
+        {
+            return (new StringBuilder()).append("http://img.hb.aicdn.com/").append(key).append("_sq140").toString();
+        }
+    }
+
+    public String getSq140Origin()
+    {
+        return (new StringBuilder()).append("http://img.hb.aicdn.com/").append(key).append("_sq140").toString();
+    }
+
+    public String getSquare()
+    {
+        if (Build.VERSION.SDK_INT >= 14)
+        {
+            return (new StringBuilder()).append("http://img.hb.aicdn.com/").append(key).append("_sq75w").toString();
+        } else
+        {
+            return (new StringBuilder()).append("http://img.hb.aicdn.com/").append(key).append("_sq75").toString();
+        }
     }
 }

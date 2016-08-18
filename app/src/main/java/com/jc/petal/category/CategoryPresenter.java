@@ -29,7 +29,7 @@ public class CategoryPresenter implements CategoryContract.Presenter {
 
     @Override
     public void start() {
-        fetchPinsByType("all", 20);
+        fetchPinsByType(true, "all", 20);
     }
 
     @Override
@@ -38,7 +38,12 @@ public class CategoryPresenter implements CategoryContract.Presenter {
     }
 
     @Override
-    public void fetchPinsByType(String type, int limit) {
+    public void fetchPinsByType(boolean forceUpdate, String type, int limit) {
+
+        if (forceUpdate) {
+            mRepository.refreshPinsList();
+        }
+
         mRepository.getPinsListByType(type, limit, new RequestCallback<List<Pin>>() {
             @Override
             public void onSuccess(List<Pin> data) {
@@ -56,7 +61,7 @@ public class CategoryPresenter implements CategoryContract.Presenter {
 
     @Override
     public void fetchMaxPinsByType(String type, int max, int limit) {
-        mRepository.getPinsListByType(type, limit, new RequestCallback<List<Pin>>() {
+        mRepository.getMaxPinsListByType(type, max, limit, new RequestCallback<List<Pin>>() {
             @Override
             public void onSuccess(List<Pin> data) {
 

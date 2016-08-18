@@ -15,6 +15,7 @@ import com.jc.petal.data.source.remote.PetalAPI;
 import com.jc.petal.data.source.remote.retrofit.RetrofitRemoteDataSource;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import java.util.List;
 
@@ -116,7 +117,7 @@ public class PetalRepository implements PetalDataSource {
     }
 
     @Override
-    public void login(String name, String password, final RequestCallback<AuthToken> callback) {
+    public void login(@NonNull String name,@NonNull String password,@NonNull final RequestCallback<AuthToken> callback) {
 
         mRemoteDataSource.login(name, password, new RequestCallback<AuthToken>() {
             @Override
@@ -136,7 +137,7 @@ public class PetalRepository implements PetalDataSource {
     }
 
     @Override
-    public void getSelf(final RequestCallback<User> callback) {
+    public void getSelf(@NonNull final RequestCallback<User> callback) {
 
         mRemoteDataSource.getSelf(new RequestCallback<User>() {
             @Override
@@ -166,15 +167,55 @@ public class PetalRepository implements PetalDataSource {
     }
 
     @Override
-    public void getPinsListByType(String type, int limit, final RequestCallback<List<Pin>>
-            callback) {
-
-        mRemoteDataSource.getPinsListByType(type, limit, callback);
+    public void refreshPinsList() {
+        mCacheIsDirty = true;
     }
 
-    public void getLocalPinsList(String type, int limit, final RequestCallback<List<Pin>>
+    @Override
+    public void getPinsListByType(@NonNull final String type,final int limit, @NonNull final RequestCallback<List<Pin>>
             callback) {
-        mLocalDataSource.getPinsListByType(type, limit, callback);
+        // 如果缓存为脏数据，则直接进行网络请求
+        if (mCacheIsDirty) {
+            getPinsListFromRemoteDataSource(type, limit, callback);
+        } else {
+            mLocalDataSource.getPinsListByType(type, limit, new RequestCallback<List<Pin>>() {
+                @Override
+                public void onSuccess(List<Pin> data) {
+                    callback.onSuccess(data);
+                }
+
+                @Override
+                public void onError(String msg) {
+                    getPinsListFromRemoteDataSource(type, limit, callback);
+                }
+            });
+        }
+    }
+
+    public void getPinsListFromRemoteDataSource(String type, int limit, final RequestCallback<List<Pin>>
+            callback) {
+        mRemoteDataSource.getPinsListByType(type, limit, new RequestCallback<List<Pin>>() {
+            @Override
+            public void onSuccess(List<Pin> data) {
+
+                refreshPinsListLocalDataSource(data);
+
+                callback.onSuccess(data);
+
+            }
+
+            @Override
+            public void onError(String msg) {
+                callback.onError(msg);
+            }
+        });
+    }
+
+
+    @Override
+    public void refreshPinsListLocalDataSource(@NonNull List<Pin> pins) {
+        mLocalDataSource.refreshPinsListLocalDataSource(pins);
+        mCacheIsDirty = false;
     }
 
     @Override

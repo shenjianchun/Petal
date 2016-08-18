@@ -15,6 +15,8 @@ import com.jc.petal.data.source.PetalDataSource;
 import com.jc.petal.data.source.remote.PetalAPI;
 import com.orhanobut.logger.Logger;
 
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -59,7 +61,7 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
      * @param callback 成功或失败后的回调函数
      */
     @Override
-    public void login(String name, String password, final RequestCallback<AuthToken> callback) {
+    public void login(@NonNull String name, String password,@NonNull final RequestCallback<AuthToken> callback) {
 
         Retrofit client = RetrofitClient.getRetrofit();
 
@@ -94,7 +96,7 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
      * 获取登陆用户的个人信息
      */
     @Override
-    public void getSelf(final RequestCallback<User> callback) {
+    public void getSelf(@NonNull final RequestCallback<User> callback) {
         Retrofit client = RetrofitClient.getRetrofit();
         final UserAPI userAPI = client.create(UserAPI.class);
         userAPI.getSelf(mToken.getAccessOauth()).enqueue(new EnqueueCallback<User>(callback) {
@@ -134,7 +136,17 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
     }
 
     @Override
-    public void getPinsListByType(String type, int limit, final RequestCallback<List<Pin>>
+    public void refreshPinsList() {
+
+    }
+
+    @Override
+    public void refreshPinsListLocalDataSource(@NonNull List<Pin> pins) {
+
+    }
+
+    @Override
+    public void getPinsListByType(@NonNull String type, int limit, @NonNull final RequestCallback<List<Pin>>
             callback) {
 
         Retrofit client = RetrofitClient.getRetrofit();

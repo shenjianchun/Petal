@@ -79,7 +79,7 @@ public class PinsListFragment extends BaseFragment implements CategoryContract.V
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mPresenter.fetchPinsByType(mType, 20);
+                mPresenter.fetchPinsByType(true, mType, 20);
             }
         });
 
@@ -131,7 +131,7 @@ public class PinsListFragment extends BaseFragment implements CategoryContract.V
         });
 
         // 首次进入刷新
-        mPresenter.fetchPinsByType(mType, 20);
+        mPresenter.fetchPinsByType(true, mType, 20);
         mRefreshLayout.postDelayed(new Runnable() {
             @Override
             public void run() {

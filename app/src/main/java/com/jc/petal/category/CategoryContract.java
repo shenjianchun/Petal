@@ -19,7 +19,7 @@ public interface CategoryContract {
     }
 
     interface Presenter extends BasePresenter {
-        void fetchPinsByType(String type, int limit);
+        void fetchPinsByType(boolean forceUpdate,String type, int limit);
         void fetchMaxPinsByType(String type, int max, int limit);
         void fetchWeeklies(String max);
     }
