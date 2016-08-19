@@ -16,8 +16,11 @@ import com.jc.petal.data.source.remote.PetalAPI;
 import com.orhanobut.logger.Logger;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,7 +64,8 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
      * @param callback 成功或失败后的回调函数
      */
     @Override
-    public void login(@NonNull String name, String password,@NonNull final RequestCallback<AuthToken> callback) {
+    public void login(@NonNull String name, String password, @NonNull final
+    RequestCallback<AuthToken> callback) {
 
         Retrofit client = RetrofitClient.getRetrofit();
 
@@ -145,9 +149,68 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
 
     }
 
+    /**
+     * 查询所有的采集
+     *
+     * @param category 目录类型
+     * @param limit    个数
+     * @param key      当前pins = "current" , "max"以后的pins ， "since"以前的pins
+     * @param pinId    如果key = "max"，代表获取从pinId之后的最新pins；
+     *                 如果key = "since"，代表获取从pinId之前的最新pins
+     *                 如果key = "current", 为空
+     * @param callback 回调函数
+     */
     @Override
-    public void getPinsListByType(@NonNull String type, int limit, @NonNull final RequestCallback<List<Pin>>
-            callback) {
+    public void getAllPins(@Nullable String category, int limit, @NonNull String key, @Nullable
+    String pinId, final RequestCallback<List<Pin>> callback) {
+
+        Map<String, String> params = new HashMap<>();
+        if (key.equals(Constants.QUERY_KEY_MAX)) {
+            params.put(Constants.QUERY_KEY_MAX, pinId);
+        } else if (key.equals(Constants.QUERY_KEY_SINCE)) {
+            params.put(Constants.QUERY_KEY_SINCE, pinId);
+        }
+
+        Retrofit client = RetrofitClient.getRetrofit();
+        CategoryAPI service = client.create(CategoryAPI.class);
+        service.getAllPins(mToken.getAccessOauth(), category, limit, params);
+
+    }
+
+
+
+    /**
+     * 查询所有的采集
+     *
+     * @param category 目录类型
+     * @param limit    个数
+     * @param key      当前pins = "current" , "max"以后的pins ， "since"以前的pins
+     * @param pinId    如果key = "max"，代表获取从pinId之后的最新pins；
+     *                 如果key = "since"，代表获取从pinId之前的最新pins
+     *                 如果key = "current", 为空
+     * @param callback 回调函数
+     */
+    @Override
+    public void getFavoritePins(@Nullable String category, int limit, @NonNull String key, @Nullable
+    String pinId, final RequestCallback<List<Pin>> callback) {
+
+        Map<String, String> params = new HashMap<>();
+        if (key.equals(Constants.QUERY_KEY_MAX)) {
+            params.put(Constants.QUERY_KEY_MAX, pinId);
+        } else if (key.equals(Constants.QUERY_KEY_SINCE)) {
+            params.put(Constants.QUERY_KEY_SINCE, pinId);
+        }
+
+        Retrofit client = RetrofitClient.getRetrofit();
+        CategoryAPI service = client.create(CategoryAPI.class);
+        service.getFavoritePins(mToken.getAccessOauth(), category, limit, params);
+
+    }
+
+
+    @Override
+    public void getPinsListByType(@NonNull String type, int limit, @NonNull final
+    RequestCallback<List<Pin>> callback) {
 
         Retrofit client = RetrofitClient.getRetrofit();
         CategoryAPI service = client.create(CategoryAPI.class);
@@ -280,7 +343,16 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
     public void getBoardPins(String boardId, int current, int limit, RequestCallback<PinList>
             requestCallback) {
         BoardAPI service = getServiceAPI(BoardAPI.class);
-        service.getBoardPins(mToken.getAccessOauth(), boardId, current, limit).enqueue(new EnqueueCallback<PinList>(requestCallback) {
+        HashMap<String, String> params = new HashMap<>();
+
+//        if (key.equals(Constants.QUERY_KEY_MAX)) {
+//            params.put(Constants.QUERY_KEY_MAX, pinId);
+//        } else if (key.equals(Constants.QUERY_KEY_SINCE)) {
+//            params.put(Constants.QUERY_KEY_SINCE, pinId);
+//        }
+
+        service.getBoardPins(mToken.getAccessOauth(), boardId, current, limit, params).enqueue
+                (new EnqueueCallback<PinList>(requestCallback) {
             @Override
             public void onResponse(Call<PinList> call, Response<PinList> response) {
                 super.onResponse(call, response);

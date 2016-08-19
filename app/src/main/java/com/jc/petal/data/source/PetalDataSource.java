@@ -10,6 +10,7 @@ import com.jc.petal.data.model.User;
 import com.jc.petal.data.model.Weekly;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.List;
 
@@ -49,14 +50,21 @@ public interface PetalDataSource {
     void refreshPinsList();
 
     void refreshPinsListLocalDataSource(@NonNull List<Pin> pins);
+
+    void getAllPins(@Nullable String category, int limit, @NonNull String key, @Nullable String
+            pinId, final RequestCallback<List<Pin>> callback);
+
+    void getFavoritePins(@Nullable String category, int limit, @NonNull String key,
+                         @Nullable String pinId, final RequestCallback<List<Pin>> callback);
+
     /**
      * 根据传入类型获取图片列表
      *
      * @param type  类型
      * @param limit 每页多少个
      */
-    void getPinsListByType(@NonNull final String type, final int limit, @NonNull final
-                            RequestCallback<List<Pin>> callback);
+    void getPinsListByType(@NonNull final String type, final int limit,
+                           @NonNull final RequestCallback<List<Pin>> callback);
 
     void getMaxPinsListByType(String type, int max, int limit, final RequestCallback<List<Pin>>
             callback);
