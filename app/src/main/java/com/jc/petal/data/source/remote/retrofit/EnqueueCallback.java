@@ -23,7 +23,7 @@ public abstract class EnqueueCallback<T> implements Callback<T> {
     public void onResponse(Call<T> call, Response<T> response) {
         if (response.code() == 200 && response.body() != null) {
             T object = response.body();
-            Logger.d(object);
+//            Logger.d(object);
 
             refreshLocal(object);
 

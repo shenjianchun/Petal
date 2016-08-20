@@ -1,5 +1,6 @@
 package com.jc.petal.category;
 
+import com.jc.petal.Constants;
 import com.jc.petal.R;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.Weekly;
@@ -26,13 +27,13 @@ import butterknife.BindView;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class PinsListFragment extends BaseFragment implements CategoryContract.View {
+public class CategoryPinListFragment extends BaseFragment implements CategoryContract.View {
 
     private static final String ARG_TYPE = "type";
 
     private CategoryContract.Presenter mPresenter;
 
-    private String mType;
+    private String mCategory;
     private OnListFragmentInteractionListener mListener;
 
     private ArrayList<Pin> mPins;
@@ -41,18 +42,19 @@ public class PinsListFragment extends BaseFragment implements CategoryContract.V
     SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
-    PinsListAdapter mAdapter;
+    CategoryPinListAdapter mAdapter;
 
     private BannerView mBannerView;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public PinsListFragment() {
+    public CategoryPinListFragment() {
     }
 
-    public static PinsListFragment newInstance(String type) {
-        PinsListFragment fragment = new PinsListFragment();
+    public static CategoryPinListFragment newInstance(String type) {
+        CategoryPinListFragment fragment = new CategoryPinListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_TYPE, type);
         fragment.setArguments(args);
@@ -64,7 +66,7 @@ public class PinsListFragment extends BaseFragment implements CategoryContract.V
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mType = getArguments().getString(ARG_TYPE);
+            mCategory = getArguments().getString(ARG_TYPE);
         }
     }
 
@@ -79,7 +81,10 @@ public class PinsListFragment extends BaseFragment implements CategoryContract.V
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mPresenter.fetchPinsByType(true, mType, 20);
+
+                mPresenter.getPins(true, mCategory, Constants.LIMIT, Constants.QUERY_KEY_CURRENT,
+                        "");
+
             }
         });
 
@@ -92,7 +97,7 @@ public class PinsListFragment extends BaseFragment implements CategoryContract.V
 
         // Set the adapter
         mPins = new ArrayList<>();
-        mAdapter = new PinsListAdapter(getContext(), mPins, new OnImageClickListener() {
+        mAdapter = new CategoryPinListAdapter(getContext(), mPins, new OnImageClickListener() {
             @Override
             public void onClick(Pin pin, int position) {
                 Bundle bundle = new Bundle();
@@ -111,7 +116,7 @@ public class PinsListFragment extends BaseFragment implements CategoryContract.V
         });
 
         // 首页加上一个Banner
-        if (mType.equals("all")) {
+        if (mCategory.equals("all")) {
 
             mPresenter.fetchWeeklies("");
 
@@ -126,18 +131,23 @@ public class PinsListFragment extends BaseFragment implements CategoryContract.V
         mRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                mPresenter.fetchMaxPinsByType(mType, mPins.get(mPins.size() - 1).pin_id, 20);
+                mPresenter.getPins(true, mCategory, Constants.LIMIT, Constants
+                        .QUERY_KEY_MAX, String.valueOf(mPins.get(mPins.size() - 1).pin_id));
             }
         });
 
         // 首次进入刷新
-        mPresenter.fetchPinsByType(true, mType, 20);
-        mRefreshLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mRefreshLayout.setRefreshing(true);
-            }
-        }, 100);
+//        mRefreshLayout.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                mRefreshLayout.setRefreshing(true);
+//            }
+//        });
+//
+        mPresenter.getPins(false, mCategory, Constants.LIMIT, Constants
+                        .QUERY_KEY_CURRENT, "");
+
+
 
     }
 
@@ -159,7 +169,9 @@ public class PinsListFragment extends BaseFragment implements CategoryContract.V
 
     @Override
     public void hideLoading() {
-        mRefreshLayout.setRefreshing(false);
+        if (mRefreshLayout.isRefreshing()) {
+            mRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override

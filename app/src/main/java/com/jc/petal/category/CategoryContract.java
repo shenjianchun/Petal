@@ -5,6 +5,8 @@ import com.jc.petal.BaseView;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.Weekly;
 
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 /**
@@ -15,12 +17,15 @@ public interface CategoryContract {
 
     interface View extends BaseView<Presenter> {
         void showPins(List<Pin> pins);
+
         void showBanners(List<Weekly> weeklies);
     }
 
     interface Presenter extends BasePresenter {
-        void fetchPinsByType(boolean forceUpdate,String type, int limit);
-        void fetchMaxPinsByType(String type, int max, int limit);
+
+        void getPins(boolean forceUpdate, String category, int limit, @NonNull String key,
+                     String pinId);
+
         void fetchWeeklies(String max);
     }
 

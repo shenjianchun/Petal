@@ -1,5 +1,8 @@
 package com.jc.petal.data.source.local;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import com.jc.petal.Constants;
 import com.jc.petal.RequestCallback;
 import com.jc.petal.data.model.AuthToken;
@@ -10,12 +13,22 @@ import com.jc.petal.data.model.PinList;
 import com.jc.petal.data.model.User;
 import com.jc.petal.data.model.Weekly;
 import com.jc.petal.data.source.PetalDataSource;
+import com.jc.petal.utils.IOUtils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -95,7 +108,8 @@ public class LocalDataSource implements PetalDataSource {
     }
 
     @Override
-    public void login(@NonNull String name, @NonNull String password, @NonNull RequestCallback<AuthToken> callback) {
+    public void login(@NonNull String name, @NonNull String password, @NonNull
+    RequestCallback<AuthToken> callback) {
         if (mToken != null) {
             callback.onSuccess(mToken);
         } else {
@@ -136,7 +150,76 @@ public class LocalDataSource implements PetalDataSource {
     }
 
     @Override
-    public void refreshPinsListLocalDataSource(@NonNull List<Pin> pins) {
+    public void refreshPinsListLocalDataSource(@NonNull PinList pins) {
+
+        String jsonPins = new GsonBuilder().serializeNulls().create().toJson(pins);
+        FileOutputStream fileOutputStream = null;
+        BufferedWriter bufferedWriter = null;
+        StringReader stringReader = null;
+        try {
+//            fileOutputStream = mContext.openFileOutput("all_current", Context.MODE_PRIVATE);
+//            bufferedWriter = new BufferedWriter(new OutputStreamWriter(fileOutputStream));
+            bufferedWriter = new BufferedWriter(new FileWriter(getDiskCacheDir()));
+            stringReader = new StringReader(jsonPins);
+
+//            char[] buffer = new char[1024];
+            int c;
+            while ( (c =  stringReader.read()) != -1) {
+                bufferedWriter.write((char)c);
+            }
+            bufferedWriter.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            IOUtils.closeReader(stringReader);
+            IOUtils.closeWriter(bufferedWriter);
+        }
+
+
+    }
+
+    @Override
+    public void getAllPins(@Nullable String category, int limit, @NonNull String key,
+                           @Nullable String pinId, RequestCallback<PinList> callback) {
+
+        StringBuilder stringBuilder = new StringBuilder();
+        FileInputStream fileInputStream = null;
+        BufferedReader bufferedReader = null;
+        try {
+//            fileInputStream = mContext.openFileInput("all_current");
+//            bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
+
+            bufferedReader = new BufferedReader(new FileReader(getDiskCacheDir()));
+//            char[] buffer = new char[1024];
+            int c;
+            while ( (c = bufferedReader.read()) != -1) {
+                stringBuilder.append((char)c);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            callback.onError(e.toString());
+        } finally {
+            IOUtils.closeReader(bufferedReader);
+            IOUtils.closeInputStream(fileInputStream);
+        }
+
+
+        Gson gson = new GsonBuilder().create();
+        PinList pins = gson.fromJson(stringBuilder.toString(), PinList.class);
+
+        if (pins != null && pins.pins != null) {
+            callback.onSuccess(pins);
+        } else {
+            callback.onError("Local data error!");
+        }
+
+    }
+
+    @Override
+    public void getFavoritePins(@Nullable String category, int limit,
+                                @NonNull String key, @Nullable String pinId,
+                                RequestCallback<PinList> callback) {
 
     }
 
@@ -206,18 +289,6 @@ public class LocalDataSource implements PetalDataSource {
 
     public void deletePinsList() {
 
-
-    }
-
-    @Override
-    public void getPinsListByType(@NonNull String type, @NonNull int limit, @NonNull RequestCallback<List<Pin>>
-            callback) {
-
-    }
-
-    @Override
-    public void getMaxPinsListByType(String type, int max, int limit, RequestCallback<List
-            <Pin>> callback) {
 
     }
 

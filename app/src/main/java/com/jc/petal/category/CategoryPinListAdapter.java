@@ -29,21 +29,21 @@ import my.nouilibrary.utils.SizeUtils;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Pin} and makes a call to the
- * specified {@link PinsListFragment.OnListFragmentInteractionListener}.
+ * specified {@link CategoryPinListFragment.OnListFragmentInteractionListener}.
  */
-public class PinsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CategoryPinListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int BASE_ITEM_TYPE_HEADER = 100000;
     private Context mContext;
     private final List<Pin> mPins;
-    private final PinsListFragment.OnImageClickListener mImageListener;
-    private final PinsListFragment.OnPinInfoClickListener mPinInfoListener;
+    private final CategoryPinListFragment.OnImageClickListener mImageListener;
+    private final CategoryPinListFragment.OnPinInfoClickListener mPinInfoListener;
 
     private View mHeaderView = null;
 
-    public PinsListAdapter(Context context, List<Pin> pins,
-                           PinsListFragment.OnImageClickListener imageListener,
-                           PinsListFragment.OnPinInfoClickListener pinInfoListener) {
+    public CategoryPinListAdapter(Context context, List<Pin> pins,
+                                  CategoryPinListFragment.OnImageClickListener imageListener,
+                                  CategoryPinListFragment.OnPinInfoClickListener pinInfoListener) {
         mContext = context;
         mPins = pins;
         mImageListener = imageListener;

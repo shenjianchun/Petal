@@ -49,25 +49,14 @@ public interface PetalDataSource {
 
     void refreshPinsList();
 
-    void refreshPinsListLocalDataSource(@NonNull List<Pin> pins);
+    void refreshPinsListLocalDataSource(@NonNull PinList pins);
 
     void getAllPins(@Nullable String category, int limit, @NonNull String key, @Nullable String
-            pinId, final RequestCallback<List<Pin>> callback);
+            pinId, final RequestCallback<PinList> callback);
 
     void getFavoritePins(@Nullable String category, int limit, @NonNull String key,
-                         @Nullable String pinId, final RequestCallback<List<Pin>> callback);
+                         @Nullable String pinId, final RequestCallback<PinList> callback);
 
-    /**
-     * 根据传入类型获取图片列表
-     *
-     * @param type  类型
-     * @param limit 每页多少个
-     */
-    void getPinsListByType(@NonNull final String type, final int limit,
-                           @NonNull final RequestCallback<List<Pin>> callback);
-
-    void getMaxPinsListByType(String type, int max, int limit, final RequestCallback<List<Pin>>
-            callback);
 
     /**
      * 获取采集信息

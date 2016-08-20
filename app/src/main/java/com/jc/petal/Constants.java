@@ -63,6 +63,9 @@ public class Constants {
     public static final String USER_AVATAR_KEY = "userAvatarKey";
 
 
+    public static final String DEFAULT_CATEGORY = "all";
+
+
     //http limit number
     public static final int LIMIT = 20;
 

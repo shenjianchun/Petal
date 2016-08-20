@@ -103,14 +103,7 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
     public void getSelf(@NonNull final RequestCallback<User> callback) {
         Retrofit client = RetrofitClient.getRetrofit();
         final UserAPI userAPI = client.create(UserAPI.class);
-        userAPI.getSelf(mToken.getAccessOauth()).enqueue(new EnqueueCallback<User>(callback) {
-            @Override
-            protected void refreshLocal(User object) {
-                super.refreshLocal(object);
-
-//                mPetalAPI.setSelf(object);
-            }
-        });
+        userAPI.getSelf(mToken.getAccessOauth()).enqueue(new EnqueueCallback<User>(callback){});
 
 
     }
@@ -145,8 +138,19 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
     }
 
     @Override
-    public void refreshPinsListLocalDataSource(@NonNull List<Pin> pins) {
+    public void refreshPinsListLocalDataSource(@NonNull PinList pins) {
 
+    }
+
+    private Map<String, String> getParamsMap(String key, String pinId) {
+        Map<String, String> params = new HashMap<>();
+        if (key.equals(Constants.QUERY_KEY_MAX)) {
+            params.put(Constants.QUERY_KEY_MAX, pinId);
+        } else if (key.equals(Constants.QUERY_KEY_SINCE)) {
+            params.put(Constants.QUERY_KEY_SINCE, pinId);
+        }
+
+        return params;
     }
 
     /**
@@ -161,26 +165,22 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
      * @param callback 回调函数
      */
     @Override
-    public void getAllPins(@Nullable String category, int limit, @NonNull String key, @Nullable
-    String pinId, final RequestCallback<List<Pin>> callback) {
+    public void getAllPins(@Nullable String category, int limit, @NonNull final String key,
+                           @Nullable
+    String pinId, final RequestCallback<PinList> callback) {
 
-        Map<String, String> params = new HashMap<>();
-        if (key.equals(Constants.QUERY_KEY_MAX)) {
-            params.put(Constants.QUERY_KEY_MAX, pinId);
-        } else if (key.equals(Constants.QUERY_KEY_SINCE)) {
-            params.put(Constants.QUERY_KEY_SINCE, pinId);
-        }
+        Map<String, String> params = getParamsMap(key, pinId);
 
         Retrofit client = RetrofitClient.getRetrofit();
         CategoryAPI service = client.create(CategoryAPI.class);
-        service.getAllPins(mToken.getAccessOauth(), category, limit, params);
+        Call<PinList> call = service.getAllPins(mToken.getAccessOauth(), category, limit, params);
 
+        call.enqueue(new EnqueueCallback<PinList>(callback) {});
     }
 
 
-
     /**
-     * 查询所有的采集
+     * 查询受欢迎的采集列表
      *
      * @param category 目录类型
      * @param limit    个数
@@ -192,7 +192,7 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
      */
     @Override
     public void getFavoritePins(@Nullable String category, int limit, @NonNull String key, @Nullable
-    String pinId, final RequestCallback<List<Pin>> callback) {
+    String pinId, final RequestCallback<PinList> callback) {
 
         Map<String, String> params = new HashMap<>();
         if (key.equals(Constants.QUERY_KEY_MAX)) {
@@ -203,66 +203,10 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
 
         Retrofit client = RetrofitClient.getRetrofit();
         CategoryAPI service = client.create(CategoryAPI.class);
-        service.getFavoritePins(mToken.getAccessOauth(), category, limit, params);
+        Call<PinList> call = service.getFavoritePins(mToken.getAccessOauth(), category, limit, params);
 
-    }
+        call.enqueue(new EnqueueCallback<PinList>(callback) {});
 
-
-    @Override
-    public void getPinsListByType(@NonNull String type, int limit, @NonNull final
-    RequestCallback<List<Pin>> callback) {
-
-        Retrofit client = RetrofitClient.getRetrofit();
-        CategoryAPI service = client.create(CategoryAPI.class);
-        Call<PinList> call = service.httpsTypeLimit(mToken.getAccessOauth(), type, limit);
-        call.enqueue(new Callback<PinList>() {
-            @Override
-            public void onResponse(Call<PinList> call, Response<PinList> response) {
-                if (response.code() == 200) {
-                    List<Pin> pinEntities = response.body().pins;
-                    if (pinEntities != null) {
-                        callback.onSuccess(pinEntities);
-                    }
-                } else {
-                    Logger.d(response.errorBody());
-                    callback.onError(String.valueOf(response.code()));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<PinList> call, Throwable t) {
-                callback.onError(t.toString());
-            }
-        });
-    }
-
-    @Override
-    public void getMaxPinsListByType(String type, int max, int limit,
-                                     final RequestCallback<List<Pin>> callback) {
-        Retrofit client = RetrofitClient.getRetrofit();
-        CategoryAPI service = client.create(CategoryAPI.class);
-
-        Call<PinList> call = service.httpsTypeMaxLimitRx(mToken.getAccessOauth(), type, max, limit);
-        call.enqueue(new Callback<PinList>() {
-            @Override
-            public void onResponse(Call<PinList> call, Response<PinList> response) {
-                if (response.code() == 200) {
-                    List<Pin> pinEntities = response.body().pins;
-                    if (pinEntities != null) {
-                        callback.onSuccess(pinEntities);
-                    }
-                } else {
-                    Logger.d(response.errorBody());
-
-                    callback.onError(String.valueOf(response.code()));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<PinList> call, Throwable t) {
-                callback.onError(t.toString());
-            }
-        });
     }
 
     @Override
@@ -353,16 +297,16 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
 
         service.getBoardPins(mToken.getAccessOauth(), boardId, current, limit, params).enqueue
                 (new EnqueueCallback<PinList>(requestCallback) {
-            @Override
-            public void onResponse(Call<PinList> call, Response<PinList> response) {
-                super.onResponse(call, response);
-            }
+                    @Override
+                    public void onResponse(Call<PinList> call, Response<PinList> response) {
+                        super.onResponse(call, response);
+                    }
 
-            @Override
-            public void onFailure(Call<PinList> call, Throwable t) {
-                super.onFailure(call, t);
-            }
-        });
+                    @Override
+                    public void onFailure(Call<PinList> call, Throwable t) {
+                        super.onFailure(call, t);
+                    }
+                });
 
     }
 

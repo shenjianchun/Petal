@@ -2,6 +2,7 @@ package com.jc.petal.data.source;
 
 import com.google.common.base.Preconditions;
 
+import com.jc.petal.Constants;
 import com.jc.petal.RequestCallback;
 import com.jc.petal.data.model.AuthToken;
 import com.jc.petal.data.model.BoardDetail;
@@ -13,9 +14,11 @@ import com.jc.petal.data.model.Weekly;
 import com.jc.petal.data.source.local.LocalDataSource;
 import com.jc.petal.data.source.remote.PetalAPI;
 import com.jc.petal.data.source.remote.retrofit.RetrofitRemoteDataSource;
+import com.orhanobut.logger.Logger;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.List;
 
@@ -31,7 +34,7 @@ public class PetalRepository implements PetalDataSource {
 
     private static PetalAPI mPetalAPI = new PetalAPI();
 
-//    private AuthToken mToken;
+    //    private AuthToken mToken;
     private User mSelf;
 
     private PetalDataSource mLocalDataSource;
@@ -117,7 +120,8 @@ public class PetalRepository implements PetalDataSource {
     }
 
     @Override
-    public void login(@NonNull String name,@NonNull String password,@NonNull final RequestCallback<AuthToken> callback) {
+    public void login(@NonNull String name, @NonNull String password, @NonNull final
+    RequestCallback<AuthToken> callback) {
 
         mRemoteDataSource.login(name, password, new RequestCallback<AuthToken>() {
             @Override
@@ -171,37 +175,17 @@ public class PetalRepository implements PetalDataSource {
         mCacheIsDirty = true;
     }
 
-    @Override
-    public void getPinsListByType(@NonNull final String type,final int limit, @NonNull final RequestCallback<List<Pin>>
-            callback) {
-        // 如果缓存为脏数据，则直接进行网络请求
-        if (mCacheIsDirty) {
-            getPinsListFromRemoteDataSource(type, limit, callback);
-        } else {
-            mLocalDataSource.getPinsListByType(type, limit, new RequestCallback<List<Pin>>() {
-                @Override
-                public void onSuccess(List<Pin> data) {
-                    callback.onSuccess(data);
-                }
-
-                @Override
-                public void onError(String msg) {
-                    getPinsListFromRemoteDataSource(type, limit, callback);
-                }
-            });
-        }
-    }
-
-    public void getPinsListFromRemoteDataSource(String type, int limit, final RequestCallback<List<Pin>>
-            callback) {
-        mRemoteDataSource.getPinsListByType(type, limit, new RequestCallback<List<Pin>>() {
+    public void getPinsListFromRemoteDataSource(@Nullable String category, int limit,
+                                                @NonNull String key,
+                                                @Nullable String pinId, final
+                                                RequestCallback<PinList> callback) {
+        mRemoteDataSource.getAllPins(category, limit, key, pinId, new RequestCallback<PinList>() {
             @Override
-            public void onSuccess(List<Pin> data) {
+            public void onSuccess(PinList data) {
 
                 refreshPinsListLocalDataSource(data);
 
                 callback.onSuccess(data);
-
             }
 
             @Override
@@ -213,16 +197,48 @@ public class PetalRepository implements PetalDataSource {
 
 
     @Override
-    public void refreshPinsListLocalDataSource(@NonNull List<Pin> pins) {
+    public void refreshPinsListLocalDataSource(@NonNull PinList pins) {
+        Logger.d("");
         mLocalDataSource.refreshPinsListLocalDataSource(pins);
         mCacheIsDirty = false;
     }
 
     @Override
-    public void getMaxPinsListByType(String type, int max, int limit,
-                                     RequestCallback<List<Pin>> callback) {
-        mRemoteDataSource.getMaxPinsListByType(type, max, limit, callback);
+    public void getAllPins(@Nullable final String category, final int limit, @NonNull final String key,
+                           @Nullable final String pinId, final RequestCallback<PinList> callback) {
+
+        if (key.equals(Constants.QUERY_KEY_CURRENT)) {
+            // 如果缓存为脏数据，则直接进行网络请求
+            if (mCacheIsDirty) {
+                Logger.d("");
+                getPinsListFromRemoteDataSource(category, limit,key, pinId, callback);
+            } else {
+                mLocalDataSource.getAllPins(category, limit,key, pinId, new RequestCallback<PinList>() {
+                    @Override
+                    public void onSuccess(PinList data) {
+                        Logger.d("");
+                        callback.onSuccess(data);
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        getPinsListFromRemoteDataSource(category, limit,key, pinId, callback);
+                    }
+                });
+            }
+        } else {
+            mRemoteDataSource.getAllPins(category, limit, key, pinId, callback);
+        }
+
+
     }
+
+    @Override
+    public void getFavoritePins(@Nullable String category, int limit, @NonNull String key,
+                                @Nullable String pinId, RequestCallback<PinList> callback) {
+        mRemoteDataSource.getFavoritePins(category, limit, key, pinId, callback);
+    }
+
 
     @Override
     public void getPin(int pinId, RequestCallback<Pin> callback) {

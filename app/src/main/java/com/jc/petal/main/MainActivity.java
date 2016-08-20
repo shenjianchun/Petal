@@ -4,8 +4,8 @@ import com.bumptech.glide.Glide;
 import com.jc.petal.Constants;
 import com.jc.petal.R;
 import com.jc.petal.category.CategoryContract;
+import com.jc.petal.category.CategoryPinListFragment;
 import com.jc.petal.category.CategoryPresenter;
-import com.jc.petal.category.PinsListFragment;
 import com.jc.petal.data.model.User;
 import com.jc.petal.data.source.PetalRepository;
 import com.jc.petal.login.LoginActivity;
@@ -34,8 +34,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     public static final int REQUEST_CODE_LOGIN = 1;
 
-    public static final String DEFAULT_TYPE = "all";
-
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
 
@@ -45,7 +43,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     ActionBarDrawerToggle mDrawerToggle;
 
     // 初始化第一个Fragment
-    PinsListFragment mFragment;
+    CategoryPinListFragment mFragment;
     CategoryContract.Presenter mPresenter;
     private PetalRepository mRepository;
 
@@ -66,11 +64,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         setupDrawerContent(mNavigationView);
 
-        mFragment = (PinsListFragment) getSupportFragmentManager()
+        mFragment = (CategoryPinListFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
 
         if (mFragment == null) {
-            mFragment = PinsListFragment.newInstance(DEFAULT_TYPE);
+            mFragment = CategoryPinListFragment.newInstance(Constants.DEFAULT_CATEGORY);
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
                     mFragment, R.id.contentFrame);
         }
@@ -183,7 +181,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      * @param type 图片类型
      */
     private void setCurrentFragment(String type) {
-        PinsListFragment fragment = PinsListFragment.newInstance(type);
+        CategoryPinListFragment fragment = CategoryPinListFragment.newInstance(type);
         new CategoryPresenter(fragment, mRepository);
         ActivityUtils.ReplaceFragmentToActivity(getSupportFragmentManager(), fragment, R.id
                 .contentFrame);

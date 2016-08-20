@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 
 import com.jc.petal.Constants;
 import com.jc.petal.R;
-import com.jc.petal.category.PinsListFragment;
+import com.jc.petal.category.CategoryPinListFragment;
 import com.jc.petal.data.model.Board;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.source.PetalRepository;
@@ -79,7 +79,7 @@ public class BoardDetailActivity extends BaseActivity implements BoardContract.B
         mRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources()
                 .getDimensionPixelSize(R.dimen.space_item_decoration)));
         // Set the adapter
-        mAdapter = new BoardDetailAdapter(this, mPins, new PinsListFragment.OnImageClickListener() {
+        mAdapter = new BoardDetailAdapter(this, mPins, new CategoryPinListFragment.OnImageClickListener() {
             @Override
             public void onClick(Pin pin, int position) {
                 Bundle bundle = new Bundle();
@@ -87,7 +87,7 @@ public class BoardDetailActivity extends BaseActivity implements BoardContract.B
                 bundle.putInt("position", position);
                 readyGo(PinDetailActivity.class, bundle);
             }
-        }, new PinsListFragment.OnPinInfoClickListener() {
+        }, new CategoryPinListFragment.OnPinInfoClickListener() {
             @Override
             public void onClick(Pin pin) {
                 Bundle bundle = new Bundle();

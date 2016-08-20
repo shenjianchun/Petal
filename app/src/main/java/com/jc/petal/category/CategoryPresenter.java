@@ -1,9 +1,12 @@
 package com.jc.petal.category;
 
+import com.jc.petal.Constants;
 import com.jc.petal.RequestCallback;
-import com.jc.petal.data.model.Pin;
+import com.jc.petal.data.model.PinList;
 import com.jc.petal.data.model.Weekly;
 import com.jc.petal.data.source.PetalRepository;
+
+import android.support.annotation.NonNull;
 
 import java.util.List;
 
@@ -29,7 +32,7 @@ public class CategoryPresenter implements CategoryContract.Presenter {
 
     @Override
     public void start() {
-        fetchPinsByType(true, "all", 20);
+//        fetchPinsByCategory(true, "all", 20);
     }
 
     @Override
@@ -38,17 +41,18 @@ public class CategoryPresenter implements CategoryContract.Presenter {
     }
 
     @Override
-    public void fetchPinsByType(boolean forceUpdate, String type, int limit) {
+    public void getPins(boolean forceUpdate, String category, int limit, @NonNull String key,
+                        String pinId) {
 
         if (forceUpdate) {
             mRepository.refreshPinsList();
         }
 
-        mRepository.getPinsListByType(type, limit, new RequestCallback<List<Pin>>() {
+        RequestCallback<PinList> callback = new RequestCallback<PinList>() {
             @Override
-            public void onSuccess(List<Pin> data) {
+            public void onSuccess(PinList data) {
 
-                mView.showPins(data);
+                mView.showPins(data.pins);
                 mView.hideLoading();
             }
 
@@ -56,25 +60,14 @@ public class CategoryPresenter implements CategoryContract.Presenter {
             public void onError(String msg) {
                 mView.showError(msg);
             }
-        });
-    }
+        };
 
-    @Override
-    public void fetchMaxPinsByType(String type, int max, int limit) {
-        mRepository.getMaxPinsListByType(type, max, limit, new RequestCallback<List<Pin>>() {
-            @Override
-            public void onSuccess(List<Pin> data) {
+        if (category.equals(Constants.DEFAULT_CATEGORY)) {
+            mRepository.getAllPins("", limit, key, pinId, callback);
+        } else {
+            mRepository.getFavoritePins(category, limit, key, pinId, callback);
+        }
 
-//                Logger.d(data);
-                mView.showPins(data);
-                mView.hideLoading();
-            }
-
-            @Override
-            public void onError(String msg) {
-                mView.showError(msg);
-            }
-        });
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.jc.petal.board;
 
 import com.bumptech.glide.Glide;
 import com.jc.petal.R;
-import com.jc.petal.category.PinsListFragment;
+import com.jc.petal.category.CategoryPinListFragment;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.utils.CompatUtils;
 
@@ -33,14 +33,14 @@ public class BoardDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private static final int BASE_ITEM_TYPE_HEADER = 100000;
     private Context mContext;
     private final List<Pin> mPins;
-    private final PinsListFragment.OnImageClickListener mImageListener;
-    private final PinsListFragment.OnPinInfoClickListener mPinInfoListener;
+    private final CategoryPinListFragment.OnImageClickListener mImageListener;
+    private final CategoryPinListFragment.OnPinInfoClickListener mPinInfoListener;
 
     private View mHeaderView = null;
 
     public BoardDetailAdapter(Context context, List<Pin> pins,
-                              PinsListFragment.OnImageClickListener imageListener,
-                              PinsListFragment.OnPinInfoClickListener pinInfoListener) {
+                              CategoryPinListFragment.OnImageClickListener imageListener,
+                              CategoryPinListFragment.OnPinInfoClickListener pinInfoListener) {
         mContext = context;
         mPins = pins;
         mImageListener = imageListener;
