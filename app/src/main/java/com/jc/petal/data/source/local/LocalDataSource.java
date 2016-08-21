@@ -317,4 +317,10 @@ public class LocalDataSource implements PetalDataSource {
     public void getUserBoards(String userId, RequestCallback<BoardList> callback) {
 
     }
+
+    @Override
+    public void getUserPins(@Nullable String userId, int limit, @NonNull String key, @Nullable
+    String pinId, RequestCallback<PinList> callback) {
+
+    }
 }

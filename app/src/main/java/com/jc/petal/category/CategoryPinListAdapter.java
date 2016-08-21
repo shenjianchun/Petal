@@ -5,8 +5,6 @@ import com.jc.petal.R;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.utils.SpannableTextUtils;
 
-import org.apache.commons.collections4.CollectionUtils;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
@@ -108,7 +106,8 @@ public class CategoryPinListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         holder.mImageIv.setLayoutParams(new LinearLayout.LayoutParams(imgWidth, imgHeight));
 
         // image url
-        String imageUrl = mContext.getString(R.string.url_image_general, pin.file.key);
+//        String imageUrl = mContext.getString(R.string.url_image_general, pin.file.key);
+        String imageUrl = pin.file.getFW192();
         Glide.with(mContext).load(imageUrl).fitCenter().into(holder.mImageIv);
 
         if (!TextUtils.isEmpty(pin.raw_text)) {
@@ -154,7 +153,7 @@ public class CategoryPinListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public int getItemCount() {
 
-        if (CollectionUtils.isEmpty(mPins)) {
+        if (mPins == null) {
             return 0;
         }
 

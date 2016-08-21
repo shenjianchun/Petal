@@ -176,14 +176,16 @@ public class PetalRepository implements PetalDataSource {
     }
 
     public void getPinsListFromRemoteDataSource(@Nullable String category, int limit,
-                                                @NonNull String key,
+                                                @NonNull final String key,
                                                 @Nullable String pinId, final
                                                 RequestCallback<PinList> callback) {
         mRemoteDataSource.getAllPins(category, limit, key, pinId, new RequestCallback<PinList>() {
             @Override
             public void onSuccess(PinList data) {
 
-                refreshPinsListLocalDataSource(data);
+                if (key.equals(Constants.QUERY_KEY_CURRENT)) {
+                    refreshPinsListLocalDataSource(data);
+                }
 
                 callback.onSuccess(data);
             }
@@ -264,6 +266,12 @@ public class PetalRepository implements PetalDataSource {
     @Override
     public void getUserBoards(String userId, RequestCallback<BoardList> callback) {
         mRemoteDataSource.getUserBoards(userId, callback);
+    }
+
+    @Override
+    public void getUserPins(@Nullable String userId, int limit, @NonNull String key, @Nullable
+    String pinId, RequestCallback<PinList> callback) {
+        mRemoteDataSource.getUserPins(userId, limit, key, pinId, callback);
     }
 
 }

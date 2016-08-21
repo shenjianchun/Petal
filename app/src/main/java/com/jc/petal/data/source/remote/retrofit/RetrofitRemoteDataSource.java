@@ -103,7 +103,8 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
     public void getSelf(@NonNull final RequestCallback<User> callback) {
         Retrofit client = RetrofitClient.getRetrofit();
         final UserAPI userAPI = client.create(UserAPI.class);
-        userAPI.getSelf(mToken.getAccessOauth()).enqueue(new EnqueueCallback<User>(callback){});
+        userAPI.getSelf(mToken.getAccessOauth()).enqueue(new EnqueueCallback<User>(callback) {
+        });
 
 
     }
@@ -167,7 +168,7 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
     @Override
     public void getAllPins(@Nullable String category, int limit, @NonNull final String key,
                            @Nullable
-    String pinId, final RequestCallback<PinList> callback) {
+                           String pinId, final RequestCallback<PinList> callback) {
 
         Map<String, String> params = getParamsMap(key, pinId);
 
@@ -175,7 +176,8 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
         CategoryAPI service = client.create(CategoryAPI.class);
         Call<PinList> call = service.getAllPins(mToken.getAccessOauth(), category, limit, params);
 
-        call.enqueue(new EnqueueCallback<PinList>(callback) {});
+        call.enqueue(new EnqueueCallback<PinList>(callback) {
+        });
     }
 
 
@@ -194,18 +196,15 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
     public void getFavoritePins(@Nullable String category, int limit, @NonNull String key, @Nullable
     String pinId, final RequestCallback<PinList> callback) {
 
-        Map<String, String> params = new HashMap<>();
-        if (key.equals(Constants.QUERY_KEY_MAX)) {
-            params.put(Constants.QUERY_KEY_MAX, pinId);
-        } else if (key.equals(Constants.QUERY_KEY_SINCE)) {
-            params.put(Constants.QUERY_KEY_SINCE, pinId);
-        }
+        Map<String, String> params = getParamsMap(key, pinId);
 
         Retrofit client = RetrofitClient.getRetrofit();
         CategoryAPI service = client.create(CategoryAPI.class);
-        Call<PinList> call = service.getFavoritePins(mToken.getAccessOauth(), category, limit, params);
+        Call<PinList> call = service.getFavoritePins(mToken.getAccessOauth(), category, limit,
+                params);
 
-        call.enqueue(new EnqueueCallback<PinList>(callback) {});
+        call.enqueue(new EnqueueCallback<PinList>(callback) {
+        });
 
     }
 
@@ -325,6 +324,17 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
                 super.onFailure(call, t);
             }
         });
+    }
+
+    @Override
+    public void getUserPins(@Nullable String userId, int limit, @NonNull String key, @Nullable
+    String pinId, RequestCallback<PinList> callback) {
+
+        Map<String, String> params = getParamsMap(key, pinId);
+
+        UserAPI service = getServiceAPI(UserAPI.class);
+        service.getUserPins(mToken.getAccessOauth(), userId, limit, params)
+                .enqueue(new EnqueueCallback<PinList>(callback) {});
     }
 
 

@@ -16,7 +16,7 @@ import java.util.List;
 public interface CategoryContract {
 
     interface View extends BaseView<Presenter> {
-        void showPins(List<Pin> pins);
+        void showPins(boolean isRefresh, List<Pin> pins);
 
         void showBanners(List<Weekly> weeklies);
     }

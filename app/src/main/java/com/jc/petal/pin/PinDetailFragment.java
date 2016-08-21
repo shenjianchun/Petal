@@ -92,8 +92,14 @@ public class PinDetailFragment extends BaseFragment implements PinDetailContract
         mAppBarLayout.setLayoutParams(layoutParams);
 
         String imageUrl = getString(R.string.url_image_general, mPin.file.key);
-        Glide.with(this).load(imageUrl).placeholder(R.drawable.account_circle_grey_36x36)
-                .fitCenter().into(mImageIv);
+
+        if (mPin.file.type.contains("gif")) {
+            Glide.with(this).load(imageUrl).asGif().placeholder(R.drawable.account_circle_grey_36x36)
+                    .fitCenter().into(mImageIv);
+        } else {
+            Glide.with(this).load(imageUrl).placeholder(R.drawable.account_circle_grey_36x36)
+                    .fitCenter().into(mImageIv);
+        }
 
         // owner
         View ownerLayout = ButterKnife.findById(getView(), R.id.include_owner);

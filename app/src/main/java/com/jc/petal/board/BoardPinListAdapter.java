@@ -28,7 +28,7 @@ import my.nouilibrary.utils.SizeUtils;
  * 画板详情界面中的RecyclerView对应的Adapter
  *
  */
-public class BoardDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class BoardPinListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int BASE_ITEM_TYPE_HEADER = 100000;
     private Context mContext;
@@ -38,9 +38,9 @@ public class BoardDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private View mHeaderView = null;
 
-    public BoardDetailAdapter(Context context, List<Pin> pins,
-                              CategoryPinListFragment.OnImageClickListener imageListener,
-                              CategoryPinListFragment.OnPinInfoClickListener pinInfoListener) {
+    public BoardPinListAdapter(Context context, List<Pin> pins,
+                               CategoryPinListFragment.OnImageClickListener imageListener,
+                               CategoryPinListFragment.OnPinInfoClickListener pinInfoListener) {
         mContext = context;
         mPins = pins;
         mImageListener = imageListener;
@@ -66,8 +66,6 @@ public class BoardDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         if (mHeaderView != null && viewType == BASE_ITEM_TYPE_HEADER) {
-//            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_banner,
-//                    parent, false);
 
             return new HeaderViewHolder(mHeaderView);
         } else {

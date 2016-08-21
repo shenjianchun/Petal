@@ -41,7 +41,7 @@ public class CategoryPresenter implements CategoryContract.Presenter {
     }
 
     @Override
-    public void getPins(boolean forceUpdate, String category, int limit, @NonNull String key,
+    public void getPins(boolean forceUpdate, String category, int limit, @NonNull final String key,
                         String pinId) {
 
         if (forceUpdate) {
@@ -51,13 +51,17 @@ public class CategoryPresenter implements CategoryContract.Presenter {
         RequestCallback<PinList> callback = new RequestCallback<PinList>() {
             @Override
             public void onSuccess(PinList data) {
-
-                mView.showPins(data.pins);
                 mView.hideLoading();
+                if (key.equals(Constants.QUERY_KEY_CURRENT)) {
+                    mView.showPins(true , data.pins);
+                } else {
+                    mView.showPins(false, data.pins);
+                }
             }
 
             @Override
             public void onError(String msg) {
+                mView.hideLoading();
                 mView.showError(msg);
             }
         };

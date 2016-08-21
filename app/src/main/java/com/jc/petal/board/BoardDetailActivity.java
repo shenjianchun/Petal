@@ -41,7 +41,7 @@ public class BoardDetailActivity extends BaseActivity implements BoardContract.B
 
     private String mBoardId;
     private ArrayList<Pin> mPins;
-    private BoardDetailAdapter mAdapter;
+    private BoardPinListAdapter mAdapter;
     private BoardContract.BoardDetailPresenter mPresenter;
 
     private int mCurrent = 0;
@@ -79,7 +79,7 @@ public class BoardDetailActivity extends BaseActivity implements BoardContract.B
         mRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources()
                 .getDimensionPixelSize(R.dimen.space_item_decoration)));
         // Set the adapter
-        mAdapter = new BoardDetailAdapter(this, mPins, new CategoryPinListFragment.OnImageClickListener() {
+        mAdapter = new BoardPinListAdapter(this, mPins, new CategoryPinListFragment.OnImageClickListener() {
             @Override
             public void onClick(Pin pin, int position) {
                 Bundle bundle = new Bundle();

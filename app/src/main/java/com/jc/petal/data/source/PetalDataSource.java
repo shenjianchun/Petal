@@ -93,4 +93,8 @@ public interface PetalDataSource {
      */
     void getUserBoards(String userId, RequestCallback<BoardList> callback);
 
+    void getUserPins(@Nullable String userId, int limit, @NonNull String key, @Nullable String
+            pinId, final RequestCallback<PinList> callback);
+
+
 }

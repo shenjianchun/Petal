@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import my.nouilibrary.utils.T;
 
 /**
  * A fragment representing a list of Items.
@@ -28,8 +29,6 @@ import butterknife.BindView;
  * interface.
  */
 public class CategoryPinListFragment extends BaseFragment implements CategoryContract.View {
-
-    private static final String ARG_TYPE = "type";
 
     private CategoryContract.Presenter mPresenter;
 
@@ -56,7 +55,7 @@ public class CategoryPinListFragment extends BaseFragment implements CategoryCon
     public static CategoryPinListFragment newInstance(String type) {
         CategoryPinListFragment fragment = new CategoryPinListFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_TYPE, type);
+        args.putString(Constants.ARG_TYPE, type);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,7 +65,7 @@ public class CategoryPinListFragment extends BaseFragment implements CategoryCon
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mCategory = getArguments().getString(ARG_TYPE);
+            mCategory = getArguments().getString(Constants.ARG_TYPE);
         }
     }
 
@@ -147,8 +146,6 @@ public class CategoryPinListFragment extends BaseFragment implements CategoryCon
         mPresenter.getPins(false, mCategory, Constants.LIMIT, Constants
                         .QUERY_KEY_CURRENT, "");
 
-
-
     }
 
     @Override
@@ -176,7 +173,7 @@ public class CategoryPinListFragment extends BaseFragment implements CategoryCon
 
     @Override
     public void showError(String msg) {
-
+        T.showShort(getContext(), msg);
     }
 
 
@@ -202,8 +199,13 @@ public class CategoryPinListFragment extends BaseFragment implements CategoryCon
     }
 
     @Override
-    public void showPins(List<Pin> pins) {
+    public void showPins(boolean isRefresh, List<Pin> pins) {
         int curSize = mAdapter.getItemCount();
+
+        if (isRefresh) {
+            mPins.clear();
+            mAdapter.notifyDataSetChanged();
+        }
         mPins.addAll(pins);
         mAdapter.notifyItemRangeInserted(curSize, pins.size());
     }

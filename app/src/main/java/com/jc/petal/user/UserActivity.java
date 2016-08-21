@@ -85,7 +85,10 @@ public class UserActivity extends BaseActivity implements UserContract.View {
         new BoardListPresenterImpl(boardListFragment, mRepository);
         mFragmentList.add(boardListFragment);
 
-        mFragmentList.add(UserAboutFragment.newInstance(user));
+        UserPinListFragment userPinListFragment = UserPinListFragment.newInstance(user.user_id);
+        new UserPinListPresenterImpl(userPinListFragment, mRepository);
+        mFragmentList.add(userPinListFragment);
+
         mFragmentList.add(UserAboutFragment.newInstance(user));
         mFragmentList.add(UserAboutFragment.newInstance(user));
 
