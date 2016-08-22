@@ -80,7 +80,6 @@ public class CategoryPinListFragment extends BaseFragment implements CategoryCon
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
                 mPresenter.getPins(true, mCategory, Constants.LIMIT, Constants.QUERY_KEY_CURRENT,
                         "");
 

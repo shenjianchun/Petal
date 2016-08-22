@@ -9,6 +9,7 @@ import com.jc.petal.data.model.Board;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.source.PetalRepository;
 import com.jc.petal.pin.PinDetailActivity;
+import com.jc.petal.base.CommonPinListAdapter;
 import com.jc.petal.widget.SpacesItemDecoration;
 import com.uilibrary.app.BaseActivity;
 
@@ -41,11 +42,10 @@ public class BoardDetailActivity extends BaseActivity implements BoardContract.B
 
     private String mBoardId;
     private ArrayList<Pin> mPins;
-    private BoardPinListAdapter mAdapter;
+    private CommonPinListAdapter mAdapter;
     private BoardContract.BoardDetailPresenter mPresenter;
 
     private int mCurrent = 0;
-    private int mLimit = 20;
 
     @Override
     protected void initViewsAndEvents() {
@@ -64,7 +64,7 @@ public class BoardDetailActivity extends BaseActivity implements BoardContract.B
         initRecyclerView();
 
         mPresenter.getBoard(mBoardId);
-        mPresenter.getBoardPins(mBoardId, mCurrent, mLimit);
+        mPresenter.getBoardPins(mBoardId, mCurrent, Constants.LIMIT);
     }
 
     /**
@@ -79,7 +79,7 @@ public class BoardDetailActivity extends BaseActivity implements BoardContract.B
         mRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources()
                 .getDimensionPixelSize(R.dimen.space_item_decoration)));
         // Set the adapter
-        mAdapter = new BoardPinListAdapter(this, mPins, new CategoryPinListFragment.OnImageClickListener() {
+        mAdapter = new CommonPinListAdapter(this, mPins, new CategoryPinListFragment.OnImageClickListener() {
             @Override
             public void onClick(Pin pin, int position) {
                 Bundle bundle = new Bundle();

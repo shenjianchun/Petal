@@ -1,4 +1,4 @@
-package com.jc.petal.board;
+package com.jc.petal.base;
 
 import com.bumptech.glide.Glide;
 import com.jc.petal.R;
@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import my.nouilibrary.utils.ScreenUtils;
 import my.nouilibrary.utils.SizeUtils;
@@ -28,7 +29,7 @@ import my.nouilibrary.utils.SizeUtils;
  * 画板详情界面中的RecyclerView对应的Adapter
  *
  */
-public class BoardPinListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CommonPinListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int BASE_ITEM_TYPE_HEADER = 100000;
     private Context mContext;
@@ -38,9 +39,9 @@ public class BoardPinListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private View mHeaderView = null;
 
-    public BoardPinListAdapter(Context context, List<Pin> pins,
-                               CategoryPinListFragment.OnImageClickListener imageListener,
-                               CategoryPinListFragment.OnPinInfoClickListener pinInfoListener) {
+    public CommonPinListAdapter(Context context, List<Pin> pins,
+                                CategoryPinListFragment.OnImageClickListener imageListener,
+                                CategoryPinListFragment.OnPinInfoClickListener pinInfoListener) {
         mContext = context;
         mPins = pins;
         mImageListener = imageListener;
@@ -71,7 +72,7 @@ public class BoardPinListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else {
 
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_board_detail_pins_list, parent, false);
+                    .inflate(R.layout.item_pins_list_simple, parent, false);
 
             ContentViewHolder holder = new  ContentViewHolder(view);
 
@@ -188,21 +189,16 @@ public class BoardPinListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public class ContentViewHolder extends RecyclerView.ViewHolder {
-        public final View mItemView;
-        public final ImageView mImageIv;
-        public final TextView mContentTv;
+        @BindView(R.id.image) ImageView mImageIv;
+        @BindView(R.id.tv_image_description) TextView mContentTv;
+        @BindView(R.id.tv_pin_count) TextView mPinCountTv;
+        @BindView(R.id.tv_like_count) TextView mLikeCountTv;
 
-        public final TextView mPinCountTv;
-        public final TextView mLikeCountTv;
         public Pin mItem;
 
         public ContentViewHolder(View view) {
             super(view);
-            mItemView = view;
-            mImageIv = ButterKnife.findById(view, R.id.image);
-            mContentTv = ButterKnife.findById(view, R.id.tv_image_description);
-            mPinCountTv = ButterKnife.findById(view, R.id.tv_pin_count);
-            mLikeCountTv = ButterKnife.findById(view, R.id.tv_like_count);
+            ButterKnife.bind(this, view);
         }
 
         @Override

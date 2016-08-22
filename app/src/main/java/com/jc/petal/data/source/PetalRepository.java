@@ -274,4 +274,10 @@ public class PetalRepository implements PetalDataSource {
         mRemoteDataSource.getUserPins(userId, limit, key, pinId, callback);
     }
 
+    @Override
+    public void getUserLikes(@Nullable String userId, int limit, @NonNull String key, @Nullable
+    String pinId, RequestCallback<PinList> callback) {
+        mRemoteDataSource.getUserLikes(userId, limit, key, pinId, callback);
+    }
+
 }

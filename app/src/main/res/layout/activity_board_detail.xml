@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:context=".board.BoardDetailActivity"
-                tools:listitem="@layout/item_board_detail_pins_list"/>
+                tools:listitem="@layout/item_pins_list_simple"/>
 
 
         <android.support.design.widget.FloatingActionButton

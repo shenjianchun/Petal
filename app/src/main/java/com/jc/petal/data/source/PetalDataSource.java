@@ -93,8 +93,33 @@ public interface PetalDataSource {
      */
     void getUserBoards(String userId, RequestCallback<BoardList> callback);
 
+    /**
+     *
+     * 查询用户的采集列表
+     *
+     * @param userId        用户ID
+     * @param limit         个数
+     * @param key      当前pins = "current" , "max"以后的pins ， "since"以前的pins
+     * @param pinId    如果key = "max"，代表获取从pinId之后的最新pins；
+     *                 如果key = "since"，代表获取从pinId之前的最新pins
+     *                 如果key = "current", 为空
+     * @param callback 回调函数
+     */
     void getUserPins(@Nullable String userId, int limit, @NonNull String key, @Nullable String
             pinId, final RequestCallback<PinList> callback);
 
-
+    /**
+     *
+     * 查询用户赞过的采集列表
+     *
+     * @param userId        用户ID
+     * @param limit         个数
+     * @param key      当前pins = "current" , "max"以后的pins ， "since"以前的pins
+     * @param pinId    如果key = "max"，代表获取从pinId之后的最新pins；
+     *                 如果key = "since"，代表获取从pinId之前的最新pins
+     *                 如果key = "current", 为空
+     * @param callback 回调函数
+     */
+    void getUserLikes(@Nullable String userId, int limit, @NonNull String key, @Nullable String
+            pinId, final RequestCallback<PinList> callback);
 }

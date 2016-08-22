@@ -323,4 +323,10 @@ public class LocalDataSource implements PetalDataSource {
     String pinId, RequestCallback<PinList> callback) {
 
     }
+
+    @Override
+    public void getUserLikes(@Nullable String userId, int limit, @NonNull String key, @Nullable
+    String pinId, RequestCallback<PinList> callback) {
+
+    }
 }

@@ -10,10 +10,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
     private static Retrofit sRetrofit = null;
-    private static OAuthAPI sPetalService = null;
 
-    public static final String BASE_URL = "https://api.huaban.com/";
+    private static final String BASE_URL = "https://api.huaban.com/";
 
+    private static class SingletonHolder {
+        private static final RetrofitClient INSTANCE = new RetrofitClient();
+    }
+
+    public static RetrofitClient getInstance() {
+        return SingletonHolder.INSTANCE;
+    }
 
     public static Retrofit getRetrofit() {
         if (sRetrofit == null) {
@@ -29,13 +35,8 @@ public class RetrofitClient {
         return sRetrofit;
     }
 
-    public static Object getPetalService(Class<?> clazz) {
-
-        return new Retrofit.Builder()
-                .baseUrl(RetrofitClient.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(clazz);
+    public <T> T createService(Class<T> clazz) {
+        return getRetrofit().create(clazz);
     }
 
 }

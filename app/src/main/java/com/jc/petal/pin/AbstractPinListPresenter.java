@@ -1,4 +1,4 @@
-package com.jc.petal.user;
+package com.jc.petal.pin;
 
 import com.google.common.base.Preconditions;
 
@@ -9,22 +9,20 @@ import com.jc.petal.data.source.PetalRepository;
 import android.support.annotation.NonNull;
 
 /**
- * Board detail presenter
+ * User PinList presenter
  * Created by JC on 2016-08-15.
  */
-public class UserPinListPresenterImpl implements UserContract.UserPinListPresenter {
+public abstract class AbstractPinListPresenter implements PinContract.PinListPresenter {
 
-    private final UserContract.UserPinListView mView;
-    private final PetalRepository mRepository;
+    private final PinContract.PinListView mView;
+    protected final PetalRepository mRepository;
 
-    public UserPinListPresenterImpl(@NonNull UserContract.UserPinListView view, @NonNull PetalRepository
+    public AbstractPinListPresenter(@NonNull PinContract.PinListView view, @NonNull PetalRepository
             repository) {
         mView = Preconditions.checkNotNull(view);
         mRepository = Preconditions.checkNotNull(repository);
         mView.setPresenter(this);
     }
-
-
 
     @Override
     public void initialize() {
@@ -42,13 +40,15 @@ public class UserPinListPresenterImpl implements UserContract.UserPinListPresent
     }
 
     @Override
-    public void getUserPins(String userId, int limit, @NonNull String key, String pinId) {
+    public void getPins(final boolean isRefresh, String id, int limit, @NonNull String key,
+                        String pinId) {
         mView.showLoading();
-        mRepository.getUserPins(userId, limit, key, pinId, new RequestCallback<PinList>() {
+
+        RequestCallback<PinList> requestCallback = new RequestCallback<PinList>() {
             @Override
             public void onSuccess(PinList data) {
                 mView.hideLoading();
-                mView.showUserPins(data.pins);
+                mView.showPins(isRefresh, data.pins);
             }
 
             @Override
@@ -56,6 +56,12 @@ public class UserPinListPresenterImpl implements UserContract.UserPinListPresent
                 mView.hideLoading();
                 mView.showError(msg);
             }
-        });
+        };
+
+        callRepository(id, limit, key, pinId, requestCallback);
+
     }
+
+    public abstract void callRepository(String id, int limit, String key, String pinId,
+                                        RequestCallback<PinList> callback);
 }

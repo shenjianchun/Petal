@@ -5,6 +5,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.jc.petal.Constants;
 import com.jc.petal.R;
+import com.jc.petal.base.BasePinListFragment;
 import com.jc.petal.board.BoardListFragment;
 import com.jc.petal.board.BoardListPresenterImpl;
 import com.jc.petal.data.model.User;
@@ -81,17 +82,24 @@ public class UserActivity extends BaseActivity implements UserContract.View {
         mTitleList = getResources().getStringArray(R.array.user_section);
         mFragmentList = new ArrayList<>(4);
 
+        // 画板列表
         BoardListFragment boardListFragment = BoardListFragment.newInstance(user.user_id);
         new BoardListPresenterImpl(boardListFragment, mRepository);
         mFragmentList.add(boardListFragment);
 
-        UserPinListFragment userPinListFragment = UserPinListFragment.newInstance(user.user_id);
-        new UserPinListPresenterImpl(userPinListFragment, mRepository);
+        // 采集过的列表
+//        UserPinListFragment userPinListFragment = UserPinListFragment.newInstance(user.user_id);
+        BasePinListFragment userPinListFragment = BasePinListFragment.newInstance(user.user_id);
+        new UserPinListPresenter(userPinListFragment, mRepository);
         mFragmentList.add(userPinListFragment);
 
-        mFragmentList.add(UserAboutFragment.newInstance(user));
-        mFragmentList.add(UserAboutFragment.newInstance(user));
+        // 赞过的列表
+        BasePinListFragment userLikesFragment = BasePinListFragment.newInstance(user.user_id);
+        new UserLikesPresenter(userLikesFragment, mRepository);
+        mFragmentList.add(userLikesFragment);
 
+        // 关于TA
+        mFragmentList.add(UserAboutFragment.newInstance(user));
 
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(adapter);
@@ -101,7 +109,6 @@ public class UserActivity extends BaseActivity implements UserContract.View {
 
     private void initHeader(User user) {
         // TODO: 2016-08-12 需要重新拉取数据，而不是从Intent中获取
-
 
         mUserNameTv.setText(user.username);
         mUserProfileTv.setText(user.user_id);

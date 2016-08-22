@@ -1,11 +1,12 @@
-package com.jc.petal.user;
+package com.jc.petal.base;
 
 import com.jc.petal.Constants;
 import com.jc.petal.R;
-import com.jc.petal.board.BoardPinListAdapter;
 import com.jc.petal.category.CategoryPinListFragment;
 import com.jc.petal.data.model.Pin;
+import com.jc.petal.pin.PinContract;
 import com.jc.petal.pin.PinDetailActivity;
+import com.jc.petal.widget.EndlessRecyclerViewScrollListener;
 import com.jc.petal.widget.SpacesItemDecoration;
 import com.uilibrary.app.BaseFragment;
 
@@ -24,16 +25,16 @@ import my.nouilibrary.utils.T;
  * 用户采集过的图片列表
  * Created by JC on 2016-08-21.
  */
-public class UserPinListFragment extends BaseFragment implements UserContract.UserPinListView {
+public class BasePinListFragment extends BaseFragment implements PinContract.PinListView {
 
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
-    BoardPinListAdapter mAdapter;
+    CommonPinListAdapter mAdapter;
 
-    private UserContract.UserPinListPresenter mPresenter;
-    private String mUserId;
+    private PinContract.PinListPresenter mPresenter;
+    private String mParam;
     private List<Pin> mPins;
 
     @Override
@@ -44,21 +45,21 @@ public class UserPinListFragment extends BaseFragment implements UserContract.Us
     @Override
     protected void initViewsAndEvents() {
         if (getArguments() != null) {
-            mUserId = getArguments().getString(Constants.ARG_USER_ID);
+            mParam = getArguments().getString(Constants.ARG_ID);
         }
 
-        mPins = new ArrayList<>();
+        mPins = new ArrayList<>(20);
 
-        initRecyclerView();
+        initViews();
 
-        mPresenter.getUserPins(mUserId, Constants.LIMIT, Constants.QUERY_KEY_CURRENT, "");
+        mPresenter.getPins(true, mParam, Constants.LIMIT, Constants.QUERY_KEY_CURRENT, "");
     }
 
 
     /**
      * 初始化RecyclerView
      */
-    private void initRecyclerView() {
+    private void initViews() {
 
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,
                 StaggeredGridLayoutManager.VERTICAL);
@@ -67,7 +68,7 @@ public class UserPinListFragment extends BaseFragment implements UserContract.Us
         mRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources()
                 .getDimensionPixelSize(R.dimen.space_item_decoration)));
         // Set the adapter
-        mAdapter = new BoardPinListAdapter(getContext(), mPins, new CategoryPinListFragment.OnImageClickListener() {
+        mAdapter = new CommonPinListAdapter(getContext(), mPins, new CategoryPinListFragment.OnImageClickListener() {
             @Override
             public void onClick(Pin pin, int position) {
                 Bundle bundle = new Bundle();
@@ -86,25 +87,50 @@ public class UserPinListFragment extends BaseFragment implements UserContract.Us
         });
 
         mRecyclerView.setAdapter(mAdapter);
+
+        // 添加加载更多接口
+        mRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                mPresenter.getPins(false, mParam, Constants.LIMIT, Constants
+                        .QUERY_KEY_MAX, String.valueOf(mPins.get(mPins.size() - 1).pin_id));
+            }
+        });
+
+
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.getPins(true, mParam, Constants.LIMIT, Constants.QUERY_KEY_CURRENT,
+                        "");
+            }
+        });
+
     }
 
-    public static UserPinListFragment newInstance(String userId) {
-        UserPinListFragment fragment = new UserPinListFragment();
+    public static BasePinListFragment newInstance(String id) {
+        BasePinListFragment fragment = new BasePinListFragment();
         Bundle args = new Bundle();
-        args.putString(Constants.ARG_USER_ID, userId);
+        args.putString(Constants.ARG_ID, id);
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    public void showUserPins(List<Pin> pins) {
+    public void showPins(boolean isRefresh, List<Pin> pins) {
         int curSize = mAdapter.getItemCount();
+
+        if (isRefresh) {
+            mPins.clear();
+            mAdapter.notifyDataSetChanged();
+        }
+
         mPins.addAll(pins);
         mAdapter.notifyItemRangeInserted(curSize, pins.size());
     }
 
     @Override
-    public void setPresenter(UserContract.UserPinListPresenter presenter) {
+    public void setPresenter(PinContract.PinListPresenter presenter) {
         mPresenter = presenter;
     }
 
@@ -115,11 +141,22 @@ public class UserPinListFragment extends BaseFragment implements UserContract.Us
 
     @Override
     public void hideLoading() {
-
+        if (mRefreshLayout.isRefreshing()) {
+            mRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override
     public void showError(String msg) {
         T.showShort(getContext(), msg);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        if (mRefreshLayout.isRefreshing()) {
+            mRefreshLayout.setRefreshing(false);
+        }
     }
 }

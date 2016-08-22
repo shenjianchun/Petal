@@ -7,7 +7,7 @@ import java.io.Reader;
 import java.io.Writer;
 
 /**
- * Created by 14110105 on 2016-08-20.
+ * Created by JC on 2016-08-20.
  */
 public class IOUtils {
 

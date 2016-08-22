@@ -1,7 +1,7 @@
 package com.jc.petal.data.source;
 
 /**
- * Created by 14110105 on 2016-08-19.
+ * Created by JC on 2016-08-19.
  */
 public enum QueryKey {
 
