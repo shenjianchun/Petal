@@ -19,23 +19,6 @@ import retrofit2.http.QueryMap;
  */
 public interface CategoryAPI {
 
-
-    //https//api.huaban.com/favorite/food_drink?limit=20
-    // 模板类型
-    @GET("favorite/{type}")
-    Call<PinList> httpsTypeLimit(@Header(Constants.Authorization) String authorization,
-                                 @Path("type") String type,
-                                 @Query("limit") int limit);
-
-    //    https//api.huaban.com/favorite/food_drink?max=5445324325&limit=20
-//    模板类型 的后续联网 max
-    @GET("favorite/{type}")
-    Call<PinList> httpsTypeMaxLimitRx(@Header(Constants.Authorization) String
-                                              authorization,
-                                      @Path("type") String type,
-                                      @Query("max") int max,
-                                      @Query("limit") int limit);
-
     /**
      * 查询所有的采集列表
      *
@@ -74,7 +57,7 @@ public interface CategoryAPI {
      * 查询所有的分类目录
      */
     @GET("categories")
-    Call<CategoryList> getCatetoryList();
+    Call<CategoryList> getCategoryList();
 
 
 }

@@ -8,6 +8,7 @@ import com.jc.petal.RequestCallback;
 import com.jc.petal.data.model.AuthToken;
 import com.jc.petal.data.model.BoardDetail;
 import com.jc.petal.data.model.BoardList;
+import com.jc.petal.data.model.CategoryList;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.PinList;
 import com.jc.petal.data.model.User;
@@ -327,6 +328,11 @@ public class LocalDataSource implements PetalDataSource {
     @Override
     public void getUserLikes(@Nullable String userId, int limit, @NonNull String key, @Nullable
     String pinId, RequestCallback<PinList> callback) {
+
+    }
+
+    @Override
+    public void getCategoryList(RequestCallback<CategoryList> callback) {
 
     }
 }

@@ -15,49 +15,20 @@ public class Category {
      * urlname : web_app_icon
      */
 
-    private String id;
-    private String name;
-    private int col;
-    private String nav_link;
-    private String urlname;
+    public String id;
+    public String name;
+    public int col;
+    public String nav_link;
+    public String urlname;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getCol() {
-        return col;
-    }
-
-    public void setCol(int col) {
-        this.col = col;
-    }
-
-    public String getNav_link() {
-        return nav_link;
-    }
-
-    public void setNav_link(String nav_link) {
-        this.nav_link = nav_link;
-    }
-
-    public String getUrlname() {
-        return urlname;
-    }
-
-    public void setUrlname(String urlname) {
-        this.urlname = urlname;
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", col=" + col +
+                ", nav_link='" + nav_link + '\'' +
+                ", urlname='" + urlname + '\'' +
+                '}';
     }
 }

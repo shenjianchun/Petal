@@ -14,12 +14,12 @@ import java.util.List;
  * Main Presenter
  * Created by JC on 2016-08-01.
  */
-public class CategoryPresenter implements CategoryContract.Presenter {
+public class CategoryPinsPresenter implements CategoryContract.Presenter {
 
     private final CategoryContract.View mView;
     private final PetalRepository mRepository;
 
-    public CategoryPresenter(CategoryContract.View view, PetalRepository repository) {
+    public CategoryPinsPresenter(CategoryContract.View view, PetalRepository repository) {
         mView = view;
         mRepository = repository;
         view.setPresenter(this);

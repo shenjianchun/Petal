@@ -4,6 +4,7 @@ import com.jc.petal.RequestCallback;
 import com.jc.petal.data.model.AuthToken;
 import com.jc.petal.data.model.BoardDetail;
 import com.jc.petal.data.model.BoardList;
+import com.jc.petal.data.model.CategoryList;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.PinList;
 import com.jc.petal.data.model.User;
@@ -122,4 +123,11 @@ public interface PetalDataSource {
      */
     void getUserLikes(@Nullable String userId, int limit, @NonNull String key, @Nullable String
             pinId, final RequestCallback<PinList> callback);
+
+
+    /**
+     * 获取目录分类列表
+     * @param callback 回调函数
+     */
+    void getCategoryList(final RequestCallback<CategoryList> callback);
 }

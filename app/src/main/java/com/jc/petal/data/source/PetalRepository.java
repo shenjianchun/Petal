@@ -7,6 +7,7 @@ import com.jc.petal.RequestCallback;
 import com.jc.petal.data.model.AuthToken;
 import com.jc.petal.data.model.BoardDetail;
 import com.jc.petal.data.model.BoardList;
+import com.jc.petal.data.model.CategoryList;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.PinList;
 import com.jc.petal.data.model.User;
@@ -278,6 +279,11 @@ public class PetalRepository implements PetalDataSource {
     public void getUserLikes(@Nullable String userId, int limit, @NonNull String key, @Nullable
     String pinId, RequestCallback<PinList> callback) {
         mRemoteDataSource.getUserLikes(userId, limit, key, pinId, callback);
+    }
+
+    @Override
+    public void getCategoryList(RequestCallback<CategoryList> callback) {
+        mRemoteDataSource.getCategoryList(callback);
     }
 
 }

@@ -5,6 +5,7 @@ import com.jc.petal.RequestCallback;
 import com.jc.petal.data.model.AuthToken;
 import com.jc.petal.data.model.BoardDetail;
 import com.jc.petal.data.model.BoardList;
+import com.jc.petal.data.model.CategoryList;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.PinDetail;
 import com.jc.petal.data.model.PinList;
@@ -332,6 +333,12 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
         UserAPI service = RetrofitClient.getInstance().createService(UserAPI.class);
         service.getUserLikes(mToken.getAccessOauth(), userId, limit, params)
                 .enqueue(new EnqueueCallback<PinList>(callback) {});
+    }
+
+    @Override
+    public void getCategoryList(RequestCallback<CategoryList> callback) {
+        CategoryAPI service = RetrofitClient.getInstance().createService(CategoryAPI.class);
+        service.getCategoryList().enqueue(new EnqueueCallback<CategoryList>(callback) {});
     }
 
 

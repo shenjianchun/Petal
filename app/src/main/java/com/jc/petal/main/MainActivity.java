@@ -3,13 +3,16 @@ package com.jc.petal.main;
 import com.bumptech.glide.Glide;
 import com.jc.petal.Constants;
 import com.jc.petal.R;
+import com.jc.petal.RequestCallback;
 import com.jc.petal.category.CategoryContract;
 import com.jc.petal.category.CategoryPinListFragment;
-import com.jc.petal.category.CategoryPresenter;
+import com.jc.petal.category.CategoryPinsPresenter;
+import com.jc.petal.data.model.CategoryList;
 import com.jc.petal.data.model.User;
 import com.jc.petal.data.source.PetalRepository;
 import com.jc.petal.login.LoginActivity;
 import com.jc.petal.utils.ActivityUtils;
+import com.orhanobut.logger.Logger;
 import com.uilibrary.app.BaseActivity;
 
 import android.content.Intent;
@@ -57,6 +60,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        // 获取DataSource
+        mRepository = PetalRepository.getInstance(getApplicationContext());
+
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R
                 .string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerToggle.setDrawerIndicatorEnabled(true);
@@ -73,11 +79,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     mFragment, R.id.contentFrame);
         }
 
-        // 获取DataSource
-        mRepository = PetalRepository.getInstance(getApplicationContext());
-
         // 初始化 Presenter
-        mPresenter = new CategoryPresenter(mFragment, mRepository);
+        mPresenter = new CategoryPinsPresenter(mFragment, mRepository);
 
         // TODO: 2016-08-17  需要删除，重构
         if (mRepository.isLogin()) {
@@ -173,6 +176,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             ImageView pictureIv = ButterKnife.findById(headerView, R.id.iv_picture);
             pictureIv.setOnClickListener(this);
         }
+
+        // TODO: 2016-08-24 需要修改到Presenter中
+        mRepository.getCategoryList(new RequestCallback<CategoryList>() {
+            @Override
+            public void onSuccess(CategoryList data) {
+                Logger.d(data);
+            }
+
+            @Override
+            public void onError(String msg) {
+
+            }
+        });
+
     }
 
     /**
@@ -182,7 +199,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      */
     private void setCurrentFragment(String type) {
         CategoryPinListFragment fragment = CategoryPinListFragment.newInstance(type);
-        new CategoryPresenter(fragment, mRepository);
+        new CategoryPinsPresenter(fragment, mRepository);
         ActivityUtils.ReplaceFragmentToActivity(getSupportFragmentManager(), fragment, R.id
                 .contentFrame);
     }
