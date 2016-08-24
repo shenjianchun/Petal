@@ -51,6 +51,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:paddingLeft="@dimen/spacing_double"
+            android:paddingRight="@dimen/spacing_double"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_medium"
             tools:text="100粉丝 100关注"/>

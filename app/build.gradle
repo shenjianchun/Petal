@@ -28,7 +28,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile "junit:junit:$rootProject.junitVersion"
     // Optional -- Mockito framework
-//    testCompile "org.mockito:mockito-core:$rootProject.mockitoVersion"
+    testCompile "org.mockito:mockito-core:$rootProject.mockitoVersion"
     compile "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
     compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
     compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"

@@ -217,7 +217,7 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
 
             @Override
             public void onFailure(Call<PinDetail> call, Throwable t) {
-
+                callback.onError(t.toString());
             }
         });
     }

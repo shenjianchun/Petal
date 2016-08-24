@@ -72,9 +72,6 @@ public class UserActivity extends BaseActivity implements UserContract.View {
 
         mPresenter.getUserInfo(userId);
 
-//        initHeader();
-//        initViewPager();
-
     }
 
 
@@ -108,8 +105,6 @@ public class UserActivity extends BaseActivity implements UserContract.View {
     }
 
     private void initHeader(User user) {
-        // TODO: 2016-08-12 需要重新拉取数据，而不是从Intent中获取
-
         mUserNameTv.setText(user.username);
         mUserProfileTv.setText(user.user_id);
 
@@ -133,7 +128,6 @@ public class UserActivity extends BaseActivity implements UserContract.View {
                 mAppBar.setBackground(backDrawable);
             }
         });
-
     }
 
 
