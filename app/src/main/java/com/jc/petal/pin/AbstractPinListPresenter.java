@@ -9,7 +9,7 @@ import com.jc.petal.data.source.PetalRepository;
 import android.support.annotation.NonNull;
 
 /**
- * User PinList presenter
+ * Abstract PinList presenter
  * Created by JC on 2016-08-15.
  */
 public abstract class AbstractPinListPresenter implements PinContract.PinListPresenter {

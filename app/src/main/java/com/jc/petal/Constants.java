@@ -80,7 +80,9 @@ public class Constants {
 
     public static final String ARG_PIN = "pin";
     public static final String ARG_PINS = "pins";
+    public static final String ARG_PIN_ID = "pin_id";
 
+    public static final String ARG_DESCRIPTION = "description";
 
     public static final String ARG_ID = "id";
     public static final String ARG_BOARD_ID = "board_id";

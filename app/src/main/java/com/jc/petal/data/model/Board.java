@@ -11,7 +11,7 @@ import java.util.List;
  */
 
 public class Board implements Parcelable {
-    public int board_id;
+    public String board_id;
     public int user_id;
     public String title;
     public String description;
@@ -37,7 +37,7 @@ public class Board implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.board_id);
+        dest.writeString(this.board_id);
         dest.writeInt(this.user_id);
         dest.writeString(this.title);
         dest.writeString(this.description);
@@ -55,7 +55,7 @@ public class Board implements Parcelable {
     }
 
     protected Board(Parcel in) {
-        this.board_id = in.readInt();
+        this.board_id = in.readString();
         this.user_id = in.readInt();
         this.title = in.readString();
         this.description = in.readString();

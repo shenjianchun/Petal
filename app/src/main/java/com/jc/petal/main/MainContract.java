@@ -13,12 +13,12 @@ import java.util.List;
 public class MainContract {
 
     interface NavigationView extends BaseView<NavigationPresenter> {
-        void showCategories(List<Category> categories);
+        void showCategoryList(List<Category> categories);
 
     }
 
     interface NavigationPresenter extends BasePresenter {
-        void getCategories();
+        void getCategoryList();
     }
 
 }

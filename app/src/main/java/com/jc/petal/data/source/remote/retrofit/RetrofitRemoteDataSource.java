@@ -198,11 +198,21 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
     }
 
     @Override
-    public void getPin(int pinId, final RequestCallback<Pin> callback) {
+    public void repin(@NonNull String viaPinId, @Nullable String boardId, String
+            text, String mediaType, String viedia, final RequestCallback<Pin> callback) {
+        PinAPI service = RetrofitClient.getInstance().createService(PinAPI.class);
+        service.repin(mToken.getAccessOauth(), viaPinId, boardId, text, mediaType, viedia)
+                .enqueue(new EnqueueCallback<Pin>(callback) {
+
+        });
+    }
+
+    @Override
+    public void getPin(String pinId, final RequestCallback<Pin> callback) {
 
         PinAPI service = RetrofitClient.getInstance().createService(PinAPI.class);
 
-        Call<PinDetail> call = service.getPin(mToken.getAccessOauth(), String.valueOf(pinId));
+        Call<PinDetail> call = service.getPin(mToken.getAccessOauth(), pinId);
         call.enqueue(new Callback<PinDetail>() {
             @Override
             public void onResponse(Call<PinDetail> call, Response<PinDetail> response) {
@@ -322,7 +332,8 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
 
         UserAPI service = RetrofitClient.getInstance().createService(UserAPI.class);
         service.getUserPins(mToken.getAccessOauth(), userId, limit, params)
-                .enqueue(new EnqueueCallback<PinList>(callback) {});
+                .enqueue(new EnqueueCallback<PinList>(callback) {
+                });
     }
 
     @Override
@@ -332,13 +343,15 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
 
         UserAPI service = RetrofitClient.getInstance().createService(UserAPI.class);
         service.getUserLikes(mToken.getAccessOauth(), userId, limit, params)
-                .enqueue(new EnqueueCallback<PinList>(callback) {});
+                .enqueue(new EnqueueCallback<PinList>(callback) {
+                });
     }
 
     @Override
     public void getCategoryList(RequestCallback<CategoryList> callback) {
         CategoryAPI service = RetrofitClient.getInstance().createService(CategoryAPI.class);
-        service.getCategoryList().enqueue(new EnqueueCallback<CategoryList>(callback) {});
+        service.getCategoryList().enqueue(new EnqueueCallback<CategoryList>(callback) {
+        });
     }
 
 

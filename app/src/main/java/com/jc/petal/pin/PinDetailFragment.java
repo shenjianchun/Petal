@@ -11,6 +11,9 @@ import com.uilibrary.app.BaseFragment;
 
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,13 +21,14 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import my.nouilibrary.utils.ScreenUtils;
 
 /**
  * Use the {@link PinDetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PinDetailFragment extends BaseFragment implements PinDetailContract.View {
+public class PinDetailFragment extends BaseFragment implements PinContract.PinDetailView {
 
     private static final String ARG_PIN = "pin";
 
@@ -34,9 +38,11 @@ public class PinDetailFragment extends BaseFragment implements PinDetailContract
     ImageView mImageIv;
     @BindView(R.id.tv_image_description)
     TextView mDescTv;
+    @BindView(R.id.fab_repin)
+    FloatingActionButton mFloatingButton;
 
     private PetalRepository mRepository;
-    private PinDetailContract.Presenter mPresenter;
+    private PinContract.PinDetailPresenter mPresenter;
 
     private Pin mPin;
 
@@ -73,33 +79,11 @@ public class PinDetailFragment extends BaseFragment implements PinDetailContract
     protected void initViewsAndEvents() {
 
         mRepository = PetalRepository.getInstance(getActivity().getApplicationContext());
-        mPresenter = new PinDetailPresenter(this, mRepository);
+        mPresenter = new PinDetailPresenterImpl(this, mRepository);
 
         mDescTv.setText(mPin.raw_text);
 
-
-        // 设置ImageView的宽高比
-        int imgWidth = ScreenUtils.getScreenWidth(getContext());
-        float scale = (float) mPin.file.width / (float) mPin.file.height;
-        if (scale < 0.7f) {
-            scale = 0.7f;
-        }
-        int imgHeight = (int) (imgWidth / scale);
-        ViewGroup.LayoutParams layoutParams =
-                mAppBarLayout.getLayoutParams();
-//        layoutParams.width = imgWidth;
-        layoutParams.height = imgHeight;
-        mAppBarLayout.setLayoutParams(layoutParams);
-
-        String imageUrl = getString(R.string.url_image_general, mPin.file.key);
-
-        if (mPin.file.type.contains("gif")) {
-            Glide.with(this).load(imageUrl).asGif().placeholder(R.drawable.account_circle_grey_36x36)
-                    .fitCenter().into(mImageIv);
-        } else {
-            Glide.with(this).load(imageUrl).placeholder(R.drawable.account_circle_grey_36x36)
-                    .fitCenter().into(mImageIv);
-        }
+        loadImage();
 
         // owner
         View ownerLayout = ButterKnife.findById(getView(), R.id.include_owner);
@@ -118,6 +102,40 @@ public class PinDetailFragment extends BaseFragment implements PinDetailContract
         mPresenter.getPin(mPin.pin_id);
     }
 
+    /**
+     * 加载图片
+     */
+    private void loadImage() {
+
+        // 设置ImageView的宽高比
+        int imgWidth = ScreenUtils.getScreenWidth(getContext());
+        float scale = (float) mPin.file.width / (float) mPin.file.height;
+        if (scale < 0.7f) {
+            scale = 0.7f;
+        }
+        int imgHeight = (int) (imgWidth / scale);
+        ViewGroup.LayoutParams layoutParams =
+                mAppBarLayout.getLayoutParams();
+//        layoutParams.width = imgWidth;
+        layoutParams.height = imgHeight;
+        mAppBarLayout.setLayoutParams(layoutParams);
+
+        String imageUrl = getString(R.string.url_image_general, mPin.file.key);
+
+        if (mPin.file.type.contains("gif")) {
+            Glide.with(this).load(imageUrl).asGif().placeholder(R.drawable
+                    .account_circle_grey_36x36)
+                    .fitCenter().into(mImageIv);
+        } else {
+            Glide.with(this).load(imageUrl).placeholder(R.drawable.account_circle_grey_36x36)
+                    .fitCenter().into(mImageIv);
+        }
+
+    }
+
+    /**
+     * 加载用户信息
+     */
     private void initUserInfo(View layout) {
 
         layout.setOnClickListener(new View.OnClickListener() {
@@ -184,8 +202,25 @@ public class PinDetailFragment extends BaseFragment implements PinDetailContract
                     readyGo(BoardDetailActivity.class, bundle);
                 }
             });
-
         }
+
+    }
+
+
+    @OnClick(R.id.fab_repin)
+    public void onClick() {
+
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("repin_dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.commit();
+
+        RepinDialogFragment dialogFragment = RepinDialogFragment.newInstance(mPin);
+        new RepinPresenterImpl(dialogFragment, mRepository);
+
+        dialogFragment.show(getFragmentManager(), "repin_dialog");
 
     }
 
@@ -195,13 +230,12 @@ public class PinDetailFragment extends BaseFragment implements PinDetailContract
     }
 
     @Override
-    public void setPresenter(PinDetailContract.Presenter presenter) {
+    public void setPresenter(PinContract.PinDetailPresenter presenter) {
         mPresenter = presenter;
     }
 
     @Override
     public void showLoading() {
-
     }
 
     @Override

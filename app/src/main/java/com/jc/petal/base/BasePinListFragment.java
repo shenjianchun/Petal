@@ -93,7 +93,7 @@ public class BasePinListFragment extends BaseFragment implements PinContract.Pin
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 mPresenter.getPins(false, mParam, Constants.LIMIT, Constants
-                        .QUERY_KEY_MAX, String.valueOf(mPins.get(mPins.size() - 1).pin_id));
+                        .QUERY_KEY_MAX, mPins.get(mPins.size() - 1).pin_id);
             }
         });
 

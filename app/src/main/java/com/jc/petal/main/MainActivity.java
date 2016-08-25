@@ -3,16 +3,13 @@ package com.jc.petal.main;
 import com.bumptech.glide.Glide;
 import com.jc.petal.Constants;
 import com.jc.petal.R;
-import com.jc.petal.RequestCallback;
 import com.jc.petal.category.CategoryContract;
 import com.jc.petal.category.CategoryPinListFragment;
 import com.jc.petal.category.CategoryPinsPresenter;
-import com.jc.petal.data.model.CategoryList;
 import com.jc.petal.data.model.User;
 import com.jc.petal.data.source.PetalRepository;
 import com.jc.petal.login.LoginActivity;
 import com.jc.petal.utils.ActivityUtils;
-import com.orhanobut.logger.Logger;
 import com.uilibrary.app.BaseActivity;
 
 import android.content.Intent;
@@ -47,7 +44,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     // 初始化第一个Fragment
     CategoryPinListFragment mFragment;
-    CategoryContract.Presenter mPresenter;
+    CategoryContract.Presenter mCategoryPinListPresenter;
     private PetalRepository mRepository;
 
     private String[] mTypeTitles;
@@ -80,7 +77,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
 
         // 初始化 Presenter
-        mPresenter = new CategoryPinsPresenter(mFragment, mRepository);
+        mCategoryPinListPresenter = new CategoryPinsPresenter(mFragment, mRepository);
 
         // TODO: 2016-08-17  需要删除，重构
         if (mRepository.isLogin()) {
@@ -177,18 +174,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             pictureIv.setOnClickListener(this);
         }
 
-        // TODO: 2016-08-24 需要修改到Presenter中
-        mRepository.getCategoryList(new RequestCallback<CategoryList>() {
-            @Override
-            public void onSuccess(CategoryList data) {
-                Logger.d(data);
-            }
 
-            @Override
-            public void onError(String msg) {
-
-            }
-        });
 
     }
 

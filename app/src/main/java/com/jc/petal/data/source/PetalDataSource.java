@@ -52,19 +52,44 @@ public interface PetalDataSource {
 
     void refreshPinsListLocalDataSource(@NonNull PinList pins);
 
+    /**
+     * 查询所有的采集
+     *
+     * @param category 目录类型
+     * @param limit    个数
+     * @param key      当前pins = "current" , "max"以后的pins ， "since"以前的pins
+     * @param pinId    如果key = "max"，代表获取从pinId之后的最新pins；
+     *                 如果key = "since"，代表获取从pinId之前的最新pins
+     *                 如果key = "current", 为空
+     * @param callback 回调函数
+     */
     void getAllPins(@Nullable String category, int limit, @NonNull String key, @Nullable String
             pinId, final RequestCallback<PinList> callback);
 
+    /**
+     * 查询受欢迎的采集列表
+     *
+     * @param category 目录类型
+     * @param limit    个数
+     * @param key      当前pins = "current" , "max"以后的pins ， "since"以前的pins
+     * @param pinId    如果key = "max"，代表获取从pinId之后的最新pins；
+     *                 如果key = "since"，代表获取从pinId之前的最新pins
+     *                 如果key = "current", 为空
+     * @param callback 回调函数
+     */
     void getFavoritePins(@Nullable String category, int limit, @NonNull String key,
                          @Nullable String pinId, final RequestCallback<PinList> callback);
 
+
+    void repin(@NonNull String viaPinId, @Nullable String boardId, String text,
+               String mediaType, String viedia, final RequestCallback<Pin> callback);
 
     /**
      * 获取采集信息
      *
      * @param pinId 采集ID
      */
-    void getPin(int pinId, final RequestCallback<Pin> callback);
+    void getPin(String pinId, final RequestCallback<Pin> callback);
 
     /**
      * 获取周刊
@@ -95,11 +120,10 @@ public interface PetalDataSource {
     void getUserBoards(String userId, RequestCallback<BoardList> callback);
 
     /**
-     *
      * 查询用户的采集列表
      *
-     * @param userId        用户ID
-     * @param limit         个数
+     * @param userId   用户ID
+     * @param limit    个数
      * @param key      当前pins = "current" , "max"以后的pins ， "since"以前的pins
      * @param pinId    如果key = "max"，代表获取从pinId之后的最新pins；
      *                 如果key = "since"，代表获取从pinId之前的最新pins
@@ -110,11 +134,10 @@ public interface PetalDataSource {
             pinId, final RequestCallback<PinList> callback);
 
     /**
-     *
      * 查询用户赞过的采集列表
      *
-     * @param userId        用户ID
-     * @param limit         个数
+     * @param userId   用户ID
+     * @param limit    个数
      * @param key      当前pins = "current" , "max"以后的pins ， "since"以前的pins
      * @param pinId    如果key = "max"，代表获取从pinId之后的最新pins；
      *                 如果key = "since"，代表获取从pinId之前的最新pins
@@ -127,6 +150,7 @@ public interface PetalDataSource {
 
     /**
      * 获取目录分类列表
+     *
      * @param callback 回调函数
      */
     void getCategoryList(final RequestCallback<CategoryList> callback);

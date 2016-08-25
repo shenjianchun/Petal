@@ -165,8 +165,8 @@ public class LocalDataSource implements PetalDataSource {
 
 //            char[] buffer = new char[1024];
             int c;
-            while ( (c =  stringReader.read()) != -1) {
-                bufferedWriter.write((char)c);
+            while ((c = stringReader.read()) != -1) {
+                bufferedWriter.write((char) c);
             }
             bufferedWriter.flush();
         } catch (IOException e) {
@@ -193,8 +193,8 @@ public class LocalDataSource implements PetalDataSource {
             bufferedReader = new BufferedReader(new FileReader(getDiskCacheDir()));
 //            char[] buffer = new char[1024];
             int c;
-            while ( (c = bufferedReader.read()) != -1) {
-                stringBuilder.append((char)c);
+            while ((c = bufferedReader.read()) != -1) {
+                stringBuilder.append((char) c);
             }
 
         } catch (IOException e) {
@@ -221,6 +221,12 @@ public class LocalDataSource implements PetalDataSource {
     public void getFavoritePins(@Nullable String category, int limit,
                                 @NonNull String key, @Nullable String pinId,
                                 RequestCallback<PinList> callback) {
+
+    }
+
+    @Override
+    public void repin(@NonNull String viaPinId, @Nullable String boardId, String
+            text, String mediaType, String viedia, final RequestCallback<Pin> callback) {
 
     }
 
@@ -294,7 +300,7 @@ public class LocalDataSource implements PetalDataSource {
     }
 
     @Override
-    public void getPin(int pinId, RequestCallback<Pin> callback) {
+    public void getPin(String pinId, RequestCallback<Pin> callback) {
 
     }
 

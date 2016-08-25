@@ -130,7 +130,7 @@ public class CategoryPinListFragment extends BaseFragment implements CategoryCon
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 mPresenter.getPins(true, mCategory, Constants.LIMIT, Constants
-                        .QUERY_KEY_MAX, String.valueOf(mPins.get(mPins.size() - 1).pin_id));
+                        .QUERY_KEY_MAX, mPins.get(mPins.size() - 1).pin_id);
             }
         });
 
@@ -143,7 +143,7 @@ public class CategoryPinListFragment extends BaseFragment implements CategoryCon
 //        });
 //
         mPresenter.getPins(false, mCategory, Constants.LIMIT, Constants
-                        .QUERY_KEY_CURRENT, "");
+                .QUERY_KEY_CURRENT, "");
 
     }
 

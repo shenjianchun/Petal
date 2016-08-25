@@ -9,7 +9,7 @@ import android.os.Parcelable;
  */
 public class Pin implements Parcelable {
 
-    public int pin_id;
+    public String pin_id;
     public int user_id;
     public int board_id;
     public int file_id;
@@ -27,7 +27,7 @@ public class Pin implements Parcelable {
     public PinFileEntity file;
 
 
-    public int media_type;
+    public String media_type;
     public String source;
     public String link;
     public String raw_text;
@@ -54,12 +54,12 @@ public class Pin implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.pin_id);
+        dest.writeString(this.pin_id);
         dest.writeInt(this.user_id);
         dest.writeInt(this.board_id);
         dest.writeInt(this.file_id);
         dest.writeParcelable(this.file, flags);
-        dest.writeInt(this.media_type);
+        dest.writeString(this.media_type);
         dest.writeString(this.source);
         dest.writeString(this.link);
         dest.writeString(this.raw_text);
@@ -83,12 +83,12 @@ public class Pin implements Parcelable {
     }
 
     protected Pin(Parcel in) {
-        this.pin_id = in.readInt();
+        this.pin_id = in.readString();
         this.user_id = in.readInt();
         this.board_id = in.readInt();
         this.file_id = in.readInt();
         this.file = in.readParcelable(PinFileEntity.class.getClassLoader());
-        this.media_type = in.readInt();
+        this.media_type = in.readString();
         this.source = in.readString();
         this.link = in.readString();
         this.raw_text = in.readString();

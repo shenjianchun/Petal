@@ -207,16 +207,18 @@ public class PetalRepository implements PetalDataSource {
     }
 
     @Override
-    public void getAllPins(@Nullable final String category, final int limit, @NonNull final String key,
+    public void getAllPins(@Nullable final String category, final int limit, @NonNull final
+    String key,
                            @Nullable final String pinId, final RequestCallback<PinList> callback) {
 
         if (key.equals(Constants.QUERY_KEY_CURRENT)) {
             // 如果缓存为脏数据，则直接进行网络请求
             if (mCacheIsDirty) {
                 Logger.d("");
-                getPinsListFromRemoteDataSource(category, limit,key, pinId, callback);
+                getPinsListFromRemoteDataSource(category, limit, key, pinId, callback);
             } else {
-                mLocalDataSource.getAllPins(category, limit,key, pinId, new RequestCallback<PinList>() {
+                mLocalDataSource.getAllPins(category, limit, key, pinId, new
+                        RequestCallback<PinList>() {
                     @Override
                     public void onSuccess(PinList data) {
                         Logger.d("");
@@ -225,7 +227,7 @@ public class PetalRepository implements PetalDataSource {
 
                     @Override
                     public void onError(String msg) {
-                        getPinsListFromRemoteDataSource(category, limit,key, pinId, callback);
+                        getPinsListFromRemoteDataSource(category, limit, key, pinId, callback);
                     }
                 });
             }
@@ -242,9 +244,15 @@ public class PetalRepository implements PetalDataSource {
         mRemoteDataSource.getFavoritePins(category, limit, key, pinId, callback);
     }
 
+    @Override
+    public void repin(@NonNull String viaPinId, @Nullable String boardId, String
+            text, String mediaType, String viedia, final RequestCallback<Pin> callback) {
+        mRemoteDataSource.repin(viaPinId, boardId, text, mediaType, viedia, callback);
+    }
+
 
     @Override
-    public void getPin(int pinId, RequestCallback<Pin> callback) {
+    public void getPin(String pinId, RequestCallback<Pin> callback) {
         mRemoteDataSource.getPin(pinId, callback);
     }
 
