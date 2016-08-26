@@ -128,9 +128,11 @@ public class PetalRepository implements PetalDataSource {
             @Override
             public void onSuccess(AuthToken data) {
 
+                // 先更新Token
+                setToken(data);
+
                 callback.onSuccess(data);
 
-                setToken(data);
             }
 
             @Override
@@ -246,8 +248,13 @@ public class PetalRepository implements PetalDataSource {
 
     @Override
     public void repin(@NonNull String viaPinId, @Nullable String boardId, String
-            text, String mediaType, String viedia, final RequestCallback<Pin> callback) {
-        mRemoteDataSource.repin(viaPinId, boardId, text, mediaType, viedia, callback);
+            desc, String mediaType, String origSource, final RequestCallback<Pin> callback) {
+        mRemoteDataSource.repin(viaPinId, boardId, desc, mediaType, origSource, callback);
+    }
+
+    @Override
+    public void like(@NonNull String pinId, boolean flag, @NonNull RequestCallback<Pin> callback) {
+        mRemoteDataSource.like(pinId, flag, callback);
     }
 
 

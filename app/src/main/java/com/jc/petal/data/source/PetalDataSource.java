@@ -81,8 +81,25 @@ public interface PetalDataSource {
                          @Nullable String pinId, final RequestCallback<PinList> callback);
 
 
-    void repin(@NonNull String viaPinId, @Nullable String boardId, String text,
-               String mediaType, String viedia, final RequestCallback<Pin> callback);
+    /**
+     * 采集别人采集过的图片
+     * @param viaPinId 别人采集图片id
+     * @param boardId  选择的画板id
+     * @param desc    描述
+     * @param mediaType 类型
+     * @param origSource 原始来源
+     * @param callback 回调函数
+     */
+    void repin(@NonNull String viaPinId, @Nullable String boardId, String desc,
+               String mediaType, String origSource, final RequestCallback<Pin> callback);
+
+    /**
+     *
+     * @param pinId 采集id
+     * @param flag like = tre, unlike = false;
+     * @param callback 回调函数
+     */
+    void like(@NonNull String pinId, boolean flag, @NonNull final RequestCallback<Pin> callback);
 
     /**
      * 获取采集信息

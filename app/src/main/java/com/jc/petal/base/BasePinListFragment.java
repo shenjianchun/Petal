@@ -35,7 +35,7 @@ public class BasePinListFragment extends BaseFragment implements PinContract.Pin
 
     private PinContract.PinListPresenter mPresenter;
     private String mParam;
-    private List<Pin> mPins;
+    private ArrayList<Pin> mPins;
 
     @Override
     public int getLayoutResource() {
@@ -72,7 +72,7 @@ public class BasePinListFragment extends BaseFragment implements PinContract.Pin
             @Override
             public void onClick(Pin pin, int position) {
                 Bundle bundle = new Bundle();
-//                bundle.putParcelableArrayList("pins", mPins);
+                bundle.putParcelableArrayList("pins", mPins);
                 bundle.putInt("position", position);
                 readyGo(PinDetailActivity.class, bundle);
             }

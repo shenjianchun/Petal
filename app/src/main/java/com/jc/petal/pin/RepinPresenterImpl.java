@@ -58,12 +58,13 @@ public class RepinPresenterImpl implements PinContract.RepinPresenter {
             @Override
             public void onSuccess(Pin data) {
                 Log.d(this.getClass().getName(), "onSuccess: ");
-
+                mView.repinSuccess();
             }
 
             @Override
             public void onError(String msg) {
                 Logger.d(msg);
+                mView.showError(msg);
             }
         });
 

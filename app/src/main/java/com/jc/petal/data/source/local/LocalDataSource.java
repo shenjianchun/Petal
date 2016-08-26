@@ -125,6 +125,11 @@ public class LocalDataSource implements PetalDataSource {
     }
 
     @Override
+    public void like(@NonNull String pinId, boolean flag, @NonNull RequestCallback<Pin> callback) {
+
+    }
+
+    @Override
     public void setSelf(User user) {
         // 保存在本地
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(SPUtils.FILE_NAME,
@@ -226,7 +231,7 @@ public class LocalDataSource implements PetalDataSource {
 
     @Override
     public void repin(@NonNull String viaPinId, @Nullable String boardId, String
-            text, String mediaType, String viedia, final RequestCallback<Pin> callback) {
+            desc, String mediaType, String origSource, final RequestCallback<Pin> callback) {
 
     }
 

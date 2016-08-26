@@ -10,6 +10,9 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 /**
+ * Listens to user actions from the UI ({@link PinDetailFragment}), retrieves the data and updates
+ * the UI as required.
+ *
  * Created by JC on 2016-08-22.
  */
 public interface PinContract {
@@ -21,26 +24,32 @@ public interface PinContract {
     }
 
     interface PinListPresenter extends BasePresenter {
-        void getPins(boolean isRefresh, String id, int limit,  @NonNull String key,
-                         String pinId);
+        void getPins(boolean isRefresh, String id, int limit, @NonNull String key,
+                     String pinId);
     }
 
     interface PinDetailView extends BaseView<PinDetailPresenter> {
         void showPinInfo(Pin pin);
+
+        void likeSuccess();
     }
 
 
     interface PinDetailPresenter extends BasePresenter {
         void getPin(String pinId);
+
+        void like(String pinId, boolean flag);
     }
 
     interface RepinView extends BaseView<RepinPresenter> {
         void showBoards(List<Board> boards);
+
         void repinSuccess();
     }
 
     interface RepinPresenter extends BasePresenter {
         void getUserBoards(String userId);
+
         void repin(String viaPinId, String boardId, String text,
                    String mediaType, String origSource);
     }

@@ -9,6 +9,7 @@ import com.jc.petal.category.CategoryPinsPresenter;
 import com.jc.petal.data.model.User;
 import com.jc.petal.data.source.PetalRepository;
 import com.jc.petal.login.LoginActivity;
+import com.jc.petal.user.UserActivity;
 import com.jc.petal.utils.ActivityUtils;
 import com.uilibrary.app.BaseActivity;
 
@@ -93,6 +94,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 String url = getString(R.string.url_image_small, avatarKey);
                 Glide.with(this).load(url).into(imageView);
             }
+
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    String userId = (String) SPUtils.get(MainActivity.this, Constants.USER_ID, "");
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Constants.ARG_USER_ID, userId);
+                    readyGo(UserActivity.class, bundle);
+
+                }
+            });
+
         }
 
     }
@@ -214,6 +228,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             String url = getString(R.string.url_image_small, user.avatar.key);
             Glide.with(this).load(url).into(imageView);
+
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    String userId = (String) SPUtils.get(MainActivity.this, Constants.USER_ID, "");
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Constants.ARG_USER_ID, userId);
+                    readyGo(UserActivity.class, bundle);
+
+                }
+            });
 
         }
     }

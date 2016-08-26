@@ -38,6 +38,22 @@ public class PinDetailPresenterImpl implements PinContract.PinDetailPresenter {
     }
 
     @Override
+    public void like(String pinId, boolean flag) {
+
+        mRepository.like(pinId, flag, new RequestCallback<Pin>() {
+            @Override
+            public void onSuccess(Pin data) {
+                mView.likeSuccess();
+            }
+
+            @Override
+            public void onError(String msg) {
+                mView.showError(msg);
+            }
+        });
+    }
+
+    @Override
     public void initialize() {
 
     }

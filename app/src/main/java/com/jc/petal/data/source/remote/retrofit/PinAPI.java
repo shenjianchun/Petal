@@ -20,13 +20,25 @@ public interface PinAPI {
 
     /**
      * 获取单个图片采集详情
+     *
      * @param authorization 授权
-     * @param pinId id
+     * @param pinId         id
      * @return 详情
      */
     @GET("pins/{id}")
-    Call<PinDetail> getPin(@Header(Constants.Authorization) String authorization, @Path("id") String pinId);
+    Call<PinDetail> getPin(@Header(Constants.Authorization) String authorization, @Path("id")
+    String pinId);
 
+    /**
+     * 采集别人采集过的图片
+     *
+     * @param authorization 授权
+     * @param viaPinId      别人采集图片id
+     * @param boardId       选择的画板id
+     * @param text          描述
+     * @param mediaType     类型
+     * @param origSource    原始来源
+     */
     @FormUrlEncoded
     @POST("pins/")
     Call<Pin> repin(@Header(Constants.Authorization) String authorization,
@@ -34,6 +46,15 @@ public interface PinAPI {
                     @Field("board_id") String boardId,
                     @Field("text") String text,
                     @Field("media_type") String mediaType,
-                    @Field("video") String video);
+                    @Field("video") String origSource);
 
+    @FormUrlEncoded
+    @POST("pins/{pinId}/like/")
+    Call<Pin> like(@Header(Constants.Authorization) String authorization,
+                   @Path("pinId") String pinId);
+
+    @FormUrlEncoded
+    @POST("pins/{pinId}/unlike/")
+    Call<Pin> unlike(@Header(Constants.Authorization) String authorization,
+                   @Path("pinId") String pinId);
 }

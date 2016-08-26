@@ -145,7 +145,7 @@ public class CommonPinListAdapter extends RecyclerView.Adapter<RecyclerView.View
             @Override
             public void onClick(View v) {
                 if (null != mImageListener) {
-//                    mImageListener.onClick(holder.mItem, position);
+                    mImageListener.onClick(holder.mItem, position);
                 }
             }
         });

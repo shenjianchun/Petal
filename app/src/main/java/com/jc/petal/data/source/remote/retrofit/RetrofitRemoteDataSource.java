@@ -199,12 +199,26 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
 
     @Override
     public void repin(@NonNull String viaPinId, @Nullable String boardId, String
-            text, String mediaType, String viedia, final RequestCallback<Pin> callback) {
+            desc, String mediaType, String origSource, final RequestCallback<Pin> callback) {
         PinAPI service = RetrofitClient.getInstance().createService(PinAPI.class);
-        service.repin(mToken.getAccessOauth(), viaPinId, boardId, text, mediaType, viedia)
+        service.repin(mToken.getAccessOauth(), viaPinId, boardId, desc, mediaType, origSource)
                 .enqueue(new EnqueueCallback<Pin>(callback) {
 
         });
+    }
+
+    @Override
+    public void like(@NonNull String pinId, boolean flag, @NonNull RequestCallback<Pin> callback) {
+        PinAPI service = RetrofitClient.getInstance().createService(PinAPI.class);
+        if (flag) {
+            service.like(mToken.getAccessOauth(), pinId)
+                    .enqueue(new EnqueueCallback<Pin>(callback) {
+                    });
+        } else {
+            service.unlike(mToken.getAccessOauth(), pinId)
+                    .enqueue(new EnqueueCallback<Pin>(callback) {
+                    });
+        }
     }
 
     @Override

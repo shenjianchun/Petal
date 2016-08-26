@@ -1,6 +1,7 @@
 package com.jc.petal.pin;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jc.petal.Constants;
 import com.jc.petal.R;
 import com.jc.petal.board.BoardDetailActivity;
@@ -14,6 +15,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,6 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import my.nouilibrary.utils.ScreenUtils;
+import my.nouilibrary.utils.T;
 
 /**
  * Use the {@link PinDetailFragment#newInstance} factory method to
@@ -120,13 +123,19 @@ public class PinDetailFragment extends BaseFragment implements PinContract.PinDe
         layoutParams.height = imgHeight;
         mAppBarLayout.setLayoutParams(layoutParams);
 
-        String imageUrl = getString(R.string.url_image_general, mPin.file.key);
+        String imageUrl;
 
-        if (mPin.file.type.contains("gif")) {
-            Glide.with(this).load(imageUrl).asGif().placeholder(R.drawable
-                    .account_circle_grey_36x36)
-                    .fitCenter().into(mImageIv);
+        if (mPin.file.type.toLowerCase().contains("gif")) {
+
+            imageUrl = mPin.file.getFW554();
+
+            Glide.with(this).load(imageUrl).asGif().error(R.drawable
+                    .account_circle_grey_36x36).diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .centerCrop().into(mImageIv);
         } else {
+
+            imageUrl = mPin.file.getFW192();
+
             Glide.with(this).load(imageUrl).placeholder(R.drawable.account_circle_grey_36x36)
                     .fitCenter().into(mImageIv);
         }
@@ -185,14 +194,14 @@ public class PinDetailFragment extends BaseFragment implements PinContract.PinDe
             boardTv.setText(mPin.board.title);
 
             int[] boardIds = {R.id.iv_board_1, R.id.iv_board_2, R.id.iv_board_3, R.id.iv_board_4};
-            for (int i = 0; i < 4; i++) {
+            int picSize = pin.board.pins.size() > 4 ? 4 : pin.board.pins.size();
+            for (int i = 0; i < picSize; i++) {
                 ImageView boardIv = ButterKnife.findById(boardLayout, boardIds[i]);
                 String avatarUrl = getString(R.string.url_image_small, pin.board.pins.get(i).file
                         .key);
                 Glide.with(this).load(avatarUrl).placeholder(android.R.drawable.ic_secure)
                         .fitCenter().into(boardIv);
             }
-
 
             boardLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -224,6 +233,7 @@ public class PinDetailFragment extends BaseFragment implements PinContract.PinDe
 
     }
 
+
     @Override
     public int getLayoutResource() {
         return R.layout.fragment_pin_detail;
@@ -251,5 +261,10 @@ public class PinDetailFragment extends BaseFragment implements PinContract.PinDe
     @Override
     public void showPinInfo(Pin pin) {
         initBoardInfo(pin);
+    }
+
+    @Override
+    public void likeSuccess() {
+        T.showShort(getContext(), "喜欢成功！");
     }
 }

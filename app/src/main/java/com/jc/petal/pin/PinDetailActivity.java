@@ -8,10 +8,12 @@ import com.uilibrary.app.BaseActivity;
 
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import java.util.List;
 
 import butterknife.BindView;
+import my.nouilibrary.utils.T;
 
 /**
  * 图片采集详情Activity
@@ -57,4 +59,21 @@ public class PinDetailActivity extends BaseActivity {
 
         return true;
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.action_like:
+                T.showShort(this, "like!");
+
+                break;
+
+        }
+
+        return true;
+    }
+
 }

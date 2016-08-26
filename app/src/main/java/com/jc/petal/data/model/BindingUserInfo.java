@@ -24,9 +24,9 @@ public class BindingUserInfo implements Parcelable {
      */
 
     private AvatarEntity avatar;
-    private boolean verified;
-    private String verified_reason;
-    private int verified_type;
+//    private boolean verified;
+//    private String verified_reason;
+//    private int verified_type;
     private String location;
     private String gender;
     private String url;
@@ -40,9 +40,9 @@ public class BindingUserInfo implements Parcelable {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", avatar=" + avatar +
-                ", verified=" + verified +
-                ", verified_reason='" + verified_reason + '\'' +
-                ", verified_type=" + verified_type +
+//                ", verified=" + verified +
+//                ", verified_reason='" + verified_reason + '\'' +
+//                ", verified_type=" + verified_type +
                 ", location='" + location + '\'' +
                 ", gender='" + gender + '\'' +
                 ", url='" + url + '\'' +
@@ -61,9 +61,9 @@ public class BindingUserInfo implements Parcelable {
         dest.writeString(this.username);
         dest.writeString(this.email);
         dest.writeParcelable(this.avatar, flags);
-        dest.writeByte(this.verified ? (byte) 1 : (byte) 0);
-        dest.writeString(this.verified_reason);
-        dest.writeInt(this.verified_type);
+//        dest.writeByte(this.verified ? (byte) 1 : (byte) 0);
+//        dest.writeString(this.verified_reason);
+//        dest.writeInt(this.verified_type);
         dest.writeString(this.location);
         dest.writeString(this.gender);
         dest.writeString(this.url);
@@ -78,9 +78,9 @@ public class BindingUserInfo implements Parcelable {
         this.username = in.readString();
         this.email = in.readString();
         this.avatar = in.readParcelable(AvatarEntity.class.getClassLoader());
-        this.verified = in.readByte() != 0;
-        this.verified_reason = in.readString();
-        this.verified_type = in.readInt();
+//        this.verified = in.readByte() != 0;
+//        this.verified_reason = in.readString();
+//        this.verified_type = in.readInt();
         this.location = in.readString();
         this.gender = in.readString();
         this.url = in.readString();
