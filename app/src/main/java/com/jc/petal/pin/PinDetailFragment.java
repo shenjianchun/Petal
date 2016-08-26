@@ -6,16 +6,13 @@ import com.jc.petal.Constants;
 import com.jc.petal.R;
 import com.jc.petal.board.BoardDetailActivity;
 import com.jc.petal.data.model.Pin;
-import com.jc.petal.data.source.PetalRepository;
 import com.jc.petal.user.UserActivity;
 import com.uilibrary.app.BaseFragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -25,7 +22,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import my.nouilibrary.utils.ScreenUtils;
-import my.nouilibrary.utils.T;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Use the {@link PinDetailFragment#newInstance} factory method to
@@ -44,8 +42,9 @@ public class PinDetailFragment extends BaseFragment implements PinContract.PinDe
     @BindView(R.id.fab_repin)
     FloatingActionButton mFloatingButton;
 
-    private PetalRepository mRepository;
     private PinContract.PinDetailPresenter mPresenter;
+
+    private OnPinDetailFragmentInteractionListener mInteractionListener;
 
     private Pin mPin;
 
@@ -79,10 +78,25 @@ public class PinDetailFragment extends BaseFragment implements PinContract.PinDe
     }
 
     @Override
-    protected void initViewsAndEvents() {
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnPinDetailFragmentInteractionListener) {
+            mInteractionListener = (OnPinDetailFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnPinDetailFragmentInteractionListener");
+        }
+    }
 
-        mRepository = PetalRepository.getInstance(getActivity().getApplicationContext());
-        mPresenter = new PinDetailPresenterImpl(this, mRepository);
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mInteractionListener = null;
+        mPresenter = null;
+    }
+
+    @Override
+    protected void initViewsAndEvents() {
 
         mDescTv.setText(mPin.raw_text);
 
@@ -215,22 +229,14 @@ public class PinDetailFragment extends BaseFragment implements PinContract.PinDe
 
     }
 
+    private void initLikeState(Pin pin) {
+        mInteractionListener.updateLikeState(pin.liked);
+    }
 
     @OnClick(R.id.fab_repin)
     public void onClick() {
 
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        Fragment prev = getFragmentManager().findFragmentByTag("repin_dialog");
-        if (prev != null) {
-            ft.remove(prev);
-        }
-        ft.commit();
-
-        RepinDialogFragment dialogFragment = RepinDialogFragment.newInstance(mPin);
-        new RepinPresenterImpl(dialogFragment, mRepository);
-
-        dialogFragment.show(getFragmentManager(), "repin_dialog");
-
+        mInteractionListener.onRepinClicked(mPin);
     }
 
 
@@ -241,7 +247,7 @@ public class PinDetailFragment extends BaseFragment implements PinContract.PinDe
 
     @Override
     public void setPresenter(PinContract.PinDetailPresenter presenter) {
-        mPresenter = presenter;
+        mPresenter = checkNotNull(presenter) ;
     }
 
     @Override
@@ -261,10 +267,20 @@ public class PinDetailFragment extends BaseFragment implements PinContract.PinDe
     @Override
     public void showPinInfo(Pin pin) {
         initBoardInfo(pin);
+        initLikeState(pin);
     }
 
-    @Override
-    public void likeSuccess() {
-        T.showShort(getContext(), "喜欢成功！");
+//    @Override
+//    public void likeSuccess() {
+//        T.showShort(getContext(), "喜欢成功！");
+//    }
+
+
+    public interface OnPinDetailFragmentInteractionListener {
+//        void onLickClicked();
+
+        void updateLikeState(boolean flag);
+        void onRepinClicked(Pin pin);
     }
 }
+

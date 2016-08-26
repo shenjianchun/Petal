@@ -1,6 +1,7 @@
 package com.jc.petal.pin;
 
 import com.jc.petal.data.model.Pin;
+import com.jc.petal.data.source.PetalRepository;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,10 +18,12 @@ public class PinDetailAdapter extends FragmentStatePagerAdapter {
 //    private Context mContext;
 
     private final List<Pin> mPins;
+    private final PetalRepository mRepository;
 
-    public PinDetailAdapter(FragmentManager fm, List<Pin> pins) {
+    public PinDetailAdapter(FragmentManager fm, List<Pin> pins, PetalRepository repository) {
         super(fm);
         mPins = pins;
+        mRepository = repository;
     }
 
 
@@ -28,7 +31,10 @@ public class PinDetailAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         Pin pin = mPins.get(position);
 
-        return PinDetailFragment.newInstance(pin);
+        PinDetailFragment fragment = PinDetailFragment.newInstance(pin);
+        new PinDetailPresenterImpl(fragment, mRepository);
+
+        return fragment;
     }
 
     @Override

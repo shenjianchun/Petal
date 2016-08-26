@@ -31,14 +31,14 @@ public interface PinContract {
     interface PinDetailView extends BaseView<PinDetailPresenter> {
         void showPinInfo(Pin pin);
 
-        void likeSuccess();
+//        void likeSuccess();
     }
 
 
     interface PinDetailPresenter extends BasePresenter {
         void getPin(String pinId);
 
-        void like(String pinId, boolean flag);
+//        void like(String pinId, boolean flag);
     }
 
     interface RepinView extends BaseView<RepinPresenter> {
@@ -54,5 +54,12 @@ public interface PinContract {
                    String mediaType, String origSource);
     }
 
+    interface ActionView extends BaseView<ActionPresenter> {
+        void onLikeResult(boolean flag);
+    }
+
+    interface ActionPresenter extends BasePresenter {
+        void like(String pinId, boolean flag);
+    }
 
 }

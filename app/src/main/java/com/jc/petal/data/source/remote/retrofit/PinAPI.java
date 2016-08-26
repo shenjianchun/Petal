@@ -48,12 +48,12 @@ public interface PinAPI {
                     @Field("media_type") String mediaType,
                     @Field("video") String origSource);
 
-    @FormUrlEncoded
+//    @FormUrlEncoded
     @POST("pins/{pinId}/like/")
     Call<Pin> like(@Header(Constants.Authorization) String authorization,
                    @Path("pinId") String pinId);
 
-    @FormUrlEncoded
+//    @FormUrlEncoded
     @POST("pins/{pinId}/unlike/")
     Call<Pin> unlike(@Header(Constants.Authorization) String authorization,
                    @Path("pinId") String pinId);
