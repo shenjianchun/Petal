@@ -30,4 +30,6 @@ dependencies {
     compile "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
     apt "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
 
+//    compile 'com.github.vlonjatg:progress-activity:v1.0.3'
+
 }

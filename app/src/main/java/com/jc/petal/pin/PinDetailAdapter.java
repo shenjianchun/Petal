@@ -5,7 +5,7 @@ import com.jc.petal.data.source.PetalRepository;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * 用采集详情中的ViewPager
  * Created by JC on 2016-08-08.
  */
-public class PinDetailAdapter extends FragmentStatePagerAdapter {
+public class PinDetailAdapter extends FragmentPagerAdapter {
 
 //    private Context mContext;
 

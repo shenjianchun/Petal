@@ -2,9 +2,13 @@ package com.jc.petal.pin;
 
 import com.jc.petal.R;
 import com.jc.petal.data.model.Pin;
+import com.jc.petal.data.model.PinFileEntity;
 import com.jc.petal.data.source.PetalRepository;
 import com.uilibrary.app.BaseActivity;
 
+import android.app.DownloadManager;
+import android.content.Context;
+import android.net.Uri;
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -15,6 +19,7 @@ import android.view.MenuItem;
 import java.util.List;
 
 import butterknife.BindView;
+import my.nouilibrary.utils.T;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -55,6 +60,23 @@ public class PinDetailActivity extends BaseActivity implements PinDetailFragment
 
         mViewPager.setCurrentItem(position);
 
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+//                updateLikeState(mPins.get(position).liked);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         new ActionPresenterImpl(this, mRepository);
 
     }
@@ -72,11 +94,6 @@ public class PinDetailActivity extends BaseActivity implements PinDetailFragment
         return true;
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -84,15 +101,50 @@ public class PinDetailActivity extends BaseActivity implements PinDetailFragment
         switch (item.getItemId()) {
 
             case R.id.action_like:
+                if (!mRepository.isLogin()) {
+                    T.showShort(this, "请登录！");
+                    break;
+                }
+
                 String pinId = mPins.get(mViewPager.getCurrentItem()).pin_id;
                 boolean flag = mPins.get(mViewPager.getCurrentItem()).liked;
                 mPresenter.like(pinId, !flag);
 
                 break;
 
+            case R.id.action_download:
+                downloadFile();
+                break;
+
+            default:
+                break;
+
         }
 
         return true;
+    }
+
+    /**
+     * 下载照片
+     */
+    private void downloadFile() {
+
+        PinFileEntity entity = mPins.get(mViewPager.getCurrentItem()).file;
+        String downloadUrl = entity.getFW554();
+
+        //创建下载任务,downloadUrl就是下载链接
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadUrl));
+
+        //指定下载路径和下载文件名
+        request.setDestinationInExternalPublicDir("/download/", entity.key + "." + entity.type.split("/")[1]);
+
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+        //获取下载管理器
+        DownloadManager downloadManager= (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+//将下载任务加入下载队列，否则不会进行下载
+        downloadManager.enqueue(request);
+
     }
 
     @Override

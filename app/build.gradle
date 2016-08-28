@@ -52,7 +52,6 @@ dependencies {
     compile "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
     apt "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
 
-
     // RecyclerView 加强库
 //    compile 'com.hkm.ui:ultimaterecyclerview:0.5.8'
 

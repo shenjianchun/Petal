@@ -24,7 +24,6 @@ import android.support.annotation.Nullable;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -189,7 +188,7 @@ public class LocalDataSource implements PetalDataSource {
                            @Nullable String pinId, RequestCallback<PinList> callback) {
 
         StringBuilder stringBuilder = new StringBuilder();
-        FileInputStream fileInputStream = null;
+//        FileInputStream fileInputStream = null;
         BufferedReader bufferedReader = null;
         try {
 //            fileInputStream = mContext.openFileInput("all_current");
@@ -207,7 +206,7 @@ public class LocalDataSource implements PetalDataSource {
             callback.onError(e.toString());
         } finally {
             IOUtils.closeReader(bufferedReader);
-            IOUtils.closeInputStream(fileInputStream);
+//            IOUtils.closeInputStream(fileInputStream);
         }
 
 

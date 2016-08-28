@@ -6,6 +6,8 @@ import com.jc.petal.data.model.PinList;
 import com.jc.petal.data.model.Weekly;
 import com.jc.petal.data.source.PetalRepository;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 import android.support.annotation.NonNull;
 
 import java.util.List;
@@ -52,10 +54,12 @@ public class CategoryPinsPresenter implements CategoryContract.Presenter {
             @Override
             public void onSuccess(PinList data) {
                 mView.hideLoading();
-                if (key.equals(Constants.QUERY_KEY_CURRENT)) {
-                    mView.showPins(true , data.pins);
-                } else {
-                    mView.showPins(false, data.pins);
+                if (!CollectionUtils.isEmpty(data.pins)) {
+                    if (key.equals(Constants.QUERY_KEY_CURRENT)) {
+                        mView.showPins(true, data.pins);
+                    } else {
+                        mView.showPins(false, data.pins);
+                    }
                 }
             }
 

@@ -7,7 +7,7 @@ import com.jc.petal.R;
 import com.jc.petal.board.BoardDetailActivity;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.user.UserActivity;
-import com.uilibrary.app.BaseFragment;
+import com.uilibrary.app.BaseLazyFragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -29,7 +29,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Use the {@link PinDetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PinDetailFragment extends BaseFragment implements PinContract.PinDetailView {
+public class PinDetailFragment extends BaseLazyFragment implements PinContract.PinDetailView {
 
     private static final String ARG_PIN = "pin";
 
@@ -96,28 +96,34 @@ public class PinDetailFragment extends BaseFragment implements PinContract.PinDe
     }
 
     @Override
+    protected void onFirstUserVisible() {
+        fetchData();
+
+    }
+
+    @Override
+    protected void onUserVisible() {
+
+        initLikeState(mPin);
+    }
+
+    @Override
+    protected void onUserInvisible() {
+
+    }
+
+    @Override
     protected void initViewsAndEvents() {
 
-        mDescTv.setText(mPin.raw_text);
+//        fetchData();
 
-        loadImage();
+    }
 
-        // owner
-        View ownerLayout = ButterKnife.findById(getView(), R.id.include_owner);
-        initUserInfo(ownerLayout);
-
-        View viaLayout = ButterKnife.findById(getView(), R.id.include_via);
-        // via_user为空说明没有采集来源者的信息
-        if (mPin.via_user != null) {
-            // via
-            initUserInfo(viaLayout);
-        } else {
-            viaLayout.setVisibility(View.GONE);
-        }
-
+    public void fetchData() {
         // 获取采集详情
         mPresenter.getPin(mPin.pin_id);
     }
+
 
     /**
      * 加载图片
@@ -230,7 +236,9 @@ public class PinDetailFragment extends BaseFragment implements PinContract.PinDe
     }
 
     private void initLikeState(Pin pin) {
-        mInteractionListener.updateLikeState(pin.liked);
+        if (getUserVisibleHint()) {
+            mInteractionListener.updateLikeState(pin.liked);
+        }
     }
 
     @OnClick(R.id.fab_repin)
@@ -266,15 +274,31 @@ public class PinDetailFragment extends BaseFragment implements PinContract.PinDe
 
     @Override
     public void showPinInfo(Pin pin) {
+
+        mPin = pin;
+
+        mDescTv.setText(mPin.raw_text);
+
+        loadImage();
+
+        // owner
+        View ownerLayout = ButterKnife.findById(getView(), R.id.include_owner);
+        initUserInfo(ownerLayout);
+
+        View viaLayout = ButterKnife.findById(getView(), R.id.include_via);
+        // via_user为空说明没有采集来源者的信息
+        if (mPin.via_user != null) {
+            // via
+            initUserInfo(viaLayout);
+        } else {
+            viaLayout.setVisibility(View.GONE);
+        }
+
         initBoardInfo(pin);
+
         initLikeState(pin);
+
     }
-
-//    @Override
-//    public void likeSuccess() {
-//        T.showShort(getContext(), "喜欢成功！");
-//    }
-
 
     public interface OnPinDetailFragmentInteractionListener {
 //        void onLickClicked();
