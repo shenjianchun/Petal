@@ -22,6 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import my.nouilibrary.utils.ScreenUtils;
+import my.nouilibrary.utils.T;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -269,7 +270,7 @@ public class PinDetailFragment extends BaseLazyFragment implements PinContract.P
 
     @Override
     public void showError(String msg) {
-
+        T.showShort(getContext(), msg);
     }
 
     @Override

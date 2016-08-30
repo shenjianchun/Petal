@@ -8,13 +8,13 @@ public class PinDetail {
 
     public Pin pin;
 
-    public boolean promotions;
+//    public boolean promotions;
 
     @Override
     public String toString() {
         return "PinDetail{" +
                 "pin=" + pin +
-                ", promotions=" + promotions +
+//                ", promotions=" + promotions +
                 '}';
     }
 }

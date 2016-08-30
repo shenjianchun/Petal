@@ -70,4 +70,6 @@
     <string name="dialog_pin_positive">确定采集</string>
     <string name="dialog_negative">取消</string>
     <string name="text_image_describe_null">暂无图片描述</string>
+
+    <string name="share">分享</string>
 </resources>

@@ -15,8 +15,8 @@
           app:showAsAction="never"
             />
     <item
-            android:id="@+id/action_gather"
-            android:title="@string/collect"
+            android:id="@+id/action_share"
+            android:title="@string/share"
             android:icon="@drawable/ic_camera_white_24dp"
             app:showAsAction="never" />
 

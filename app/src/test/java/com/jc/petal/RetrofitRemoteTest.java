@@ -80,7 +80,7 @@ public class RetrofitRemoteTest {
 
         final CountDownLatch signal = new CountDownLatch(1);
 
-        mRetrofitDataSource.getPin(829493065, new RequestCallback<Pin>() {
+        mRetrofitDataSource.getPin("829493065", new RequestCallback<Pin>() {
             @Override
             public void onSuccess(Pin data) {
                 Assert.assertNotNull(data);

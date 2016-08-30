@@ -1,5 +1,7 @@
 package com.jc.petal.pin;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 import com.jc.petal.R;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.PinFileEntity;
@@ -8,7 +10,12 @@ import com.uilibrary.app.BaseActivity;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -17,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import my.nouilibrary.utils.T;
@@ -62,7 +70,8 @@ public class PinDetailActivity extends BaseActivity implements PinDetailFragment
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset, int
+                    positionOffsetPixels) {
 
             }
 
@@ -115,6 +124,40 @@ public class PinDetailActivity extends BaseActivity implements PinDetailFragment
             case R.id.action_download:
                 downloadFile();
                 break;
+            case R.id.action_share:
+
+
+                AsyncTask<String, Integer, Bitmap> asyncTask = new AsyncTask<String, Integer,
+                        Bitmap>
+                        () {
+
+                    @Override
+                    protected void onPostExecute(Bitmap bitmap) {
+                        super.onPostExecute(bitmap);
+
+                        share(bitmap);
+                    }
+
+                    @Override
+                    protected Bitmap doInBackground(String... params) {
+                        Bitmap bitmap = null;
+                        String url = params[0];
+                        try {
+                            bitmap = Glide.with(PinDetailActivity.this).load(url).asBitmap().into
+                                    (Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
+                        return bitmap;
+                    }
+                };
+
+                asyncTask.execute(mPins.get(mViewPager.getCurrentItem()).file.getFW554());
+
+
+                break;
 
             default:
                 break;
@@ -122,6 +165,35 @@ public class PinDetailActivity extends BaseActivity implements PinDetailFragment
         }
 
         return true;
+    }
+
+
+    private void share(Bitmap bitmap) {
+
+        Intent share_intent = new Intent();
+        share_intent.setAction(Intent.ACTION_SEND);//设置分享行为
+//        share_intent.setType(mPins.get(mViewPager.getCurrentItem()).file.type);//设置分享内容的类型
+        share_intent.setType("image/jpeg");//设置分享内容的类型
+        share_intent.putExtra(Intent.EXTRA_SUBJECT, "分享");//添加分享内容标题
+        share_intent.putExtra(Intent.EXTRA_TEXT,
+                mPins.get(mViewPager.getCurrentItem()).raw_text); //添加分享内容
+
+
+        String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, mPins.get
+                (mViewPager.getCurrentItem()).raw_text, null);
+
+        share_intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(path));
+
+
+        //创建分享的Dialog
+        share_intent = Intent.createChooser(share_intent, "分享至");
+        startActivityForResult(share_intent, 100);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     /**
@@ -136,12 +208,16 @@ public class PinDetailActivity extends BaseActivity implements PinDetailFragment
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadUrl));
 
         //指定下载路径和下载文件名
-        request.setDestinationInExternalPublicDir("/download/", entity.key + "." + entity.type.split("/")[1]);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, entity.key + "" +
+                "." + entity.type
+                .split("/")[1]);
 
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setNotificationVisibility(DownloadManager.Request
+                .VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
         //获取下载管理器
-        DownloadManager downloadManager= (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        DownloadManager downloadManager = (DownloadManager) getSystemService(Context
+                .DOWNLOAD_SERVICE);
 //将下载任务加入下载队列，否则不会进行下载
         downloadManager.enqueue(request);
 
@@ -159,14 +235,12 @@ public class PinDetailActivity extends BaseActivity implements PinDetailFragment
      * 如果为true 显示undo图片
      * 为false 显示do图标
      * 所以传入当前状态值就可以 内部已经做判断
-     *
-     * @param item
-     * @param isLike
      */
     private void setIconDynamic(MenuItem item, boolean isLike) {
         AnimatedVectorDrawableCompat drawableCompat;
         drawableCompat = AnimatedVectorDrawableCompat.create(this,
-                isLike ? R.drawable.drawable_animation_favorite_undo : R.drawable.drawable_animation_favorite_do);
+                isLike ? R.drawable.drawable_animation_favorite_undo : R.drawable
+                        .drawable_animation_favorite_do);
         item.setIcon(drawableCompat);
     }
 
