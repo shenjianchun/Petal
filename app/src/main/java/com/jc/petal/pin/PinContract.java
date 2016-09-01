@@ -28,6 +28,24 @@ public interface PinContract {
                      String pinId);
     }
 
+    interface SearchPinListView extends BaseView<SearchPinListPresenter> {
+        void showPins(final boolean isRefresh, List<Pin> pins);
+
+    }
+
+    /**
+     * 查询界面的采集列表Presenter
+     */
+    interface SearchPinListPresenter extends BasePresenter {
+        /**
+         * 查询pins
+         * @param isRefresh 是否为刷新
+         * @param key 关键字
+         * @param limit 每页个数
+         */
+        void searchPins(final boolean isRefresh, @NonNull String key, int limit);
+    }
+
     interface PinDetailView extends BaseView<PinDetailPresenter> {
         void showPinInfo(Pin pin);
 

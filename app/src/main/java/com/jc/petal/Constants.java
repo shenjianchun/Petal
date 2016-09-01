@@ -88,4 +88,7 @@ public class Constants {
     public static final String ARG_BOARD_ID = "board_id";
     public static final String ARG_USER_ID = "user_id";
     public static final String ARG_USER = "user";
+
+
+    public static final String ARG_SEARCH_KEY = "user";
 }

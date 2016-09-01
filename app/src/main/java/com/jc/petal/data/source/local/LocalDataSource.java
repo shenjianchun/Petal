@@ -33,6 +33,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import my.nouilibrary.utils.SPBuild;
 import my.nouilibrary.utils.SPUtils;
 import my.nouilibrary.utils.StorageUtils;
 
@@ -73,18 +74,15 @@ public class LocalDataSource implements PetalDataSource {
         mToken = token;
 
         // 保存在本地
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences(SPUtils.FILE_NAME,
-                Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        SPBuild spBuild = new SPBuild(mContext);
 
-        editor.putBoolean(Constants.IS_LOGIN, true);
-        editor.putString(Constants.TOKEN_ACCESS, token.access_token);
-        editor.putString(Constants.TOKEN_REFRESH, token.refresh_token);
-        editor.putString(Constants.TOKE_EXPIRES_IN, token.expires_in);
-        editor.putString(Constants.TOKEN_TYPE, token.token_type);
+        spBuild.addData(Constants.IS_LOGIN, true);
+        spBuild.addData(Constants.TOKEN_ACCESS, token.access_token);
+        spBuild.addData(Constants.TOKEN_REFRESH, token.refresh_token);
+        spBuild.addData(Constants.TOKE_EXPIRES_IN, token.expires_in);
+        spBuild.addData(Constants.TOKEN_TYPE, token.token_type);
 
-        editor.apply();
-
+        spBuild.build();
     }
 
     @Override
@@ -343,6 +341,17 @@ public class LocalDataSource implements PetalDataSource {
 
     @Override
     public void getCategoryList(RequestCallback<CategoryList> callback) {
+
+    }
+
+    @Override
+    public void searchBoards(@Nullable String queryKey, int limit, @NonNull String currentPage,
+                             @NonNull RequestCallback<BoardList> callback) {
+
+    }
+
+    @Override
+    public void searchPins(@Nullable String query, int limit, @NonNull String currentPage, @NonNull RequestCallback<PinList> callback) {
 
     }
 }

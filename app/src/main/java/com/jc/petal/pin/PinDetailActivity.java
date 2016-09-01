@@ -173,7 +173,7 @@ public class PinDetailActivity extends BaseActivity implements PinDetailFragment
         Intent share_intent = new Intent();
         share_intent.setAction(Intent.ACTION_SEND);//设置分享行为
 //        share_intent.setType(mPins.get(mViewPager.getCurrentItem()).file.type);//设置分享内容的类型
-        share_intent.setType("image/jpeg");//设置分享内容的类型
+        share_intent.setType("image/*");//设置分享内容的类型
         share_intent.putExtra(Intent.EXTRA_SUBJECT, "分享");//添加分享内容标题
         share_intent.putExtra(Intent.EXTRA_TEXT,
                 mPins.get(mViewPager.getCurrentItem()).raw_text); //添加分享内容

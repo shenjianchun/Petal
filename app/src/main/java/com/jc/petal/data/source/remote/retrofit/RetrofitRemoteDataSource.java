@@ -10,6 +10,7 @@ import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.PinDetail;
 import com.jc.petal.data.model.PinList;
 import com.jc.petal.data.model.User;
+import com.jc.petal.data.model.UserList;
 import com.jc.petal.data.model.Weeklies;
 import com.jc.petal.data.model.Weekly;
 import com.jc.petal.data.source.PetalDataSource;
@@ -204,7 +205,7 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
         service.repin(mToken.getAccessOauth(), viaPinId, boardId, desc, mediaType, origSource)
                 .enqueue(new EnqueueCallback<Pin>(callback) {
 
-        });
+                });
     }
 
     @Override
@@ -368,5 +369,32 @@ public class RetrofitRemoteDataSource implements PetalDataSource {
         });
     }
 
+    @Override
+    public void searchPins(@Nullable String queryKey, int limit, @NonNull String currentPage,
+                           @NonNull RequestCallback<PinList> callback) {
+        SearchAPI service = RetrofitClient.getInstance().createService(SearchAPI.class);
+        service.searchPins(queryKey, limit, currentPage).enqueue(new EnqueueCallback<PinList>
+                (callback) {
+        });
+    }
 
+    @Override
+    public void searchBoards(@Nullable String queryKey, int limit, @NonNull String currentPage,
+                             @NonNull RequestCallback<BoardList> callback) {
+        SearchAPI service = RetrofitClient.getInstance().createService(SearchAPI.class);
+        service.searchBoards(queryKey, limit, currentPage).enqueue(new EnqueueCallback<BoardList>
+                (callback) {
+
+        });
+    }
+
+    @Override
+    public void searchUsers(@Nullable String queryKey, int limit, @NonNull String currentPage,
+                            @NonNull RequestCallback<UserList> callback) {
+        SearchAPI service = RetrofitClient.getInstance().createService(SearchAPI.class);
+        service.searchUsers(queryKey, limit, currentPage).enqueue(new EnqueueCallback<UserList>
+                (callback) {
+
+        });
+    }
 }

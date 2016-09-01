@@ -199,12 +199,14 @@ public class CategoryPinListFragment extends BaseFragment implements CategoryCon
 
     @Override
     public void showPins(boolean isRefresh, List<Pin> pins) {
-        int curSize = mAdapter.getItemCount();
 
         if (isRefresh) {
             mPins.clear();
             mAdapter.notifyDataSetChanged();
         }
+
+        int curSize = mAdapter.getItemCount();
+
         mPins.addAll(pins);
         mAdapter.notifyItemRangeInserted(curSize, pins.size());
     }

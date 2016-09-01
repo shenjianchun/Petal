@@ -3,7 +3,6 @@ package com.jc.petal.user;
 import com.jc.petal.RequestCallback;
 import com.jc.petal.data.model.PinList;
 import com.jc.petal.data.source.PetalRepository;
-import com.jc.petal.pin.AbstractPinListPresenter;
 import com.jc.petal.pin.PinContract;
 
 import android.support.annotation.NonNull;

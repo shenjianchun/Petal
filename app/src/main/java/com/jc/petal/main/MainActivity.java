@@ -9,6 +9,7 @@ import com.jc.petal.category.CategoryPinsPresenter;
 import com.jc.petal.data.model.User;
 import com.jc.petal.data.source.PetalRepository;
 import com.jc.petal.login.LoginActivity;
+import com.jc.petal.search.SearchActivity;
 import com.jc.petal.user.UserActivity;
 import com.jc.petal.utils.ActivityUtils;
 import com.uilibrary.app.BaseActivity;
@@ -16,6 +17,7 @@ import com.uilibrary.app.BaseActivity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -40,6 +42,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @BindView(R.id.nav_view)
     NavigationView mNavigationView;
+
+    @BindView(R.id.fab_repin)
+    FloatingActionButton mFloatingBtn;
 
     ActionBarDrawerToggle mDrawerToggle;
 
@@ -108,6 +113,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             });
 
         }
+
+        mFloatingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                readyGo(SearchActivity.class);
+            }
+        });
 
     }
 

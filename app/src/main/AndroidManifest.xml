@@ -45,6 +45,13 @@
                 android:name=".board.BoardDetailActivity"
                 android:label="@string/board_detail">
         </activity>
+
+        <activity android:name=".search.SearchActivity"
+                  android:label="@string/search"/>
+
+        <activity android:name=".search.SearchResultActivity"
+                  android:label="@string/search"/>
+
     </application>
 
 </manifest>

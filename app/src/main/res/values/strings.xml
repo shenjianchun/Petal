@@ -17,6 +17,8 @@
     <string name="pin_detail">采集详情</string>
     <string name="user_detail">用户信息</string>
     <string name="board_detail">画板信息</string>
+    <string name="search">搜索</string>
+    <string name="search_result">搜索%1$s结果</string>
 
     <!-- drawer button -->
     <string name="care">关注</string>
@@ -72,4 +74,8 @@
     <string name="text_image_describe_null">暂无图片描述</string>
 
     <string name="share">分享</string>
+    <string name="hint_search_key">请输入关键字</string>
+
+
+
 </resources>

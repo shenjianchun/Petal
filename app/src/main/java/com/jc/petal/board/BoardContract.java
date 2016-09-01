@@ -5,6 +5,8 @@ import com.jc.petal.BaseView;
 import com.jc.petal.data.model.Board;
 import com.jc.petal.data.model.Pin;
 
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 /**
@@ -19,6 +21,14 @@ public interface BoardContract {
 
     interface BoardListPresenter extends BasePresenter {
         void getUserBoards(String userId);
+    }
+
+    interface SearchBoardListView extends BaseView<SearchBoardListPresenter> {
+        void showBoards(final boolean isRefresh, List<Board> boards);
+    }
+
+    interface SearchBoardListPresenter extends BasePresenter {
+        void searchBoards(final boolean isRefresh, @NonNull String key, int limit);
     }
 
     interface BoardDetailView extends BaseView<BoardDetailPresenter> {

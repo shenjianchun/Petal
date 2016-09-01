@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * MainContract
- * Created by 14110105 on 2016-08-24.
+ * Created by JC on 2016-08-24.
  */
 public class MainContract {
 

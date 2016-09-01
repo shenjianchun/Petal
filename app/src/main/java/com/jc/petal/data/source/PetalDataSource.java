@@ -8,6 +8,7 @@ import com.jc.petal.data.model.CategoryList;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.PinList;
 import com.jc.petal.data.model.User;
+import com.jc.petal.data.model.UserList;
 import com.jc.petal.data.model.Weekly;
 
 import android.support.annotation.NonNull;
@@ -83,20 +84,20 @@ public interface PetalDataSource {
 
     /**
      * 采集别人采集过的图片
-     * @param viaPinId 别人采集图片id
-     * @param boardId  选择的画板id
-     * @param desc    描述
-     * @param mediaType 类型
+     *
+     * @param viaPinId   别人采集图片id
+     * @param boardId    选择的画板id
+     * @param desc       描述
+     * @param mediaType  类型
      * @param origSource 原始来源
-     * @param callback 回调函数
+     * @param callback   回调函数
      */
     void repin(@NonNull String viaPinId, @Nullable String boardId, String desc,
                String mediaType, String origSource, final RequestCallback<Pin> callback);
 
     /**
-     *
-     * @param pinId 采集id
-     * @param flag like = tre, unlike = false;
+     * @param pinId    采集id
+     * @param flag     like = tre, unlike = false;
      * @param callback 回调函数
      */
     void like(@NonNull String pinId, boolean flag, @NonNull final RequestCallback<Pin> callback);
@@ -171,4 +172,44 @@ public interface PetalDataSource {
      * @param callback 回调函数
      */
     void getCategoryList(final RequestCallback<CategoryList> callback);
+
+    /**
+     * 查询包含"关键字"的采集图片
+     *
+     * @param queryKey    关键字
+     * @param limit       每页个数
+     * @param currentPage 当前页
+     * @param callback    回调函数
+     */
+    void searchPins(@Nullable String queryKey,
+                    int limit,
+                    @NonNull String currentPage,
+                    @NonNull final RequestCallback<PinList> callback);
+
+    /**
+     * 查询包含"关键字"的画板列表
+     *
+     * @param queryKey    关键字
+     * @param limit       每页个数
+     * @param currentPage 当前页
+     * @param callback    回调函数
+     */
+    void searchBoards(@Nullable String queryKey,
+                      int limit,
+                      @NonNull String currentPage,
+                      @NonNull final RequestCallback<BoardList> callback);
+
+
+    /**
+     * 查询包含"关键字"的用户列表
+     *
+     * @param queryKey    关键字
+     * @param limit       每页个数
+     * @param currentPage 当前页
+     * @param callback    回调函数
+     */
+    void searchUsers(@Nullable String queryKey,
+                      int limit,
+                      @NonNull String currentPage,
+                      @NonNull final RequestCallback<UserList> callback);
 }

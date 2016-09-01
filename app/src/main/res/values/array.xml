@@ -24,4 +24,10 @@
         <item>关于TA</item>
     </string-array>
 
+    <string-array name="search_result_section">
+        <item>采集</item>
+        <item>画板</item>
+        <item>用户</item>
+    </string-array>
+
 </resources>

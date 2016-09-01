@@ -5,7 +5,7 @@ import com.jc.petal.data.model.CategoryList;
 import com.jc.petal.data.source.PetalRepository;
 
 /**
- * Created by 14110105 on 2016-08-24.
+ * Created by JC on 2016-08-24.
  */
 public class NavigationPresenterImpl implements MainContract.NavigationPresenter {
 

@@ -12,7 +12,7 @@ import butterknife.ButterKnife;
 
 /**
  * DialogFragment 基础类
- * Created by 14110105 on 2016-08-25.
+ * Created by JC on 2016-08-25.
  */
 public abstract class BaseDialogFragment extends DialogFragment {
 
