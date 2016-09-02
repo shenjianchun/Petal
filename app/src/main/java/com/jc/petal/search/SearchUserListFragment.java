@@ -2,20 +2,17 @@ package com.jc.petal.search;
 
 import com.jc.petal.Constants;
 import com.jc.petal.R;
-import com.jc.petal.base.CommonPinListAdapter;
-import com.jc.petal.category.CategoryPinListFragment;
-import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.User;
-import com.jc.petal.pin.PinDetailActivity;
+import com.jc.petal.user.UserActivity;
 import com.jc.petal.user.UserContract;
 import com.jc.petal.widget.EndlessRecyclerViewScrollListener;
-import com.jc.petal.widget.SpacesItemDecoration;
 import com.uilibrary.app.BaseFragment;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,21 +24,21 @@ import my.nouilibrary.utils.T;
  * 用户采集过的图片列表
  * Created by JC on 2016-08-21.
  */
-public class SearchUserListFragment extends BaseFragment implements UserContract.SerchUserListView {
+public class SearchUserListFragment extends BaseFragment implements UserContract.SearchUserListView {
 
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
-    CommonPinListAdapter mAdapter;
+    UsersRecyclerAdapter mAdapter;
 
     private UserContract.SearchUserListPresenter mPresenter;
     private String mParam;
-    private ArrayList<Pin> mPins;
+    private ArrayList<User> mUsers;
 
     @Override
     public int getLayoutResource() {
-        return R.layout.fragment_pins_list;
+        return R.layout.fragment_users_list;
     }
 
     @Override
@@ -50,7 +47,7 @@ public class SearchUserListFragment extends BaseFragment implements UserContract
             mParam = getArguments().getString(Constants.ARG_SEARCH_KEY);
         }
 
-        mPins = new ArrayList<>(20);
+        mUsers = new ArrayList<>();
 
         initViews();
 
@@ -63,31 +60,22 @@ public class SearchUserListFragment extends BaseFragment implements UserContract
      */
     private void initViews() {
 
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,
-                StaggeredGridLayoutManager.VERTICAL);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
+
         // 添加间隔
-        mRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources()
-                .getDimensionPixelSize(R.dimen.space_item_decoration)));
+//        mRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources()
+//                .getDimensionPixelSize(R.dimen.space_item_decoration)));
         // Set the adapter
-        mAdapter = new CommonPinListAdapter(getContext(), mPins, new CategoryPinListFragment.OnImageClickListener() {
+        mAdapter = new UsersRecyclerAdapter(getContext(), mUsers);
+        mAdapter.setOnClickItemListener(new UsersRecyclerAdapter.OnAdapterListener() {
             @Override
-            public void onClick(Pin pin, int position) {
+            public void onClickUser(User user, View view) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("pins", mPins);
-                bundle.putInt("position", position);
-                readyGo(PinDetailActivity.class, bundle);
-            }
-        }, new CategoryPinListFragment.OnPinInfoClickListener() {
-            @Override
-            public void onClick(Pin pin) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("pins", pin);
-                // TODO: 2016-08-07  修改需要跳转的类名
-                readyGo(PinDetailActivity.class, bundle);
+                bundle.putString(Constants.ARG_USER_ID, user.user_id);
+                readyGo(UserActivity.class, bundle);
             }
         });
-
         mRecyclerView.setAdapter(mAdapter);
 
         // 添加加载更多接口
@@ -120,14 +108,14 @@ public class SearchUserListFragment extends BaseFragment implements UserContract
     public void showUsers(boolean isRefresh, List<User> users) {
 
         if (isRefresh) {
-            mPins.clear();
+            mUsers.clear();
             mAdapter.notifyDataSetChanged();
         }
 
         int curSize = mAdapter.getItemCount();
 
-//        mPins.addAll(pins);
-//        mAdapter.notifyItemRangeInserted(curSize, pins.size());
+        mUsers.addAll(users);
+        mAdapter.notifyItemRangeInserted(curSize, users.size());
     }
 
     @Override

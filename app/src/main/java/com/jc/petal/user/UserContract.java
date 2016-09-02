@@ -23,7 +23,7 @@ public interface UserContract {
     }
 
 
-    interface SerchUserListView extends BaseView<SearchUserListPresenter> {
+    interface SearchUserListView extends BaseView<SearchUserListPresenter> {
         void showUsers(boolean isRefresh,List<User> users);
     }
 

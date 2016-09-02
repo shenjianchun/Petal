@@ -12,7 +12,7 @@ public class PinUserEntity implements Parcelable {
     public String username;
     public String urlname;
     public int created_at;
-    public AvatarEntity avatar;
+    public ImageFile avatar;
 
     @Override
     public int describeContents() {
@@ -36,7 +36,7 @@ public class PinUserEntity implements Parcelable {
         this.username = in.readString();
         this.urlname = in.readString();
         this.created_at = in.readInt();
-        this.avatar = in.readParcelable(AvatarEntity.class.getClassLoader());
+        this.avatar = in.readParcelable(ImageFile.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<PinUserEntity> CREATOR = new Parcelable

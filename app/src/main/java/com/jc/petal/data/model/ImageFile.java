@@ -9,7 +9,7 @@ import android.os.Parcelable;
  * Created by JC on  2016/05/05  21:27
  */
 
-public class PinFileEntity implements Parcelable {
+public class ImageFile implements Parcelable {
     public String farm;
     public String bucket;
     public String key;
@@ -35,10 +35,10 @@ public class PinFileEntity implements Parcelable {
         dest.writeInt(this.frames);
     }
 
-    public PinFileEntity() {
+    public ImageFile() {
     }
 
-    protected PinFileEntity(Parcel in) {
+    protected ImageFile(Parcel in) {
         this.farm = in.readString();
         this.bucket = in.readString();
         this.key = in.readString();
@@ -48,15 +48,15 @@ public class PinFileEntity implements Parcelable {
         this.frames = in.readInt();
     }
 
-    public static final Creator<PinFileEntity> CREATOR = new Creator<PinFileEntity>() {
+    public static final Creator<ImageFile> CREATOR = new Creator<ImageFile>() {
         @Override
-        public PinFileEntity createFromParcel(Parcel source) {
-            return new PinFileEntity(source);
+        public ImageFile createFromParcel(Parcel source) {
+            return new ImageFile(source);
         }
 
         @Override
-        public PinFileEntity[] newArray(int size) {
-            return new PinFileEntity[size];
+        public ImageFile[] newArray(int size) {
+            return new ImageFile[size];
         }
     };
 
@@ -83,6 +83,18 @@ public class PinFileEntity implements Parcelable {
     protected static final String SQ140W = "_sq140w";
     protected static final String SQ75 = "_sq75";
     protected static final String SQ75W = "_sq75w";
+
+
+    public String getSQ75()
+    {
+        if (Build.VERSION.SDK_INT >= 14)
+        {
+            return (new StringBuilder()).append("http://img.hb.aicdn.com/").append(key).append(SQ75W).toString();
+        } else
+        {
+            return (new StringBuilder()).append("http://img.hb.aicdn.com/").append(key).append(SQ75).toString();
+        }
+    }
 
     public String getFW192()
     {

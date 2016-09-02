@@ -12,6 +12,7 @@ import com.jc.petal.data.model.CategoryList;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.PinList;
 import com.jc.petal.data.model.User;
+import com.jc.petal.data.model.UserList;
 import com.jc.petal.data.model.Weekly;
 import com.jc.petal.data.source.PetalDataSource;
 import com.jc.petal.utils.IOUtils;
@@ -347,6 +348,11 @@ public class LocalDataSource implements PetalDataSource {
     @Override
     public void searchBoards(@Nullable String queryKey, int limit, @NonNull String currentPage,
                              @NonNull RequestCallback<BoardList> callback) {
+
+    }
+
+    @Override
+    public void searchUsers(@Nullable String queryKey, int limit, @NonNull String currentPage, @NonNull RequestCallback<UserList> callback) {
 
     }
 

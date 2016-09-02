@@ -24,7 +24,7 @@ public class Pin implements Parcelable {
      * frames : 1
      */
 
-    public PinFileEntity file;
+    public ImageFile file;
 
 
     public String media_type;
@@ -87,7 +87,7 @@ public class Pin implements Parcelable {
         this.user_id = in.readInt();
         this.board_id = in.readInt();
         this.file_id = in.readInt();
-        this.file = in.readParcelable(PinFileEntity.class.getClassLoader());
+        this.file = in.readParcelable(ImageFile.class.getClassLoader());
         this.media_type = in.readString();
         this.source = in.readString();
         this.link = in.readString();

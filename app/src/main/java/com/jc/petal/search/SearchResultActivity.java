@@ -47,6 +47,7 @@ public class SearchResultActivity extends BaseActivity {
 
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(adapter);
+        mViewPager.setOffscreenPageLimit(2);
         mTabLayout.setupWithViewPager(mViewPager);
 
 
@@ -62,9 +63,9 @@ public class SearchResultActivity extends BaseActivity {
         new SearchBoardListPresenter(boardListFragment, mRepository);
         mFragmentList.add(boardListFragment);
 
-        SearchPinListFragment pinListFragment3 = SearchPinListFragment.newInstance(mSearchKey);
-        new SearchPinListPresenter(pinListFragment3, mRepository);
-        mFragmentList.add(pinListFragment3);
+        SearchUserListFragment userListFragment  = SearchUserListFragment.newInstance(mSearchKey);
+        new SearchUserListPresenter(userListFragment, mRepository);
+        mFragmentList.add(userListFragment);
 
     }
 

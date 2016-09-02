@@ -13,7 +13,7 @@ public class User implements Parcelable {
     public String username;
     public String urlname;
 
-    public AvatarEntity avatar;
+    public ImageFile avatar;
     public String email;
     public int created_at;
     public int board_count;
@@ -63,7 +63,7 @@ public class User implements Parcelable {
         this.user_id = in.readString();
         this.username = in.readString();
         this.urlname = in.readString();
-        this.avatar = in.readParcelable(AvatarEntity.class.getClassLoader());
+        this.avatar = in.readParcelable(ImageFile.class.getClassLoader());
         this.email = in.readString();
         this.created_at = in.readInt();
         this.board_count = in.readInt();

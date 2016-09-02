@@ -4,7 +4,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
 import com.jc.petal.R;
 import com.jc.petal.data.model.Pin;
-import com.jc.petal.data.model.PinFileEntity;
+import com.jc.petal.data.model.ImageFile;
 import com.jc.petal.data.source.PetalRepository;
 import com.uilibrary.app.BaseActivity;
 
@@ -201,7 +201,7 @@ public class PinDetailActivity extends BaseActivity implements PinDetailFragment
      */
     private void downloadFile() {
 
-        PinFileEntity entity = mPins.get(mViewPager.getCurrentItem()).file;
+        ImageFile entity = mPins.get(mViewPager.getCurrentItem()).file;
         String downloadUrl = entity.getFW554();
 
         //创建下载任务,downloadUrl就是下载链接

@@ -113,21 +113,23 @@ public class UserActivity extends BaseActivity implements UserContract.View {
         mFansFollowsTv.setText(userFansFollows);
 
         // avatar url
-        String avatarUrl = getString(R.string.url_image_small, user.avatar.key);
-        Glide.with(this).load(avatarUrl).asBitmap().placeholder(R.drawable
-                .account_circle_grey_36x36)
-                .fitCenter().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap>
-                    glideAnimation) {
-                mAvatarIv.setImageBitmap(resource);
+        if (user.avatar != null) {
+            String avatarUrl = getString(R.string.url_image_small, user.avatar.key);
+            Glide.with(this).load(avatarUrl).asBitmap().placeholder(R.drawable
+                    .account_circle_grey_36x36)
+                    .fitCenter().into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap>
+                        glideAnimation) {
+                    mAvatarIv.setImageBitmap(resource);
 
-                // 加载高斯模糊图片作为背景
-                Drawable backDrawable = new BitmapDrawable(getResources(), FastBlurUtil.doBlur
-                        (resource, 25, false));
-                mAppBar.setBackground(backDrawable);
-            }
-        });
+                    // 加载高斯模糊图片作为背景
+                    Drawable backDrawable = new BitmapDrawable(getResources(), FastBlurUtil.doBlur
+                            (resource, 25, false));
+                    mAppBar.setBackground(backDrawable);
+                }
+            });
+        }
     }
 
 

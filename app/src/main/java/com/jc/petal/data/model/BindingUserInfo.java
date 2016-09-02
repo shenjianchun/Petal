@@ -9,9 +9,9 @@ import android.os.Parcelable;
  */
 public class BindingUserInfo implements Parcelable {
 
-    private String id;
-    private String username;
-    private String email;
+    public String id;
+    public String username;
+    public String email;
     /**
      * id : 45254635
      * farm : farm1
@@ -23,14 +23,14 @@ public class BindingUserInfo implements Parcelable {
      * frames : 1
      */
 
-    private AvatarEntity avatar;
-//    private boolean verified;
-//    private String verified_reason;
-//    private int verified_type;
-    private String location;
-    private String gender;
-    private String url;
-    private String about;
+    public String avatar;
+//    public boolean verified;
+//    public String verified_reason;
+//    public int verified_type;
+    public String location;
+    public String gender;
+    public String url;
+    public String about;
 
 
     @Override
@@ -60,7 +60,7 @@ public class BindingUserInfo implements Parcelable {
         dest.writeString(this.id);
         dest.writeString(this.username);
         dest.writeString(this.email);
-        dest.writeParcelable(this.avatar, flags);
+        dest.writeString(this.avatar);
 //        dest.writeByte(this.verified ? (byte) 1 : (byte) 0);
 //        dest.writeString(this.verified_reason);
 //        dest.writeInt(this.verified_type);
@@ -77,7 +77,7 @@ public class BindingUserInfo implements Parcelable {
         this.id = in.readString();
         this.username = in.readString();
         this.email = in.readString();
-        this.avatar = in.readParcelable(AvatarEntity.class.getClassLoader());
+        this.avatar = in.readString();
 //        this.verified = in.readByte() != 0;
 //        this.verified_reason = in.readString();
 //        this.verified_type = in.readInt();
