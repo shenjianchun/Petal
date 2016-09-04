@@ -3,7 +3,7 @@ package com.jc.petal.board;
 import com.jc.petal.Constants;
 import com.jc.petal.R;
 import com.jc.petal.data.model.Board;
-import com.jc.petal.widget.SpacesItemDecoration;
+import com.jc.petal.widget.recyclerview.SpacesItemDecoration;
 import com.uilibrary.app.BaseFragment;
 
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.jc.petal.widget;
+package com.jc.petal.widget.recyclerview;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;

@@ -4,11 +4,12 @@ import com.bumptech.glide.Glide;
 import com.jc.petal.R;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.utils.SpannableTextUtils;
+import com.jc.petal.widget.recyclerview.BaseAdapter;
+import com.jc.petal.widget.recyclerview.BaseHolder;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -29,79 +30,70 @@ import my.nouilibrary.utils.SizeUtils;
  * {@link RecyclerView.Adapter} that can display a {@link Pin} and makes a call to the
  * specified {@link CategoryPinListFragment.OnListFragmentInteractionListener}.
  */
-public class CategoryPinListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CategoryPinListAdapter2 extends BaseAdapter<Pin, CategoryPinListAdapter2
+        .ContentViewHolder> {
 
     private static final int BASE_ITEM_TYPE_HEADER = 100000;
     private Context mContext;
-    private final List<Pin> mPins;
 
-    private View mHeaderView = null;
+    public CategoryPinListAdapter2(Context context, List<Pin> list) {
+        super(context, list);
+    }
 
-    public CategoryPinListAdapter(Context context, List<Pin> pins) {
-        mContext = context;
-        mPins = pins;
+
+    @Override
+    public int getCustomViewType(int position) {
+        return 0;
     }
 
     private OnItemClickListener mClickListener;
 
+    @Override
+    public ContentViewHolder createCustomViewHolder(ViewGroup parent, int viewType) {
+
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_pins_list, parent, false);
+        return new ContentViewHolder(view);
+    }
+
+    @Override
+    public void bindCustomViewHolder(ContentViewHolder holder, int position) {
+
+        onBindData(holder, position);
+    }
+
     public interface OnItemClickListener {
         void onImageClick(View itemView, int position);
+
         void onPinInfoClick(View itemView, int position);
     }
+
+
 
     public void setClickListener(OnItemClickListener clickListener) {
         mClickListener = clickListener;
     }
 
-    public View getHeaderView() {
-        return mHeaderView;
-    }
+//
+//    @Override
+//    public void onBindViewHolder(final RecyclerView.ViewHolder recyclerHolder, int position) {
+//
+//        if (getItemViewType(position) == BASE_ITEM_TYPE_HEADER) {
+//            return;
+//        }
+//
+//        final ContentViewHolder holder = (ContentViewHolder) recyclerHolder;
+//
+//        final int realPosition = getRealPosition(recyclerHolder);
+//
+//        Pin pin = mPins.get(realPosition);
+//
+//        onBindData(holder, pin);
+//    }
 
-    public void setHeaderView(View headerView) {
-        mHeaderView = headerView;
-    }
+    private void onBindData(ContentViewHolder holder, int  position) {
 
-    public int getRealPosition(final RecyclerView.ViewHolder viewHolder) {
-
-        int position = viewHolder.getLayoutPosition();
-        return mHeaderView == null ? position : position - 1;
-
-    }
-
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        if (mHeaderView != null && viewType == BASE_ITEM_TYPE_HEADER) {
-//            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_banner,
-//                    parent, false);
-
-            return new HeaderViewHolder(mHeaderView);
-        } else {
-
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_pins_list, parent, false);
-            return new ContentViewHolder(view);
-        }
-
-    }
-
-    @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder recyclerHolder, int position) {
-
-        if (getItemViewType(position) == BASE_ITEM_TYPE_HEADER) {
-            return;
-        }
-
-        final ContentViewHolder holder = (ContentViewHolder) recyclerHolder;
-
-        final int realPosition = getRealPosition(recyclerHolder);
-
-        Pin pin = mPins.get(realPosition);
-
-        onBindData(holder, pin);
-    }
-
-    private void onBindData(ContentViewHolder holder, Pin pin) {
+        Pin pin = getItem(position);
 
         holder.mItem = pin;
 
@@ -141,44 +133,8 @@ public class CategoryPinListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     }
 
-    @Override
-    public int getItemCount() {
 
-        if (mPins == null) {
-            return 0;
-        }
-
-        return mHeaderView == null ? mPins.size() : mPins.size() + 1;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-
-        if (mHeaderView != null && position == 0) {
-            return BASE_ITEM_TYPE_HEADER;
-        }
-
-        return super.getItemViewType(position);
-    }
-
-
-    @Override
-    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
-        super.onViewAttachedToWindow(holder);
-        // Header Item 横跨一行
-        if (mHeaderView != null) {
-            ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
-            if (layoutParams != null && layoutParams instanceof StaggeredGridLayoutManager
-                    .LayoutParams) {
-                StaggeredGridLayoutManager.LayoutParams lp = (StaggeredGridLayoutManager
-                        .LayoutParams) layoutParams;
-                lp.setFullSpan(holder.getLayoutPosition() == 0);
-            }
-        }
-
-    }
-
-    public class ContentViewHolder extends RecyclerView.ViewHolder {
+    public class ContentViewHolder extends BaseHolder {
         @BindView(R.id.image)
         ImageView mImageIv;
         @BindView(R.id.tv_image_description)
@@ -208,20 +164,12 @@ public class CategoryPinListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 @Override
                 public void onClick(View v) {
                     if (mClickListener != null) {
-                        mClickListener.onPinInfoClick(itemView, getLayoutPosition());
+                        mClickListener.onPinInfoClick(itemView, getAdapterPosition());
                     }
                 }
             });
 
         }
     }
-
-    public class HeaderViewHolder extends RecyclerView.ViewHolder {
-        public HeaderViewHolder(View itemView) {
-            super(itemView);
-        }
-
-    }
-
 
 }

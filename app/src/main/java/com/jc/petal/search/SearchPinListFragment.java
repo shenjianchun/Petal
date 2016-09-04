@@ -7,8 +7,8 @@ import com.jc.petal.category.CategoryPinListFragment;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.pin.PinContract;
 import com.jc.petal.pin.PinDetailActivity;
-import com.jc.petal.widget.EndlessRecyclerViewScrollListener;
-import com.jc.petal.widget.SpacesItemDecoration;
+import com.jc.petal.widget.recyclerview.EndlessRecyclerViewScrollListener;
+import com.jc.petal.widget.recyclerview.SpacesItemDecoration;
 import com.uilibrary.app.BaseFragment;
 
 import android.os.Bundle;

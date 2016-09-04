@@ -6,8 +6,8 @@ import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.Weekly;
 import com.jc.petal.pin.PinDetailActivity;
 import com.jc.petal.widget.BannerView;
-import com.jc.petal.widget.EndlessRecyclerViewScrollListener;
-import com.jc.petal.widget.SpacesItemDecoration;
+import com.jc.petal.widget.recyclerview.EndlessRecyclerViewScrollListener;
+import com.jc.petal.widget.recyclerview.SpacesItemDecoration;
 import com.uilibrary.app.BaseFragment;
 
 import android.content.Context;
@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,19 +96,21 @@ public class CategoryPinListFragment extends BaseFragment implements CategoryCon
 
         // Set the adapter
         mPins = new ArrayList<>();
-        mAdapter = new CategoryPinListAdapter(getContext(), mPins, new OnImageClickListener() {
+        mAdapter = new CategoryPinListAdapter(getContext(), mPins);
+
+        mAdapter.setClickListener(new CategoryPinListAdapter.OnItemClickListener() {
             @Override
-            public void onClick(Pin pin, int position) {
+            public void onImageClick(View itemView, int position) {
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("pins", mPins);
                 bundle.putInt("position", position);
                 readyGo(PinDetailActivity.class, bundle);
             }
-        }, new OnPinInfoClickListener() {
+
             @Override
-            public void onClick(Pin pin) {
+            public void onPinInfoClick(View itemView, int position) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("pins", pin);
+//                bundle.putParcelable("pins", pin);
                 // TODO: 2016-08-07  修改需要跳转的类名
                 readyGo(PinDetailActivity.class, bundle);
             }

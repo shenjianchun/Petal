@@ -10,7 +10,7 @@ import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.source.PetalRepository;
 import com.jc.petal.pin.PinDetailActivity;
 import com.jc.petal.base.CommonPinListAdapter;
-import com.jc.petal.widget.SpacesItemDecoration;
+import com.jc.petal.widget.recyclerview.SpacesItemDecoration;
 import com.uilibrary.app.BaseActivity;
 
 import android.os.Bundle;

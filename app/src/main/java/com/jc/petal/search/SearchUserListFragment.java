@@ -5,7 +5,7 @@ import com.jc.petal.R;
 import com.jc.petal.data.model.User;
 import com.jc.petal.user.UserActivity;
 import com.jc.petal.user.UserContract;
-import com.jc.petal.widget.EndlessRecyclerViewScrollListener;
+import com.jc.petal.widget.recyclerview.EndlessRecyclerViewScrollListener;
 import com.uilibrary.app.BaseFragment;
 
 import android.os.Bundle;

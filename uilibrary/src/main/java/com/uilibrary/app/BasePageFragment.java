@@ -12,7 +12,8 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 
 /**
- * Fragment基类
+ * 懒加载的Fragment基类。
+ * 与BaseLazyFragment有所区别，暂时没用过。
  * Created by JC on 2015/9/29.
  */
 public abstract class BasePageFragment extends Fragment {

@@ -5,8 +5,8 @@ import com.jc.petal.R;
 import com.jc.petal.board.BoardContract;
 import com.jc.petal.board.BoardListAdapter;
 import com.jc.petal.data.model.Board;
-import com.jc.petal.widget.EndlessRecyclerViewScrollListener;
-import com.jc.petal.widget.SpacesItemDecoration;
+import com.jc.petal.widget.recyclerview.EndlessRecyclerViewScrollListener;
+import com.jc.petal.widget.recyclerview.SpacesItemDecoration;
 import com.uilibrary.app.BaseFragment;
 
 import android.content.Context;
