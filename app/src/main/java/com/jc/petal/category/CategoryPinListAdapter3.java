@@ -22,7 +22,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import my.nouilibrary.utils.ScreenUtils;
 import my.nouilibrary.utils.SizeUtils;
 
@@ -30,37 +29,18 @@ import my.nouilibrary.utils.SizeUtils;
  * {@link RecyclerView.Adapter} that can display a {@link Pin} and makes a call to the
  * specified {@link CategoryPinListFragment.OnListFragmentInteractionListener}.
  */
-public class CategoryPinListAdapter2 extends BaseAdapter<Pin, CategoryPinListAdapter2
+public class CategoryPinListAdapter3 extends BaseAdapter<Pin, CategoryPinListAdapter3
         .ContentViewHolder> {
 
-    private static final int BASE_ITEM_TYPE_HEADER = 100000;
     private Context mContext;
 
-    public CategoryPinListAdapter2(Context context, List<Pin> list) {
-        super(context, list);
-    }
+    public CategoryPinListAdapter3(Context context, List<Pin> pins) {
 
-
-    @Override
-    public int getCustomViewType(int position) {
-        return 0;
+        super(context, pins);
+        mContext = context;
     }
 
     private OnItemClickListener mClickListener;
-
-    @Override
-    public ContentViewHolder createCustomViewHolder(ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_pins_list, parent, false);
-        return new ContentViewHolder(view);
-    }
-
-    @Override
-    public void bindCustomViewHolder(ContentViewHolder holder, int position) {
-
-        onBindData(holder, position);
-    }
 
     public interface OnItemClickListener {
         void onImageClick(View itemView, int position);
@@ -68,34 +48,24 @@ public class CategoryPinListAdapter2 extends BaseAdapter<Pin, CategoryPinListAda
         void onPinInfoClick(View itemView, int position);
     }
 
-
-
     public void setClickListener(OnItemClickListener clickListener) {
         mClickListener = clickListener;
     }
 
-//
-//    @Override
-//    public void onBindViewHolder(final RecyclerView.ViewHolder recyclerHolder, int position) {
-//
-//        if (getItemViewType(position) == BASE_ITEM_TYPE_HEADER) {
-//            return;
-//        }
-//
-//        final ContentViewHolder holder = (ContentViewHolder) recyclerHolder;
-//
-//        final int realPosition = getRealPosition(recyclerHolder);
-//
-//        Pin pin = mPins.get(realPosition);
-//
-//        onBindData(holder, pin);
-//    }
 
-    private void onBindData(ContentViewHolder holder, int  position) {
+    @Override
+    public ContentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_pins_list, parent, false);
+        return new ContentViewHolder(view);
+    }
+
+
+    @Override
+    protected void onBindData(ContentViewHolder holder, int position) {
 
         Pin pin = getItem(position);
-
-        holder.mItem = pin;
+//        holder.mItem = pin;
 
         // 设置ImageView的宽高比
         int screenWidth = ScreenUtils.getScreenWidth(mContext);
@@ -133,6 +103,29 @@ public class CategoryPinListAdapter2 extends BaseAdapter<Pin, CategoryPinListAda
 
     }
 
+    @Override
+    protected void onBindListener(final ContentViewHolder holder,final int position) {
+
+        holder.mImageIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mClickListener != null) {
+                    mClickListener.onImageClick(holder.itemView, position);
+                }
+            }
+        });
+
+
+        holder.mPinInfoLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mClickListener != null) {
+                    mClickListener.onPinInfoClick(holder.itemView, position);
+                }
+            }
+        });
+
+    }
 
     public class ContentViewHolder extends BaseHolder {
         @BindView(R.id.image)
@@ -145,31 +138,30 @@ public class CategoryPinListAdapter2 extends BaseAdapter<Pin, CategoryPinListAda
         View mPinInfoLayout;
         @BindView(R.id.tv_pin_info)
         TextView mPinInfoTv;
-        public Pin mItem;
 
         public ContentViewHolder(View view) {
             super(view);
-            ButterKnife.bind(this, view);
 
-            mImageIv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mClickListener != null) {
-                        mClickListener.onImageClick(itemView, getLayoutPosition());
-                    }
-                }
-            });
-
-            mPinInfoLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mClickListener != null) {
-                        mClickListener.onPinInfoClick(itemView, getAdapterPosition());
-                    }
-                }
-            });
+//            mImageIv.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (mClickListener != null) {
+//                        mClickListener.onImageClick(itemView, getAdapterPosition());
+//                    }
+//                }
+//            });
+//
+//            mPinInfoLayout.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (mClickListener != null) {
+//                        mClickListener.onPinInfoClick(itemView, getLayoutPosition());
+//                    }
+//                }
+//            });
 
         }
     }
+
 
 }

@@ -52,7 +52,7 @@ dependencies {
     compile "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
     apt "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
 
-
+    compile 'com.zhy:base-rvadapter:3.0.3'
 
     // RecyclerView 加强库
 //    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v2.0.5'

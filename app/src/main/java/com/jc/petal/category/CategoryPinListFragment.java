@@ -2,13 +2,15 @@ package com.jc.petal.category;
 
 import com.jc.petal.Constants;
 import com.jc.petal.R;
+import com.jc.petal.board.BoardDetailActivity;
 import com.jc.petal.data.model.Pin;
 import com.jc.petal.data.model.Weekly;
 import com.jc.petal.pin.PinDetailActivity;
 import com.jc.petal.widget.BannerView;
-import com.jc.petal.widget.recyclerview.EndlessRecyclerViewScrollListener;
 import com.jc.petal.widget.recyclerview.SpacesItemDecoration;
 import com.uilibrary.app.BaseFragment;
+import com.zhy.adapter.recyclerview.wrapper.HeaderAndFooterWrapper;
+import com.zhy.adapter.recyclerview.wrapper.LoadMoreWrapper;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -42,7 +44,9 @@ public class CategoryPinListFragment extends BaseFragment implements CategoryCon
     SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
-    CategoryPinListAdapter mAdapter;
+    CategoryPinListAdapter3 mAdapter;
+    HeaderAndFooterWrapper<Pin> mPinHeaderAndFooterWrapper;
+    LoadMoreWrapper mLoadMoreWrapper;
 
     private BannerView mBannerView;
 
@@ -96,9 +100,9 @@ public class CategoryPinListFragment extends BaseFragment implements CategoryCon
 
         // Set the adapter
         mPins = new ArrayList<>();
-        mAdapter = new CategoryPinListAdapter(getContext(), mPins);
+        mAdapter = new CategoryPinListAdapter3(getContext(), mPins);
 
-        mAdapter.setClickListener(new CategoryPinListAdapter.OnItemClickListener() {
+        mAdapter.setClickListener(new CategoryPinListAdapter3.OnItemClickListener() {
             @Override
             public void onImageClick(View itemView, int position) {
                 Bundle bundle = new Bundle();
@@ -110,11 +114,13 @@ public class CategoryPinListFragment extends BaseFragment implements CategoryCon
             @Override
             public void onPinInfoClick(View itemView, int position) {
                 Bundle bundle = new Bundle();
-//                bundle.putParcelable("pins", pin);
+                bundle.putString(Constants.ARG_BOARD_ID, String.valueOf(mPins.get(position).board_id));
                 // TODO: 2016-08-07  修改需要跳转的类名
-                readyGo(PinDetailActivity.class, bundle);
+                readyGo(BoardDetailActivity.class, bundle);
             }
         });
+
+        mPinHeaderAndFooterWrapper = new HeaderAndFooterWrapper<>(mAdapter);
 
         // 首页加上一个Banner
         if (mCategory.equals("all")) {
@@ -123,19 +129,24 @@ public class CategoryPinListFragment extends BaseFragment implements CategoryCon
 
             // 设置BannerView
             mBannerView = new BannerView(getContext());
-            mAdapter.setHeaderView(mBannerView);
+            mPinHeaderAndFooterWrapper.addHeaderView(mBannerView);
         }
 
-        mRecyclerView.setAdapter(mAdapter);
-
-        // 添加加载更多接口
-        mRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-                mPresenter.getPins(true, mCategory, Constants.LIMIT, Constants
+        mLoadMoreWrapper = new LoadMoreWrapper(mPinHeaderAndFooterWrapper);
+        mLoadMoreWrapper.setLoadMoreView(R.layout.base_footer);
+       mLoadMoreWrapper.setOnLoadMoreListener(new LoadMoreWrapper.OnLoadMoreListener() {
+           @Override
+           public void onLoadMoreRequested() {
+               mPresenter.getPins(true, mCategory, Constants.LIMIT, Constants
                         .QUERY_KEY_MAX, mPins.get(mPins.size() - 1).pin_id);
-            }
-        });
+           }
+       });
+
+
+        mRecyclerView.setAdapter(mLoadMoreWrapper);
+
+
+
 
         // 首次进入刷新
 //        mRefreshLayout.post(new Runnable() {
@@ -203,15 +214,26 @@ public class CategoryPinListFragment extends BaseFragment implements CategoryCon
     @Override
     public void showPins(boolean isRefresh, List<Pin> pins) {
 
+//        if (isRefresh) {
+//            mPins.clear();
+//            mAdapter.notifyDataSetChanged();
+//        }
+//
+//        int curSize = mAdapter.getItemCount();
+//
+//        mPins.addAll(pins);
+//        mAdapter.notifyItemRangeInserted(curSize, pins.size());
+
         if (isRefresh) {
             mPins.clear();
-            mAdapter.notifyDataSetChanged();
+            mLoadMoreWrapper.notifyDataSetChanged();
         }
 
         int curSize = mAdapter.getItemCount();
 
         mPins.addAll(pins);
-        mAdapter.notifyItemRangeInserted(curSize, pins.size());
+        mLoadMoreWrapper.notifyItemRangeInserted(curSize, pins.size());
+
     }
 
     @Override
